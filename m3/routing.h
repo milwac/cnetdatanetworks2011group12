@@ -19,6 +19,7 @@ typedef struct {
 	CnetAddr via_node;
 	int nodenum_via;
 	long long cost;
+	int link;
 } ROUTING_TABLE;
 
 ROUTING_TABLE table[MAX_NODES];
@@ -28,8 +29,10 @@ static EVENT_HANDLER(update_table){
 	FRAME f;
 	size_t length = sizeof(f);
 	CHECK(CNET_read_physical(&link, &f, &length));
-	if(f.payload.source == self_addr)
+	if(f.payload.source == self_addr){
+		table[f.payload.B].link = link;
 		return;
+	}
 	f.payload.B = self_nodenum;
 	f.payload.dest = self_addr;
 	f.checksum = CNET_ccitt((unsigned char *)&f, (int)length);
@@ -37,7 +40,7 @@ static EVENT_HANDLER(update_table){
 		CHECK(CNET_write_physical_reliable(link, &f, &length));
 	}	
 	struct timeval time;
-	gettimeofday(time, NULL);
+	gettimeofday(&time, NULL);
 	long long curr_cost = time.tv_sec * 1000000 + time.tv_usec - f.payload.timestamp;
 	if(table[f.payload.A].dest != f.payload.source){
 		table[f.payload.A].dest = f.payload.source;
@@ -68,7 +71,7 @@ void setup_routing_table(int nodenum, CnetAddr src; int numlinks){
 	f.payload.source = src;
 	f.payload.A = nodenum;
 	struct timeval time;
-	gettimeofday(time, NULL);
+	gettimeofday(&time, NULL);
 	f.payload.timestamp = time.tv_sec * 1000000 + time.tv_usec; 
 	size_t length = sizeof(f);
 	f.checksum = CNET_ccitt((unsigned char *)&f, (int)length);

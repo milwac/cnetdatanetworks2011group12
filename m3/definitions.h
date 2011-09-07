@@ -10,12 +10,13 @@ typedef enum {DL_DATA, DL_ACK, RT_DATA, RT_ACK} FRAMEKIND;
 
 typedef struct {
 	char data[MAX_MESSAGE_SIZE];
+	CnetAddr dest;
 } MSG;
 
 typedef struct {
 	FRAMEKIND kind;
 	size_t len;
-	long long timestamp // using node_info.time_of_day.usecs
+	long long timestamp; // using node_info.time_of_day.usecs
 	// In case of DL packet, A = sequence number
 	// In case of RT packet, A = source node number
 	int A; // order of frames in original message
