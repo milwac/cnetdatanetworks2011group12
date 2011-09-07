@@ -18,6 +18,7 @@ static EVENT_HANDLER(physical_ready){
 
 EVENT_HANDLER(reboot_node){
 	//Set up the routing table once before packets are generated from the application layer
+	CHECK(CNET_set_handler(EV_PHYSICALREADY, update_table, 0));
 	setup_routing_table();
 	//After routing table is set up, start the application and physical layers to process messages
 	CHECK(CNET_set_handler(EV_APPLICATIONREADY, application_ready, 0));
