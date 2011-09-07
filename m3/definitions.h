@@ -24,6 +24,7 @@ typedef struct {
 	int B; // offset of frame in original message, useful when the frame needs to broken down further
 	bool flag_offset; // true when this is the last frame of the message
 	CnetAddr source;
+	// dest/via node number
 	CnetAddr dest;
 	MSG msg;
 } PACKET;
