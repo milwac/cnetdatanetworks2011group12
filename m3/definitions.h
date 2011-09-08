@@ -27,7 +27,7 @@ typedef struct {
 	CnetAddr source;
 	// dest/via node number
 	CnetAddr dest;
-	MSG msg;
+	char data[MAX_MESSAGE_SIZE];
 } PACKET;
 
 //This is the smallest chunk of data which can be transferred, initially a message will be divided into smaller units of this type
