@@ -3,8 +3,12 @@
 * optimum path to a given destination considering the current network
 * congestion
 */
-#include "definitions.h"
-#define MAX_NODES 50
+#include "routing.c"
+
+/*
+int self_nodenum;
+CnetAddr self_addr;
+int numlinks;
 
 typedef struct {
 	//Vector of Best Routes
@@ -17,4 +21,4 @@ typedef struct {
 } ROUTING_TABLE;
 
 ROUTING_TABLE table[MAX_NODES];
-
+*/

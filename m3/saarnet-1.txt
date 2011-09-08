@@ -3,7 +3,7 @@
 // reliable (no losses, no corruption, no reordering), but slow.
 // Need to maximize throughput: Should get 6.83 kB/s from SB to HOM.
 
-compile = "milestone1.c"
+compile = "milestone3.c"
 
 #include "saarland.map"
 #include "linktypes.txt"

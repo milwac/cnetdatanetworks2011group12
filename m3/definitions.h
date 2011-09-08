@@ -2,7 +2,7 @@
 * Provides all header definitions
 */
 
-#include <cstdio>
+#include <stdio.h>
 #include <cnet.h>
 #include <cnetsupport.h>
 
