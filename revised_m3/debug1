@@ -1,0 +1,7 @@
+Setting up node 1(addr : 96)
+Setting up queue for link 1
+Node address : 96 | Dest address : -1 | Via address : -1 | Cost : 2147483647
+Node address : 96 | Dest address : -1 | Via address : -1 | Cost : 2147483647
+Node address : 96 | Dest address : -1 | Via address : -1 | Cost : 2147483647
+Packet received from 134, via 134
+filling RT

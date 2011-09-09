@@ -8,7 +8,8 @@
 #include <sys/time.h>
 #include <time.h>
 #include <string.h>
-#define MAX_LINKS 7
+#include <limits.h>
+#define MAX_LINKS 8
 #define MAX_MSG_QUEUE_SIZE 30
 #define PACKET_HEADER_SIZE (sizeof(FRAMEKIND) + sizeof(size_t) + sizeof(long long) + 2*sizeof(int) + sizeof(bool) + 2*sizeof(CnetAddr)) 
 #define FRAME_HEADER_SIZE (PACKET_HEADER_SIZE + sizeof(uint32_t))
@@ -24,6 +25,7 @@ typedef struct {
 
 QUEUE msq_queue;
 
+
 /*
 * Code which setups the routing table for every node and shows the 
 * optimum path to a given destination considering the current network
@@ -36,11 +38,19 @@ typedef struct {
 	int nodenum_dest;
 	CnetAddr via_node;
 	int nodenum_via;
-	long long cost;
+	long cost;
 	int link;
+	int min_mtu;
 } ROUTING_TABLE;
 
 ROUTING_TABLE table[MAX_NODES];
+
+
+extern void update_table(void);
+extern void setup_routing_table(void);
+extern void pop_and_transmit(int);
+
+/**-------------------Routing definitions ends---------------*/
 
 typedef struct {
 	FRAMEKIND kind;
@@ -70,8 +80,8 @@ typedef struct {
 	QUEUE forwarding_queue; //For all other packets meant for other destinations
 	QUEUE receiver; // Frame queue from all sources, store if checksum matches, OR if not an ACK packet
 	bool ack_received[MAX_NUMBER_FRAMES]; // If kind = ACK at this layer, set the value immediately, don't add to receiver queue
+	bool timeout_occurred;
 	CnetAddr connected_to;
-	int timer_to_use;
 } LINK;
 
 LINK links[MAX_LINKS];

@@ -1,0 +1,7 @@
+Setting up node 2(addr : 182)
+Setting up queue for link 1
+Node address : 182 | Dest address : -1 | Via address : -1 | Cost : 2147483647
+Node address : 182 | Dest address : -1 | Via address : -1 | Cost : 2147483647
+Node address : 182 | Dest address : -1 | Via address : -1 | Cost : 2147483647
+Packet received from 134, via 134
+filling RT

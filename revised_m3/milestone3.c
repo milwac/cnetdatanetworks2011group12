@@ -5,14 +5,7 @@
 
 #include "definitions.h"
 
-QUEUE msg_queue;
-
-static void getcurrtime(long long *ts){
-	struct timeval tim;
-	gettimeofday(&tim, NULL);
-	*ts = tim.tv_sec * 1000000 + tim.tv_usec;
-}
-
+/*
 static int find_node_src(CnetAddr src){
 	for(int i=0; i<MAX_NODES; i++){
 		if(table[i].dest == src)
@@ -20,9 +13,10 @@ static int find_node_src(CnetAddr src){
 	}
 	return -1;
 }
-
+*/
 // Finds the link connecting to a neibouring node, via whom the message is to be sent 
 // NO HASH TABLE IMPLEMENTATION CURRENTLY!
+/*
 static int find_link(CnetAddr dest){
 	for(int i=0; i< MAX_NODES; i++){
 		if(table[i].dest == dest)
@@ -33,14 +27,17 @@ static int find_link(CnetAddr dest){
 
 static void push_message(MSG msg, size_t msgLength);
 static void send_frames(int link);
-
+*/
 static EVENT_HANDLER(application_ready){
+	return;
+	/*
 	static MSG msg;
 	size_t msgLength = sizeof(msg.data);
 	CHECK(CNET_read_application(&msg.dest, (char *)msg.data, &msgLength));
 	push_message(msg, msgLength + sizeof(CnetAddr));
+	*/
 }
-
+/*
 static void push_message(MSG msg, size_t msgLength){
 	if(queue_nitems(msg_queue) < MAX_MSG_QUEUE_SIZE){
 		queue_add(msg_queue, &msg, msgLength);
@@ -113,45 +110,50 @@ static void send_frames(int link){
 		case 9 : CNET_start_timer(EV_TIMER9, timeout, 0);
 	}	
 }
-
-static EVENT_HANDLER(timeout3){
-	frame_to_send[timer_free[0]]++;
-	send_frames(timer_free[0]);
-	//timer_free[0] = -1;
+*/
+static EVENT_HANDLER(timeout1){
+	//printf("Timer 1 ended! --- Calling pat!\n");
+	links[1].timeout_occurred = true;
+	pop_and_transmit(1);
 }
-
+static EVENT_HANDLER(timeout2){
+	//printf("Timer 2 ended! --- Calling pat!\n");
+	links[2].timeout_occurred = true;
+	pop_and_transmit(2);
+}
+static EVENT_HANDLER(timeout3){
+	//printf("Timer 3 ended! --- Calling pat!\n");
+	links[3].timeout_occurred = true;
+	pop_and_transmit(3);
+}
 static EVENT_HANDLER(timeout4){
-	frame_to_send[timer_free[1]]++;
-	send_frames(timer_free[1]);
-	//timer_free[1] = -1;
+	//printf("Timer 4 ended! --- Calling pat!\n");
+	links[4].timeout_occurred = true;
+	pop_and_transmit(4);
 }
 static EVENT_HANDLER(timeout5){
-	frame_to_send[timer_free[2]]++;
-	send_frames(timer_free[2]);
-	//timer_free[2] = -1;
+	//printf("Timer 5 ended! --- Calling pat!\n");
+	links[5].timeout_occurred = true;
+	pop_and_transmit(5);
 }
 static EVENT_HANDLER(timeout6){
-	frame_to_send[timer_free[3]]++;
-	send_frames(timer_free[3]);
-	//timer_free[3] = -1;
+	//printf("Timer 6 ended! --- Calling pat!\n");
+	links[6].timeout_occurred = true;
+	pop_and_transmit(6);
 }
 static EVENT_HANDLER(timeout7){
-	frame_to_send[timer_free[4]]++;
-	send_frames(timer_free[4]);
-	//timer_free[4] = -1;
-}
-static EVENT_HANDLER(timeout8){
-	frame_to_send[timer_free[5]]++;
-	send_frames(timer_free[5]);
-	//timer_free[5] = -1;
+	//printf("Timer 7 ended! --- Calling pat!\n");
+	links[7].timeout_occurred = true;
+	pop_and_transmit(7);
 }
 static EVENT_HANDLER(timeout9){
-	frame_to_send[timer_free[6]]++;
-	send_frames(timer_free[6]);
-	//timer_free[6] = -1;
+	setup_routing_table();
 }
 //called when sender's physical layer is ready to receive
+
 static EVENT_HANDLER(physical_ready){
+	update_table();	
+	/*
 	int link;
 	size_t len;
 	FRAME f;
@@ -165,8 +167,9 @@ static EVENT_HANDLER(physical_ready){
 	}
 	PACKET p = f.payload;
 	network_receive(p);
+*/
 }
-
+/*
 static void network_receive(PACKET p){
 	// If packet is sent to this node, accept it, reconstruct the whole message and send it to the application layer
 	if(p.dest == nodeinfo.address){
@@ -177,80 +180,42 @@ static void network_receive(PACKET p){
 
 	}
 }
-
-/*
-static EVENT_HANDLER(update_table){
-	int link;
-	FRAME f;
-	size_t length = sizeof(f);
-	CHECK(CNET_read_physical(&link, &f, &length));
-	if(f.payload.source == nodeinfo.address){
-		table[f.payload.B].link = link;
-		return;
-	}
-	f.payload.B = nodeinfo.nodenumber;
-	f.payload.dest = nodeinfo.address;
-	f.checksum = CNET_ccitt((unsigned char *)&f, (int)length);
-	for(int link = 1; link <= nodeinfo.nlinks; ++link){
-		CHECK(CNET_write_physical_reliable(link, &f, &length));
-	}	
-	long long curr_time;
-	getcurrtime(&curr_time);
-	long long curr_cost = curr_time - f.payload.timestamp;
-	if(table[f.payload.A].dest != f.payload.source){
-		table[f.payload.A].dest = f.payload.source;
-		table[f.payload.A].nodenum_dest = f.payload.A;
-		table[f.payload.A].via_node = f.payload.dest;
-		table[f.payload.A].nodenum_via = f.payload.B;
-		table[f.payload.A].cost = curr_cost; 	
-	}
-	else {
-		if(table[f.payload.A].cost > curr_cost){
-			table[f.payload.A].cost = curr_cost;
-			table[f.payload.A].dest = f.payload.source;
-			table[f.payload.A].nodenum_dest = f.payload.A;
-			table[f.payload.A].via_node = f.payload.dest;
-			table[f.payload.A].nodenum_via = f.payload.B; 
-		}
-	}
-}
 */
-//void sub_divide(){}
 
-/*
-void setup_routing_table(){
-	memset(&table, 0xFF, MAX_NODES*sizeof(table));
-	FRAME f;
-	f.payload.kind = RT_DATA;
-	f.payload.source = nodeinfo.address;
-	f.payload.A = nodeinfo.nodenumber;
-	getcurrtime(&f.payload.timestamp);
-	size_t length = sizeof(f);
-	f.checksum = CNET_ccitt((unsigned char *)&f, sizeof(FRAME));
-	for(int link = 1; link <= nodeinfo.nlinks; ++link){
-		CHECK(CNET_write_physical_reliable(link, &f, &length));
-	} 
-}
-*/
 EVENT_HANDLER(reboot_node){
-	memset(timer_free, -1, 7);
 	//Set up the routing table once before packets are generated from the application layer
 	//setup_routing_table();
 	struct timeval currTime;
 	gettimeofday(&currTime, NULL);
-	CHECK(CNET_set_time_of_day(currTime.tv_sec, currTime.tv_usec));
+	int numlinks = nodeinfo.nlinks;
+	//Intialize all the links except link = 0, which is the loopback link
+	printf("Setting up node %d(addr : %d)\n", nodeinfo.nodenumber, nodeinfo.address);
+	for(int i=1; i<=numlinks; i++){
+		printf("Setting up queue for link %d\n", i);
+		links[i].sender = queue_new();
+		links[i].timeout_occurred = false;
+		//links[i].forwarding_queue = new_queue();
+		//links[i].receiver = queue_new();
+		//memset(links[i].ack_received, false, MAX_NUMBER_FRAMES * sizeof(bool));
+		//links[i].connected_to = 
+		//timer_to_use = i;
+	}
+	
 	//CHECK(CNET_set_handler(EV_PHYSICALREADY, update_table, 0));
 	//After routing table is set up, start the application and physical layers to process messages
 	CHECK(CNET_set_handler(EV_APPLICATIONREADY, application_ready, 0));
 	CHECK(CNET_set_handler(EV_PHYSICALREADY, physical_ready, 0));
 	//CHECK(CNET_set_handler(EV_TIMER1, network_send, 0));
+	CHECK(CNET_set_handler(EV_TIMER1, timeout1, 0));
+	CHECK(CNET_set_handler(EV_TIMER2, timeout2, 0));
 	CHECK(CNET_set_handler(EV_TIMER3, timeout3, 0));
-	CHECK(CNET_set_handler(EV_TIMER3, timeout4, 0));
-	CHECK(CNET_set_handler(EV_TIMER3, timeout5, 0));
-	CHECK(CNET_set_handler(EV_TIMER3, timeout6, 0));
-	CHECK(CNET_set_handler(EV_TIMER3, timeout7, 0));
-	CHECK(CNET_set_handler(EV_TIMER3, timeout8, 0));
-	CHECK(CNET_set_handler(EV_TIMER3, timeout9, 0));
+	CHECK(CNET_set_handler(EV_TIMER4, timeout4, 0));
+	CHECK(CNET_set_handler(EV_TIMER5, timeout5, 0));
+	CHECK(CNET_set_handler(EV_TIMER6, timeout6, 0));
+	CHECK(CNET_set_handler(EV_TIMER7, timeout7, 0));
+	CHECK(CNET_set_handler(EV_TIMER9, timeout9, 0));
 	CNET_enable_application(ALLNODES);
+	CNET_set_time_of_day(currTime.tv_sec, currTime.tv_usec);
+	CNET_start_timer(EV_TIMER9, 100, 0);
 }
 

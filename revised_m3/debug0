@@ -1,0 +1,21 @@
+Setting up node 0(addr : 134)
+Setting up queue for link 1
+Setting up queue for link 2
+Node address : 134 | Dest address : -1 | Via address : -1 | Cost : 2147483647
+Node address : 134 | Dest address : -1 | Via address : -1 | Cost : 2147483647
+Node address : 134 | Dest address : -1 | Via address : -1 | Cost : 2147483647
+Packet received from 96, via 96
+filling RT
+Node address : 134 | Dest address : -1 | Via address : -1 | Cost : 2147483647
+Node address : 134 | Dest address : 96 | Via address : 134 | Cost : 12
+Node address : 134 | Dest address : -1 | Via address : -1 | Cost : 2147483647
+Packet received from 182, via 182
+filling RT
+Node address : 134 | Dest address : -1 | Via address : -1 | Cost : 2147483647
+Node address : 134 | Dest address : 96 | Via address : 134 | Cost : 12
+Node address : 134 | Dest address : 182 | Via address : 134 | Cost : 11
+Packet received from 134, via 96
+Node address : 134 | Dest address : -1 | Via address : -1 | Cost : 2147483647
+Node address : 134 | Dest address : 96 | Via address : 134 | Cost : 12
+Node address : 134 | Dest address : 182 | Via address : 134 | Cost : 11
+Packet received from 134, via 182
