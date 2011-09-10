@@ -1,6 +1,6 @@
 // A (cheaper, lossy) connection to SLS is added.
 
-compile = "milestone3.c routing.c"
+compile = "milestone3.c routing.c network_layer.c"
 
 #include "saarland.map"
 #include "linktypes.txt"
@@ -29,6 +29,10 @@ host HOM {
 		bandwidth = 1Mbps
 		propagationdelay = 3450usecs
 	}
+	wan to NK { 
+		bandwidth = 1Mbps
+		propagationdelay = 3450usecs
+	}
 }
 
 host SLS {
@@ -39,6 +43,7 @@ host SLS {
 		bandwidth = 1Mbps
 		propagationdelay = 3450usecs
 	}
+	wan to NK { LINK_LOW_MTU (1, 3450) }
 }
 
 host NK {
@@ -48,8 +53,5 @@ host NK {
 		bandwidth = 1Mbps
 		propagationdelay = 3450usecs
 	}
-	wan to SLS { 
-		bandwidth = 1Mbps
-		propagationdelay = 3450usecs
-	}
+	wan to SLS { LINK_LOW_MTU (1, 3450) }
 }

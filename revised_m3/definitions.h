@@ -16,7 +16,7 @@
 #define MAX_NUMBER_FRAMES 256
 #define MAX_NODES 50
 
-typedef enum {DL_DATA, DL_ACK, RT_DATA, RT_ACK} FRAMEKIND;
+typedef enum {DL_DATA, DL_ACK, RT_DATA} FRAMEKIND;
 
 typedef struct {
 	char data[MAX_MESSAGE_SIZE];
@@ -45,9 +45,6 @@ typedef struct {
 ROUTING_TABLE table[MAX_NODES];
 
 
-extern void update_table(void);
-extern void setup_routing_table(void);
-extern void pop_and_transmit(int);
 
 /**-------------------Routing definitions ends---------------*/
 
@@ -95,3 +92,13 @@ typedef struct {
 } NODE_QUEUE;
 
 NODE_QUEUE node_queue[MAX_NODES];
+
+//------------------------ function declarations ----------------------------
+
+
+extern void update_table(int, FRAME, size_t);
+extern void setup_routing_table(void);
+extern void pop_and_transmit(int);
+extern void handle_data(int, FRAME, size_t);
+extern void handle_ack(int, PACKET);
+extern void network_send(void);

@@ -4,6 +4,10 @@
 bool table_changed = true;
 int rt_packets_sent = 0;
 
+int min(int a, int b){
+	return (a < b) ? a : b;
+}
+
 int nodes_discovered(){
 	int ret = 0;
 	for(int i=0; i<MAX_NODES; i++){
@@ -20,24 +24,20 @@ static void getcurrtime(long long *ts){
 }
 
 void cleanup_and_start_app(){
-	//for()
+	for(int l = 1; l<= nodeinfo.nlinks; l++){
+		queue_free(links[l].sender);
+		links[l].sender = queue_new();
+		links[l].timeout_occurred = false;		
+		CNET_stop_timer(l);
+	}
+	CNET_enable_application(ALLNODES);
 	printf("Routing successfully completed!!");
 }
 
-void update_table(){
-	int link;
-	FRAME f;
-	size_t length = FRAME_HEADER_SIZE;
-	CHECK(CNET_read_physical(&link, &f, &length));
-	printf("Packet received from %d, via %d\n", f.payload.source, f.payload.dest);
+void update_table(int link, FRAME f, size_t length){
 	if(f.payload.source == nodeinfo.address){
 		printf("Nodes discovered %d\n", nodes_discovered());
 		table[f.payload.B].link = link;
-		/*
-		if(nodes_discovered() * RT_PACKETS_TO_SEND == self_packets_received){
-			cleanup_and_start_app();
-		}
-		*/
 		return;
 	}
 	bool to_send = false;	
@@ -51,17 +51,19 @@ void update_table(){
 		table[f.payload.A].via_node = f.payload.dest;
 		table[f.payload.A].nodenum_via = f.payload.B;
 		table[f.payload.A].cost = curr_cost;
+		table[f.payload.A].min_mtu = min(table[f.payload.A].min_mtu, linkinfo[link].mtu);
 		to_send = true; 	
 	}
 	else {
-		printf("updating RT\n");
 		if(table[f.payload.A].cost > curr_cost){
+		printf("updating RT\n");
 			table_changed = true;
 			table[f.payload.A].cost = curr_cost;
 			table[f.payload.A].dest = f.payload.source;
 			table[f.payload.A].nodenum_dest = f.payload.A;
 			table[f.payload.A].via_node = f.payload.dest;
 			table[f.payload.A].nodenum_via = f.payload.B; 
+			table[f.payload.A].min_mtu = min(table[f.payload.A].min_mtu, linkinfo[link].mtu);
 			to_send = true;
 		}
 	}
@@ -78,7 +80,7 @@ void update_table(){
 	}	
 	for(int i=0; i<4; i++){
 		if(i != nodeinfo.nodenumber)
-		printf("Node address : %d | Dest address : %d | Via address : %d | Cost : %ld\n", nodeinfo.address, table[i].dest, table[i].via_node, table[i].cost);
+		printf("Dest address : %d | Via address : %d | Cost : %ld | Min mtu : %d\n", table[i].dest, table[i].via_node, table[i].cost, table[i].min_mtu);
 	}
 }
 
@@ -108,13 +110,14 @@ void pop_and_transmit(int link){
 	CHECK(CNET_write_physical_reliable(link, f, &len));
 	CnetTime timeout = (len*((CnetTime)8000000))/linkinfo[link].bandwidth + linkinfo[link].propagationdelay;
 	start_timer(link, timeout);
+	free(f);
 }
 void setup_routing_table(){
-	printf("SENDING PACKET #%d!!\n", rt_packets_sent+1);
 	if(!table_changed){
 		cleanup_and_start_app();
 		return;
 	}
+	printf("SENDING PACKET #%d!!\n", rt_packets_sent+1);
 	table_changed = false;
 	FRAME f;
 	f.payload.kind = RT_DATA;
