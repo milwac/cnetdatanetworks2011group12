@@ -1,9 +1,8 @@
 #include "definitions.h"
-#define RT_PACKETS_TO_SEND 2
 
 // For routing table to stop when BOTH packets have arrived from ALL other nodes
-static int self_packets_received = 0;
-static int rt_packets_sent = 0;
+bool table_changed = true;
+int rt_packets_sent = 0;
 
 int nodes_discovered(){
 	int ret = 0;
@@ -21,6 +20,7 @@ static void getcurrtime(long long *ts){
 }
 
 void cleanup_and_start_app(){
+	//for()
 	printf("Routing successfully completed!!");
 }
 
@@ -31,18 +31,19 @@ void update_table(){
 	CHECK(CNET_read_physical(&link, &f, &length));
 	printf("Packet received from %d, via %d\n", f.payload.source, f.payload.dest);
 	if(f.payload.source == nodeinfo.address){
-		printf("\nSelf packets received %d | Nodes discovered %d\n", self_packets_received, nodes_discovered());
-		self_packets_received++;
+		printf("Nodes discovered %d\n", nodes_discovered());
 		table[f.payload.B].link = link;
+		/*
 		if(nodes_discovered() * RT_PACKETS_TO_SEND == self_packets_received){
 			cleanup_and_start_app();
 		}
+		*/
 		return;
 	}
 	bool to_send = false;	
 	long long curr_time;
 	getcurrtime(&curr_time);
-	long curr_cost = (curr_time - f.payload.timestamp)/1000;
+	long curr_cost = (long)(curr_time - f.payload.timestamp)/1000;
 	if(table[f.payload.A].dest != f.payload.source){
 		printf("filling RT\n");
 		table[f.payload.A].dest = f.payload.source;
@@ -55,6 +56,7 @@ void update_table(){
 	else {
 		printf("updating RT\n");
 		if(table[f.payload.A].cost > curr_cost){
+			table_changed = true;
 			table[f.payload.A].cost = curr_cost;
 			table[f.payload.A].dest = f.payload.source;
 			table[f.payload.A].nodenum_dest = f.payload.A;
@@ -108,8 +110,12 @@ void pop_and_transmit(int link){
 	start_timer(link, timeout);
 }
 void setup_routing_table(){
-	if(rt_packets_sent == RT_PACKETS_TO_SEND)
+	printf("SENDING PACKET #%d!!\n", rt_packets_sent+1);
+	if(!table_changed){
+		cleanup_and_start_app();
 		return;
+	}
+	table_changed = false;
 	FRAME f;
 	f.payload.kind = RT_DATA;
 	f.payload.source = f.payload.dest = nodeinfo.address;
@@ -121,9 +127,11 @@ void setup_routing_table(){
 	for(int link = 1; link <= nodeinfo.nlinks; link++){
 		//CHECK(CNET_write_physical_reliable(link, &f, &length));
 		queue_add(links[link].sender, &f, (int)length);
-		CnetTime timeout = (length*((CnetTime)8000000))/linkinfo[link].bandwidth + linkinfo[link].propagationdelay;
-		start_timer(link, timeout);
+		if(rt_packets_sent == 0){
+			CnetTime timeout = (length*((CnetTime)8000000))/linkinfo[link].bandwidth + linkinfo[link].propagationdelay;
+			start_timer(link, timeout);
+		}
 	}
 	rt_packets_sent++;
-	CNET_start_timer(EV_TIMER9, 10000000, 0);
+	CNET_start_timer(EV_TIMER9, 2000000, 0);
 }
