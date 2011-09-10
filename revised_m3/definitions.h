@@ -25,7 +25,6 @@ typedef struct {
 
 QUEUE msq_queue;
 
-
 /*
 * Code which setups the routing table for every node and shows the 
 * optimum path to a given destination considering the current network
@@ -76,6 +75,7 @@ typedef struct {
 } FRAME;
 
 typedef struct {
+	//bool active;
 	QUEUE sender; // Will contain all frames for a SINGLE message destined for a SINGLE destination address
 	QUEUE forwarding_queue; //For all other packets meant for other destinations
 	QUEUE receiver; // Frame queue from all sources, store if checksum matches, OR if not an ACK packet

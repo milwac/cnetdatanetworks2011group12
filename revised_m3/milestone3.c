@@ -111,6 +111,12 @@ static void send_frames(int link){
 	}	
 }
 */
+static EVENT_HANDLER(timeout0){
+	
+	//printf("Timer 1 ended! --- Calling pat!\n");
+	//links[1].timeout_occurred = true;
+	//pop_and_transmit(1);
+}
 static EVENT_HANDLER(timeout1){
 	//printf("Timer 1 ended! --- Calling pat!\n");
 	links[1].timeout_occurred = true;
@@ -182,9 +188,20 @@ static void network_receive(PACKET p){
 }
 */
 
+void initialize(){
+	for(int i=0; i<MAX_NODES; i++){
+               table[i].cost = LONG_MAX ;
+               table[i].dest = -1;
+               table[i].nodenum_dest = -1;
+               table[i].via_node = -1;
+               table[i].nodenum_via = -1;
+       	}
+}
+
 EVENT_HANDLER(reboot_node){
 	//Set up the routing table once before packets are generated from the application layer
 	//setup_routing_table();
+	initialize();
 	struct timeval currTime;
 	gettimeofday(&currTime, NULL);
 	int numlinks = nodeinfo.nlinks;
@@ -205,7 +222,7 @@ EVENT_HANDLER(reboot_node){
 	//After routing table is set up, start the application and physical layers to process messages
 	CHECK(CNET_set_handler(EV_APPLICATIONREADY, application_ready, 0));
 	CHECK(CNET_set_handler(EV_PHYSICALREADY, physical_ready, 0));
-	//CHECK(CNET_set_handler(EV_TIMER1, network_send, 0));
+	CHECK(CNET_set_handler(EV_TIMER0, timeout0, 0));
 	CHECK(CNET_set_handler(EV_TIMER1, timeout1, 0));
 	CHECK(CNET_set_handler(EV_TIMER2, timeout2, 0));
 	CHECK(CNET_set_handler(EV_TIMER3, timeout3, 0));

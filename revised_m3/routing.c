@@ -1,10 +1,29 @@
 #include "definitions.h"
+#define RT_PACKETS_TO_SEND 2
+
+// For routing table to stop when BOTH packets have arrived from ALL other nodes
+static int self_packets_received = 0;
+static int rt_packets_sent = 0;
+
+int nodes_discovered(){
+	int ret = 0;
+	for(int i=0; i<MAX_NODES; i++){
+		if(table[i].cost < LONG_MAX)
+			ret++;	
+	}
+	return ret;
+}
 
 static void getcurrtime(long long *ts){
 	struct timeval tim;
 	gettimeofday(&tim, NULL);
 	*ts = tim.tv_sec * 1000000 + tim.tv_usec;
 }
+
+void cleanup_and_start_app(){
+	printf("Routing successfully completed!!");
+}
+
 void update_table(){
 	int link;
 	FRAME f;
@@ -12,7 +31,12 @@ void update_table(){
 	CHECK(CNET_read_physical(&link, &f, &length));
 	printf("Packet received from %d, via %d\n", f.payload.source, f.payload.dest);
 	if(f.payload.source == nodeinfo.address){
+		printf("\nSelf packets received %d | Nodes discovered %d\n", self_packets_received, nodes_discovered());
+		self_packets_received++;
 		table[f.payload.B].link = link;
+		if(nodes_discovered() * RT_PACKETS_TO_SEND == self_packets_received){
+			cleanup_and_start_app();
+		}
 		return;
 	}
 	bool to_send = false;	
@@ -50,7 +74,7 @@ void update_table(){
 				pop_and_transmit(l);
 		}
 	}	
-	for(int i=0; i<3; i++){
+	for(int i=0; i<4; i++){
 		if(i != nodeinfo.nodenumber)
 		printf("Node address : %d | Dest address : %d | Via address : %d | Cost : %ld\n", nodeinfo.address, table[i].dest, table[i].via_node, table[i].cost);
 	}
@@ -84,14 +108,8 @@ void pop_and_transmit(int link){
 	start_timer(link, timeout);
 }
 void setup_routing_table(){
-	for(int i=0; i<MAX_NODES; i++){
-               table[i].cost = LONG_MAX ;
-               table[i].dest = -1;
-               table[i].nodenum_dest = -1;
-               table[i].via_node = -1;
-               table[i].nodenum_via = -1;
-               
-       	}	
+	if(rt_packets_sent == RT_PACKETS_TO_SEND)
+		return;
 	FRAME f;
 	f.payload.kind = RT_DATA;
 	f.payload.source = f.payload.dest = nodeinfo.address;
@@ -101,9 +119,11 @@ void setup_routing_table(){
 	f.checksum = 0;
 	f.checksum = CNET_ccitt((unsigned char *)&f, (int)length);
 	for(int link = 1; link <= nodeinfo.nlinks; link++){
-		//printf("Now writing to link %d\n", link);
-		CHECK(CNET_write_physical_reliable(link, &f, &length));
+		//CHECK(CNET_write_physical_reliable(link, &f, &length));
+		queue_add(links[link].sender, &f, (int)length);
 		CnetTime timeout = (length*((CnetTime)8000000))/linkinfo[link].bandwidth + linkinfo[link].propagationdelay;
 		start_timer(link, timeout);
 	}
+	rt_packets_sent++;
+	CNET_start_timer(EV_TIMER9, 10000000, 0);
 }
