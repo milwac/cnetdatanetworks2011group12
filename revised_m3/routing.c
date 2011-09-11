@@ -17,17 +17,12 @@ int nodes_discovered(){
 	return ret;
 }
 
-static void getcurrtime(long long *ts){
-	struct timeval tim;
-	gettimeofday(&tim, NULL);
-	*ts = tim.tv_sec * 1000000 + tim.tv_usec;
-}
 
 void cleanup_and_start_app(){
 	for(int l = 1; l<= nodeinfo.nlinks; l++){
 		queue_free(links[l].sender);
 		links[l].sender = queue_new();
-		links[l].timeout_occurred = false;		
+		links[l].timeout_occurred = true;		
 		CNET_stop_timer(l);
 	}
 	int other_nodes = nodes_discovered();
@@ -84,7 +79,7 @@ void update_table(int link, FRAME f, size_t length){
 		for(int l = 1; l <= nodeinfo.nlinks; l++){
 			queue_add(links[l].sender, &f, length);
 			if(links[l].timeout_occurred)
-				pop_and_transmit(l);
+				send_frames(l);
 		}
 	}	
 	for(int i=0; i<4; i++){
@@ -108,19 +103,6 @@ void start_timer(int link, CnetTime timeout){
 	}
 }
 
-
-void pop_and_transmit(int link){
-	//printf("Sending from link %d\n", link);
-	if(queue_nitems(links[link].sender) == 0)
-		return;
-	FRAME* f;
-	size_t len;
-	f = queue_remove(links[link].sender, &len);
-	CHECK(CNET_write_physical_reliable(link, f, &len));
-	CnetTime timeout = (len*((CnetTime)8000000))/linkinfo[link].bandwidth + linkinfo[link].propagationdelay;
-	start_timer(link, timeout);
-	free(f);
-}
 void setup_routing_table(){
 	if(!table_changed){
 		cleanup_and_start_app();

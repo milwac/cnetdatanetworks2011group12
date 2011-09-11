@@ -8,6 +8,7 @@
 #include <sys/time.h>
 #include <time.h>
 #include <string.h>
+#include <stdlib.h>
 #include <limits.h>
 #define MAX_LINKS 8
 #define MAX_MSG_QUEUE_SIZE 30
@@ -24,7 +25,8 @@ typedef struct {
 	CnetAddr dest;
 } MSG;
 
-QUEUE msq_queue;
+QUEUE msg_queue;
+
 
 /*
 * Code which setups the routing table for every node and shows the 
@@ -100,7 +102,11 @@ NODE_BUFFER node_buffer[MAX_NODES];
 
 extern void update_table(int, FRAME, size_t);
 extern void setup_routing_table(void);
-extern void pop_and_transmit(int);
 extern void handle_data(int, FRAME, size_t);
 extern void handle_ack(int, PACKET);
 extern void network_send(void);
+extern void schedule_and_send(int);
+extern void start_timer(int, CnetTime);
+extern void send_frames(int);
+extern void forward_frames(int);
+extern void getcurrtime(long long*);

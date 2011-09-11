@@ -36,13 +36,21 @@ void send_ack(FRAME f){
 }
 
 void schedule_and_send(int link){
-	if(links[link].packet_to_send == PRIORITY)
-		//send forwarding
-		forward_frames(link);
-	else
-		//send normal
+	if(links[link].timeout_occurred == false)
+		return;
+	if(queue_nitems(links[link].forwarding_queue) == 0 && queue_nitems(links[link].sender) > 0)
 		send_frames(link);
-		
+	else if (queue_nitems(links[link].forwarding_queue) > 0 && queue_nitems(links[link].sender) == 0)
+		forward_frames(link);
+	else {
+		if(links[link].packet_to_send == PRIORITY)
+		//send forwarding
+			forward_frames(link);
+		else
+		//send normal
+			send_frames(link);
+		links[link].packet_to_send = (links[link].packet_to_send + 1) % (PRIORITY + 1);
+	}
 }
 
 void network_send(){
@@ -82,8 +90,9 @@ void network_send(){
 	}
 	free(next);
 	for(int i = 0; i < MAX_NUMBER_FRAMES; i++)
-		link[currLink].ack_received[i] = false;		
-	send_frames(currLink);
+		links[currLink].ack_received[i] = false;		
+	//send_frames(currLink);
+	schedule_and_send(currLink);
 }
 
 void process_frames(int link){
@@ -93,6 +102,8 @@ void process_frames(int link){
 	FRAME *f = queue_remove(links[link].receiver, &len);
 	int source_nodenumber = find_nodenumber(f->payload.source);
 	int seq_no = f->payload.A;
+	char seq_str[5];
+	sprintf(seq_str, "%d", seq_no);
 	if(seq_no == node_buffer[source_nodenumber].next_seq_number_to_add){
 		// add to the incomplete data object
 		memcpy(&node_buffer[source_nodenumber].incomplete_data[0] + node_buffer[source_nodenumber].bytes_added, &f->payload.data, f->payload.len);
@@ -100,18 +111,20 @@ void process_frames(int link){
 		node_buffer[source_nodenumber].next_seq_number_to_add++;
 		while(true){
 			int next_seq = node_buffer[source_nodenumber].next_seq_number_to_add;
+			char next_seq_str[5];
+			sprintf(next_seq_str, "%d", next_seq);
 			size_t plen;
-			PACKET *pkt = hashtable_find(node_buffer[source_nodenumber].ooo_packets, next_seq, &plen);
+			PACKET *pkt = hashtable_find(node_buffer[source_nodenumber].ooo_packets, next_seq_str, &plen);
 			if(plen == 0)
 				break;
-			pkt = hashtable_remove(node_buffer[source_nodenumber].ooo_packets, next_seq, &plen);
-			memcpy(&node_buffer[source_nodenumber].incomplete_data[0] + node_buffer[source_nodenumber].bytes_added, &pkt.data, pkt.len);
-			node_buffer[source_nodenumber].bytes_added += pkt.len;
+			pkt = hashtable_remove(node_buffer[source_nodenumber].ooo_packets, next_seq_str, &plen);
+			memcpy(&node_buffer[source_nodenumber].incomplete_data[0] + node_buffer[source_nodenumber].bytes_added, &pkt->data, pkt->len);
+			node_buffer[source_nodenumber].bytes_added += pkt->len;
 			node_buffer[source_nodenumber].next_seq_number_to_add++;
 		}
 		// check for the last packet
 		if(f->payload.flag_offset == true) {
-			CNET_write_application((char*)&node_buffer[source_nodenumber].incomplete_data[0], &node_buffer[source_nodenumber].bytes_added);
+			CNET_write_application((char*)&node_buffer[source_nodenumber].incomplete_data[0], (size_t*)&node_buffer[source_nodenumber].bytes_added);
 			node_buffer[source_nodenumber].next_seq_number_to_add = 0;
 			memset(node_buffer[source_nodenumber].incomplete_data, '\0', MAX_MESSAGE_SIZE);
 			hashtable_free(node_buffer[source_nodenumber].ooo_packets);
@@ -122,9 +135,9 @@ void process_frames(int link){
 	} else {
 		if(hashtable_nitems(node_buffer[source_nodenumber].ooo_packets) > 0){
 			size_t plen;
-			PACKET *pkt = hashtable_find(node_buffer[source_nodenumber].ooo_packets, seq_no, &plen);
+			hashtable_find(node_buffer[source_nodenumber].ooo_packets, seq_str, &plen);
 			if(plen == 0){
-				hashtable_add(node_buffer[source_nodenumber].ooo_packets, seq_no, &f->payload, len - sizeof(uint32_t));
+				hashtable_add(node_buffer[source_nodenumber].ooo_packets, seq_str, &f->payload, len - sizeof(uint32_t));
 			}
 		}
 	}

@@ -6,46 +6,47 @@
 #include "definitions.h"
 
 
-extern void send_frames(int link){
+void getcurrtime(long long *ts){
+	struct timeval tim;
+	gettimeofday(&tim, NULL);
+	*ts = tim.tv_sec * 1000000 + tim.tv_usec;
+}
+void send_frames(int link){
 	size_t len = sizeof(FRAME);
-	FRAME* f = queue_remove(links[link].sender, &len);
-	switch(f.payload.kind){
+	CnetTime timeout;
+	FRAME *f = queue_remove(links[link].sender, &len);
+	switch(f->payload.kind){
 	case DL_DATA :
-		if(!links[link].ack_received[f.payload.A]) {
+		if(!links[link].ack_received[f->payload.A]) {
 			CHECK(CNET_write_physical(link, (char*)f, &len));
-			CnetTime timeout = (len*((CnetTime)8000000)/linkinfo[link].bandwidth + linkinfo[link].propagationdelay);
+			timeout = (len*((CnetTime)8000000)/linkinfo[link].bandwidth + linkinfo[link].propagationdelay);
 			start_timer(link, timeout);
-			queue_add(links[link].sender, f, &len);
+			queue_add(links[link].sender, f, len);
 		}
 		break;
 	case DL_ACK :
 		CHECK(CNET_write_physical(link, (char*)f, &len));
-                CnetTime timeout = (len*((CnetTime)8000000)/linkinfo[link].bandwidth + linkinfo[link].propagationdelay);
+                timeout = (len*((CnetTime)8000000)/linkinfo[link].bandwidth + linkinfo[link].propagationdelay);
                 start_timer(link, timeout);
 		break;
-	default:
+	case RT_DATA:
+		CHECK(CNET_write_physical(link, (char*)f, &len));
+                timeout = (len*((CnetTime)8000000)/linkinfo[link].bandwidth + linkinfo[link].propagationdelay);
+                start_timer(link, timeout);
 		break;
 	}
-	links[link].packet_to_send = (links[link].packet_to_send + 1) % (PRIORITY + 1);
 	free(f);
 }
 
-extern void forward_frames(int link){
+void forward_frames(int link){
 	size_t len = sizeof(FRAME);
 	FRAME *f = queue_remove(links[link].forwarding_queue, &len);
 	CHECK(CNET_write_physical(link, (char*)f, &len));
         CnetTime timeout = (len*((CnetTime)8000000)/linkinfo[link].bandwidth + linkinfo[link].propagationdelay);
         start_timer(link, timeout);	
-	links[link].packet_to_send = (links[link].packet_to_send + 1) % (PRIORITY + 1);
 	free(f);
 }
 
-static EVENT_HANDLER(application_ready){
-	static MSG msg;
-	size_t msgLength = sizeof(msg.data);
-	CHECK(CNET_read_application(&msg.dest, (char *)msg.data, &msgLength));
-	push_message(msg, msgLength + sizeof(CnetAddr));
-}
 static void push_message(MSG msg, size_t msgLength){
 	if(queue_nitems(msg_queue) < MAX_MSG_QUEUE_SIZE){
 		queue_add(msg_queue, &msg, msgLength);
@@ -55,6 +56,13 @@ static void push_message(MSG msg, size_t msgLength){
 	}
 	network_send();
 }
+static EVENT_HANDLER(application_ready){
+	static MSG msg;
+	size_t msgLength = sizeof(msg.data);
+	CHECK(CNET_read_application(&msg.dest, (char *)msg.data, &msgLength));
+	push_message(msg, msgLength + sizeof(CnetAddr));
+}
+
 
 static EVENT_HANDLER(timeout0){
 	
@@ -64,31 +72,31 @@ static EVENT_HANDLER(timeout0){
 }
 static EVENT_HANDLER(timeout1){
 	links[1].timeout_occurred = true;
-	pop_and_transmit(1);
+	schedule_and_send(1);
 }
 static EVENT_HANDLER(timeout2){
 	links[2].timeout_occurred = true;
-	pop_and_transmit(2);
+	schedule_and_send(2);
 }
 static EVENT_HANDLER(timeout3){
 	links[3].timeout_occurred = true;
-	pop_and_transmit(3);
+	schedule_and_send(3);
 }
 static EVENT_HANDLER(timeout4){
 	links[4].timeout_occurred = true;
-	pop_and_transmit(4);
+	schedule_and_send(4);
 }
 static EVENT_HANDLER(timeout5){
 	links[5].timeout_occurred = true;
-	pop_and_transmit(5);
+	schedule_and_send(5);
 }
 static EVENT_HANDLER(timeout6){
 	links[6].timeout_occurred = true;
-	pop_and_transmit(6);
+	schedule_and_send(6);
 }
 static EVENT_HANDLER(timeout7){
 	links[7].timeout_occurred = true;
-	pop_and_transmit(7);
+	schedule_and_send(7);
 }
 static EVENT_HANDLER(timeout9){
 	setup_routing_table();
@@ -121,6 +129,7 @@ static EVENT_HANDLER(physical_ready){
 	}	
 }
 void initialize(){
+	msg_queue = queue_new();
 	for(int i=0; i<MAX_NODES; i++){
                	table[i].cost = LONG_MAX ;
                	table[i].dest = -1;
@@ -135,7 +144,7 @@ void initialize(){
 	for(int i=1; i<=numlinks; i++){
 		printf("Setting up queue for link %d\n", i);
 		links[i].sender = queue_new();
-		links[i].timeout_occurred = false;
+		links[i].timeout_occurred = true;
 		links[i].forwarding_queue = queue_new();
 		links[i].receiver = queue_new();
 		memset(links[i].ack_received, false, MAX_NUMBER_FRAMES * sizeof(bool));
