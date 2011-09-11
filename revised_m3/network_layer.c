@@ -9,20 +9,42 @@ void handle_ack(int link, PACKET p){
 }
 // Finds the link connecting to a neibouring node, via whom the message is to be sent 
 // NO HASH TABLE IMPLEMENTATION CURRENTLY!
-static int find_link(CnetAddr dest){
+int find_link(CnetAddr dest){
 	for(int i=0; i< MAX_NODES; i++){
 		if(table[i].dest == dest)
 			return table[i].link;
 	}
 	return -1;
 }
-static int find_nodenumber(CnetAddr dest){
+int find_nodenumber(CnetAddr dest){
 	for(int i=0; i<MAX_NODES; i++){
 		if(table[i].dest == dest)
 			return i;		
 	}
 	return -1;
 }
+void send_ack(FRAME f){
+	FRAME ack;
+	ack.payload.dest = f.payload.source;
+	ack.payload.source = nodeinfo.address;
+	ack.payload.A = f.payload.A;
+	ack.payload.len = sizeof(FRAME_HEADER_SIZE);
+	ack.checksum = 0;
+	ack.checksum = CNET_ccitt((unsigned char *)&ack, sizeof(FRAME_HEADER_SIZE));
+	int link = find_link(f.payload.source);
+	queue_add(links[link].sender, &ack, FRAME_HEADER_SIZE);
+}
+
+void schedule_and_send(int link){
+	if(links[link].packet_to_send == PRIORITY)
+		//send forwarding
+		forward_frames(link);
+	else
+		//send normal
+		send_frames(link);
+		
+}
+
 void network_send(){
 	//Fragment each message into a small unit and send along the link designated by the routing table
 	size_t len = 0;
@@ -64,17 +86,63 @@ void network_send(){
 	send_frames(currLink);
 }
 
-static void handle_data(int link, FRAME f, size_t len){
+void process_frames(int link){
+	if(queue_nitems(links[link].receiver) == 0)
+		return;
+	size_t len;
+	FRAME *f = queue_remove(links[link].receiver, &len);
+	int source_nodenumber = find_nodenumber(f->payload.source);
+	int seq_no = f->payload.A;
+	if(seq_no == node_buffer[source_nodenumber].next_seq_number_to_add){
+		// add to the incomplete data object
+		memcpy(&node_buffer[source_nodenumber].incomplete_data[0] + node_buffer[source_nodenumber].bytes_added, &f->payload.data, f->payload.len);
+		node_buffer[source_nodenumber].bytes_added += f->payload.len;
+		node_buffer[source_nodenumber].next_seq_number_to_add++;
+		while(true){
+			int next_seq = node_buffer[source_nodenumber].next_seq_number_to_add;
+			size_t plen;
+			PACKET *pkt = hashtable_find(node_buffer[source_nodenumber].ooo_packets, next_seq, &plen);
+			if(plen == 0)
+				break;
+			pkt = hashtable_remove(node_buffer[source_nodenumber].ooo_packets, next_seq, &plen);
+			memcpy(&node_buffer[source_nodenumber].incomplete_data[0] + node_buffer[source_nodenumber].bytes_added, &pkt.data, pkt.len);
+			node_buffer[source_nodenumber].bytes_added += pkt.len;
+			node_buffer[source_nodenumber].next_seq_number_to_add++;
+		}
+		// check for the last packet
+		if(f->payload.flag_offset == true) {
+			CNET_write_application((char*)&node_buffer[source_nodenumber].incomplete_data[0], &node_buffer[source_nodenumber].bytes_added);
+			node_buffer[source_nodenumber].next_seq_number_to_add = 0;
+			memset(node_buffer[source_nodenumber].incomplete_data, '\0', MAX_MESSAGE_SIZE);
+			hashtable_free(node_buffer[source_nodenumber].ooo_packets);
+			// Overriding default bucket size of 1023
+			node_buffer[source_nodenumber].ooo_packets = hashtable_new(256);
+			node_buffer[source_nodenumber].bytes_added = 0; 		
+		}
+	} else {
+		if(hashtable_nitems(node_buffer[source_nodenumber].ooo_packets) > 0){
+			size_t plen;
+			PACKET *pkt = hashtable_find(node_buffer[source_nodenumber].ooo_packets, seq_no, &plen);
+			if(plen == 0){
+				hashtable_add(node_buffer[source_nodenumber].ooo_packets, seq_no, &f->payload, len - sizeof(uint32_t));
+			}
+		}
+	}
+	process_frames(link);
+}
+
+void handle_data(int link, FRAME f, size_t len){
 	// If packet is sent to this node, accept it, reconstruct the whole message and send it to the application layer
 	if(f.payload.dest == nodeinfo.address){
+		send_ack(f);
 		queue_add(links[link].receiver, &f, len);
-		//will call a function to pull frames
-		//will use timer0	
+		process_frames(link);
 	}
 	// Else forward it according to the routing information that we have, this node will act as a router
 	else{
 		queue_add(links[link].forwarding_queue, &f, len);
 		//will have to schedule with sender queue
+		schedule_and_send(link);
 	}
 }
 

@@ -30,6 +30,15 @@ void cleanup_and_start_app(){
 		links[l].timeout_occurred = false;		
 		CNET_stop_timer(l);
 	}
+	int other_nodes = nodes_discovered();
+	// Initializing for all nodes including myself, my nodenumber will not be used
+	for(int i=0; i<other_nodes + 1; i++){
+		node_buffer[i].next_seq_number_to_add = 0;
+		memset(node_buffer[i].incomplete_data, '\0', MAX_MESSAGE_SIZE);
+		// Overriding default bucket size of 1023
+		node_buffer[i].ooo_packets = hashtable_new(256);
+		node_buffer[i].bytes_added = 0; 		
+	} 
 	CNET_enable_application(ALLNODES);
 	printf("Routing successfully completed!!");
 }

@@ -9,12 +9,34 @@
 extern void send_frames(int link){
 	size_t len = sizeof(FRAME);
 	FRAME* f = queue_remove(links[link].sender, &len);
-	if(!links[link].ack_received[f.payload.A]) {
+	switch(f.payload.kind){
+	case DL_DATA :
+		if(!links[link].ack_received[f.payload.A]) {
+			CHECK(CNET_write_physical(link, (char*)f, &len));
+			CnetTime timeout = (len*((CnetTime)8000000)/linkinfo[link].bandwidth + linkinfo[link].propagationdelay);
+			start_timer(link, timeout);
+			queue_add(links[link].sender, f, &len);
+		}
+		break;
+	case DL_ACK :
 		CHECK(CNET_write_physical(link, (char*)f, &len));
-		CnetTime timeout = (len*((CnetTime)8000000)/linkinfo[link].bandwidth + linkinfo[link].propagationdelay);
-		start_timer(link, timeout);
-		queue_add(links[link].sender, f, &len);
+                CnetTime timeout = (len*((CnetTime)8000000)/linkinfo[link].bandwidth + linkinfo[link].propagationdelay);
+                start_timer(link, timeout);
+		break;
+	default:
+		break;
 	}
+	links[link].packet_to_send = (links[link].packet_to_send + 1) % (PRIORITY + 1);
+	free(f);
+}
+
+extern void forward_frames(int link){
+	size_t len = sizeof(FRAME);
+	FRAME *f = queue_remove(links[link].forwarding_queue, &len);
+	CHECK(CNET_write_physical(link, (char*)f, &len));
+        CnetTime timeout = (len*((CnetTime)8000000)/linkinfo[link].bandwidth + linkinfo[link].propagationdelay);
+        start_timer(link, timeout);	
+	links[link].packet_to_send = (links[link].packet_to_send + 1) % (PRIORITY + 1);
 	free(f);
 }
 
@@ -114,11 +136,10 @@ void initialize(){
 		printf("Setting up queue for link %d\n", i);
 		links[i].sender = queue_new();
 		links[i].timeout_occurred = false;
-		//links[i].forwarding_queue = new_queue();
-		//links[i].receiver = queue_new();
-		//memset(links[i].ack_received, false, MAX_NUMBER_FRAMES * sizeof(bool));
-		//links[i].connected_to = 
-		//timer_to_use = i;
+		links[i].forwarding_queue = queue_new();
+		links[i].receiver = queue_new();
+		memset(links[i].ack_received, false, MAX_NUMBER_FRAMES * sizeof(bool));
+		links[i].packet_to_send = 0;
 	}
 	
 

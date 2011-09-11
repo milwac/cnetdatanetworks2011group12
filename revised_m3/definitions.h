@@ -15,6 +15,7 @@
 #define FRAME_HEADER_SIZE (PACKET_HEADER_SIZE + sizeof(uint32_t))
 #define MAX_NUMBER_FRAMES 256
 #define MAX_NODES 50
+#define PRIORITY 2 // This is the ratio of SENDER packets to FORWARDING packets for the scheduler
 
 typedef enum {DL_DATA, DL_ACK, RT_DATA} FRAMEKIND;
 
@@ -72,7 +73,7 @@ typedef struct {
 } FRAME;
 
 typedef struct {
-	//bool active;
+	int packet_to_send;
 	QUEUE sender; // Will contain all frames for a SINGLE message destined for a SINGLE destination address
 	QUEUE forwarding_queue; //For all other packets meant for other destinations
 	QUEUE receiver; // Frame queue from all sources, store if checksum matches, OR if not an ACK packet
@@ -85,13 +86,14 @@ LINK links[MAX_LINKS];
 
 typedef struct {
 	//bool busy;
-	CnetAddr source;
+	//CnetAddr source;
 	int next_seq_number_to_add;
 	char incomplete_data[MAX_MESSAGE_SIZE];
+	int bytes_added;
 	HASHTABLE ooo_packets; // all out of order packets stored here;
-} NODE_QUEUE;
+} NODE_BUFFER;
 
-NODE_QUEUE node_queue[MAX_NODES];
+NODE_BUFFER node_buffer[MAX_NODES];
 
 //------------------------ function declarations ----------------------------
 
