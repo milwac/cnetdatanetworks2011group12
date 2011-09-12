@@ -67,7 +67,7 @@ void network_send(){
 	//Fragment each message into a small unit and send along the link designated by the routing table
 	size_t len = 0;
 	MSG* next = queue_peek(msg_queue, &len);
-	printf("Message is to be processed! To be sent to %d from %d\n", next->dest, nodeinfo.address);
+	printf("Message is to be processed! To be sent to %d from %d and size %d\n", next->dest, nodeinfo.address, len);
 	//get link to send from the routing table
 	int currLink = find_link(next->dest);
 	
@@ -135,7 +135,7 @@ void process_frames(int link){
 		}
 		// check for the last packet
 		if(f->payload.flag_offset == true) {
-			CNET_write_application((char*)&node_buffer[source_nodenumber].incomplete_data[0], (size_t*)&node_buffer[source_nodenumber].bytes_added);
+			CHECK(CNET_write_application((char*)&node_buffer[source_nodenumber].incomplete_data[0], (size_t*)&node_buffer[source_nodenumber].bytes_added));
 			node_buffer[source_nodenumber].next_seq_number_to_add = 0;
 			memset(node_buffer[source_nodenumber].incomplete_data, '\0', MAX_MESSAGE_SIZE);
 			hashtable_free(node_buffer[source_nodenumber].ooo_packets);

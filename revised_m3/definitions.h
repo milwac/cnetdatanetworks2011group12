@@ -21,8 +21,8 @@
 typedef enum {DL_DATA, DL_ACK, RT_DATA} FRAMEKIND;
 
 typedef struct {
-	char data[MAX_MESSAGE_SIZE];
 	CnetAddr dest;
+	char data[MAX_MESSAGE_SIZE];
 } MSG;
 
 QUEUE msg_queue;

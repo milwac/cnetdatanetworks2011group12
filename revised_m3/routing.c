@@ -41,7 +41,7 @@ void cleanup_and_start_app(){
 void update_table(int link, FRAME f, size_t length){
 	if(f.payload.source == nodeinfo.address){
 		//printf("Nodes discovered %d\n", nodes_discovered());
-		table[f.payload.B].link = link;
+		//table[f.payload.B].link = link;
 		return;
 	}
 	bool to_send = false;	
@@ -55,6 +55,7 @@ void update_table(int link, FRAME f, size_t length){
 		table[f.payload.A].via_node = f.payload.dest;
 		table[f.payload.A].nodenum_via = f.payload.B;
 		table[f.payload.A].cost = curr_cost;
+		table[f.payload.A].link = link;
 		table[f.payload.A].min_mtu = min(table[f.payload.A].min_mtu, linkinfo[link].mtu);
 		to_send = true; 	
 	}
@@ -67,6 +68,7 @@ void update_table(int link, FRAME f, size_t length){
 			table[f.payload.A].nodenum_dest = f.payload.A;
 			table[f.payload.A].via_node = f.payload.dest;
 			table[f.payload.A].nodenum_via = f.payload.B; 
+			table[f.payload.A].link = link;
 			table[f.payload.A].min_mtu = min(table[f.payload.A].min_mtu, linkinfo[link].mtu);
 			to_send = true;
 		}
@@ -82,12 +84,11 @@ void update_table(int link, FRAME f, size_t length){
 				schedule_and_send(l);
 		}
 	}
-	/*	
-	for(int i=0; i<4; i++){
+	for(int i=0; i<3; i++){
 		if(i != nodeinfo.nodenumber)
-		printf("Dest address : %d | Via address : %d | Cost : %ld | Min mtu : %d\n", table[i].dest, table[i].via_node, table[i].cost, table[i].min_mtu);
+		printf("Dest address : %d | Via address : %d | Link : %d | Cost : %ld | Min mtu : %d\n", 
+			table[i].dest, table[i].via_node, table[i].link, table[i].cost, table[i].min_mtu);
 	}
-	*/
 }
 
 

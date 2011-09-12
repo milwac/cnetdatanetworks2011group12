@@ -55,6 +55,7 @@ void forward_frames(int link){
 
 static void push_message(MSG msg, size_t msgLength){
 	if(queue_nitems(msg_queue) < MAX_MSG_QUEUE_SIZE){
+		//printf("Pushing a message for %d with length %d\n", msg.dest, msgLength);
 		queue_add(msg_queue, &msg, msgLength);
 	}
 	if(queue_nitems(msg_queue) == MAX_MSG_QUEUE_SIZE){
@@ -63,9 +64,10 @@ static void push_message(MSG msg, size_t msgLength){
 	network_send();
 }
 static EVENT_HANDLER(application_ready){
-	static MSG msg;
-	size_t msgLength = sizeof(MSG);
-	CHECK(CNET_read_application(&msg.dest, (char *)msg.data, &msgLength));
+	MSG msg;
+	size_t msgLength = MAX_MESSAGE_SIZE;
+	CHECK(CNET_read_application(&msg.dest, &msg.data, &msgLength));
+	//printf("Message read from application layer %s, destined for address %d\n", msg.data, msg.dest);
 	push_message(msg, msgLength + sizeof(CnetAddr));
 }
 

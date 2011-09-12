@@ -1,22 +1,10 @@
 Setting up node 1(addr : 96)
 Setting up queue for link 1
-Setting up queue for link 2
 Init done!
 Schedule and send is calling block 1 (1 = sender, 2 = forwarding, 3 = both on priority basis)
-Schedule and send is calling block 1 (1 = sender, 2 = forwarding, 3 = both on priority basis)
 Packet received from 134, via 134
+Dest address : 134 | Via address : 134 | Link : 1 | Cost : 27 | Min mtu : 11264
+Dest address : -1 | Via address : -1 | Link : 0 | Cost : 2147483647 | Min mtu : 18000
 Schedule and send is calling block 1 (1 = sender, 2 = forwarding, 3 = both on priority basis)
-Schedule and send is calling block 1 (1 = sender, 2 = forwarding, 3 = both on priority basis)
-Packet received from 170, via 170
 Packet received from 96, via 134
-Schedule and send is calling block 1 (1 = sender, 2 = forwarding, 3 = both on priority basis)
-Schedule and send is calling block 1 (1 = sender, 2 = forwarding, 3 = both on priority basis)
-Packet received from 96, via 170
-Packet received from 182, via 134
-Schedule and send is calling block 1 (1 = sender, 2 = forwarding, 3 = both on priority basis)
-Schedule and send is calling block 1 (1 = sender, 2 = forwarding, 3 = both on priority basis)
-Packet received from 182, via 170
-Packet received from 170, via 134
-Packet received from 134, via 170
 Routing successfully completed! Application started!!
-Message is to be processed! To be sent to 0 from 96
