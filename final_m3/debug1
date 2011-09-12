@@ -1,0 +1,10 @@
+Setting up node 1(addr : 96)
+Setting up queue for link 1
+Init done!
+Send frames called for link : 1
+Schedule and send is calling block 1 (1 = sender, 2 = forwarding, 3 = both on priority basis)
+Packet received from 134, via 134
+Send frames called for link : 1
+Schedule and send is calling block 1 (1 = sender, 2 = forwarding, 3 = both on priority basis)
+Packet received from 96, via 134
+Routing successfully completed! Application started!!

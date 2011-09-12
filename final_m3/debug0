@@ -1,0 +1,12 @@
+Setting up node 0(addr : 134)
+Setting up queue for link 1
+Init done!
+Send frames called for link : 1
+Schedule and send is calling block 1 (1 = sender, 2 = forwarding, 3 = both on priority basis)
+Packet received from 96, via 96
+Send frames called for link : 1
+Schedule and send is calling block 1 (1 = sender, 2 = forwarding, 3 = both on priority basis)
+Packet received from 134, via 96
+Routing successfully completed! Application started!!
+Message is to be processed! To be sent to 96 from 134 and size 753
+Min mtu - FRAME_HEADER_SIZE is  : 11227
