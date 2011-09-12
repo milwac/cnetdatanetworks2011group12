@@ -36,13 +36,22 @@ void send_ack(FRAME f){
 }
 
 void schedule_and_send(int link){
+	int block = 0;
 	if(links[link].timeout_occurred == false)
 		return;
-	if(queue_nitems(links[link].forwarding_queue) == 0 && queue_nitems(links[link].sender) > 0)
+	if(queue_nitems(links[link].forwarding_queue) == 0 && queue_nitems(links[link].sender) > 0){
 		send_frames(link);
-	else if (queue_nitems(links[link].forwarding_queue) > 0 && queue_nitems(links[link].sender) == 0)
+		block = 1;
+	}
+	else if (queue_nitems(links[link].forwarding_queue) > 0 && queue_nitems(links[link].sender) == 0){
 		forward_frames(link);
+		block = 2;
+	}
+	else if (queue_nitems(links[link].forwarding_queue) == 0 && queue_nitems(links[link].sender) == 0){
+		return;
+	}
 	else {
+		block = 3;
 		if(links[link].packet_to_send == PRIORITY)
 		//send forwarding
 			forward_frames(link);
@@ -51,12 +60,14 @@ void schedule_and_send(int link){
 			send_frames(link);
 		links[link].packet_to_send = (links[link].packet_to_send + 1) % (PRIORITY + 1);
 	}
+	printf("Schedule and send is calling block %d (1 = sender, 2 = forwarding, 3 = both on priority basis)\n", block);
 }
 
 void network_send(){
 	//Fragment each message into a small unit and send along the link designated by the routing table
 	size_t len = 0;
 	MSG* next = queue_peek(msg_queue, &len);
+	printf("Message is to be processed! To be sent to %d from %d\n", next->dest, nodeinfo.address);
 	//get link to send from the routing table
 	int currLink = find_link(next->dest);
 	

@@ -12,6 +12,7 @@ void getcurrtime(long long *ts){
 	*ts = tim.tv_sec * 1000000 + tim.tv_usec;
 }
 void send_frames(int link){
+	//printf("Send frames called for link : %d\n", link);
 	size_t len = sizeof(FRAME);
 	CnetTime timeout;
 	FRAME *f = queue_remove(links[link].sender, &len);
@@ -23,6 +24,10 @@ void send_frames(int link){
 			start_timer(link, timeout);
 			queue_add(links[link].sender, f, len);
 		}
+		else {
+			if(queue_nitems(links[link].sender) > 0)
+				send_frames(link);
+		}
 		break;
 	case DL_ACK :
 		CHECK(CNET_write_physical(link, (char*)f, &len));
@@ -30,6 +35,7 @@ void send_frames(int link){
                 start_timer(link, timeout);
 		break;
 	case RT_DATA:
+	//printf("RT packet sending on link : %d\n", link);
 		CHECK(CNET_write_physical(link, (char*)f, &len));
                 timeout = (len*((CnetTime)8000000)/linkinfo[link].bandwidth + linkinfo[link].propagationdelay);
                 start_timer(link, timeout);
@@ -58,7 +64,7 @@ static void push_message(MSG msg, size_t msgLength){
 }
 static EVENT_HANDLER(application_ready){
 	static MSG msg;
-	size_t msgLength = sizeof(msg.data);
+	size_t msgLength = sizeof(MSG);
 	CHECK(CNET_read_application(&msg.dest, (char *)msg.data, &msgLength));
 	push_message(msg, msgLength + sizeof(CnetAddr));
 }
@@ -66,11 +72,11 @@ static EVENT_HANDLER(application_ready){
 
 static EVENT_HANDLER(timeout0){
 	
-	//printf("Timer 1 ended! --- Calling pat!\n");
 	//links[1].timeout_occurred = true;
 	//pop_and_transmit(1);
 }
 static EVENT_HANDLER(timeout1){
+	//printf("Timer 1 ended! --- Calling sas!\n");
 	links[1].timeout_occurred = true;
 	schedule_and_send(1);
 }
@@ -104,6 +110,7 @@ static EVENT_HANDLER(timeout9){
 //called when sender's physical layer is ready to receive
 
 static EVENT_HANDLER(physical_ready){
+	//printf("PR called!\n");
 	int link;
 	FRAME f;
 	size_t length = sizeof(FRAME);
@@ -126,7 +133,8 @@ static EVENT_HANDLER(physical_ready){
 				break;
 		default      :  printf("The world is not enough!\n"); 
 				break;
-	}	
+	}
+	//printf("Packet successfully processed!");	
 }
 void initialize(){
 	msg_queue = queue_new();
@@ -150,8 +158,7 @@ void initialize(){
 		memset(links[i].ack_received, false, MAX_NUMBER_FRAMES * sizeof(bool));
 		links[i].packet_to_send = 0;
 	}
-	
-
+	printf("Init done!\n");	
 }
 
 EVENT_HANDLER(reboot_node){
@@ -173,7 +180,7 @@ EVENT_HANDLER(reboot_node){
 	CHECK(CNET_set_handler(EV_TIMER6, timeout6, 0));
 	CHECK(CNET_set_handler(EV_TIMER7, timeout7, 0));
 	CHECK(CNET_set_handler(EV_TIMER9, timeout9, 0));
-	CNET_enable_application(ALLNODES);
+	//CNET_enable_application(ALLNODES);
 	CNET_set_time_of_day(currTime.tv_sec, currTime.tv_usec);
 	CNET_start_timer(EV_TIMER9, 100, 0);
 }

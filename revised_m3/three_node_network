@@ -1,6 +1,6 @@
 // A (cheaper, lossy) connection to SLS is added.
 
-compile = "milestone3.c routing.c"
+compile = "milestone3.c network_layer.c routing.c"
 
 #include "saarland.map"
 #include "linktypes.txt"

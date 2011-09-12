@@ -81,7 +81,7 @@ typedef struct {
 	QUEUE receiver; // Frame queue from all sources, store if checksum matches, OR if not an ACK packet
 	bool ack_received[MAX_NUMBER_FRAMES]; // If kind = ACK at this layer, set the value immediately, don't add to receiver queue
 	bool timeout_occurred;
-	CnetAddr connected_to;
+	//CnetAddr connected_to;
 } LINK;
 
 LINK links[MAX_LINKS];

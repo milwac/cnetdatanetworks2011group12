@@ -35,12 +35,12 @@ void cleanup_and_start_app(){
 		node_buffer[i].bytes_added = 0; 		
 	} 
 	CNET_enable_application(ALLNODES);
-	printf("Routing successfully completed!!");
+	printf("Routing successfully completed! Application started!!\n");
 }
 
 void update_table(int link, FRAME f, size_t length){
 	if(f.payload.source == nodeinfo.address){
-		printf("Nodes discovered %d\n", nodes_discovered());
+		//printf("Nodes discovered %d\n", nodes_discovered());
 		table[f.payload.B].link = link;
 		return;
 	}
@@ -49,7 +49,7 @@ void update_table(int link, FRAME f, size_t length){
 	getcurrtime(&curr_time);
 	long curr_cost = (long)(curr_time - f.payload.timestamp)/1000;
 	if(table[f.payload.A].dest != f.payload.source){
-		printf("filling RT\n");
+		//printf("filling RT\n");
 		table[f.payload.A].dest = f.payload.source;
 		table[f.payload.A].nodenum_dest = f.payload.A;
 		table[f.payload.A].via_node = f.payload.dest;
@@ -60,7 +60,7 @@ void update_table(int link, FRAME f, size_t length){
 	}
 	else {
 		if(table[f.payload.A].cost > curr_cost){
-		printf("updating RT\n");
+		//printf("updating RT\n");
 			table_changed = true;
 			table[f.payload.A].cost = curr_cost;
 			table[f.payload.A].dest = f.payload.source;
@@ -79,19 +79,21 @@ void update_table(int link, FRAME f, size_t length){
 		for(int l = 1; l <= nodeinfo.nlinks; l++){
 			queue_add(links[l].sender, &f, length);
 			if(links[l].timeout_occurred)
-				send_frames(l);
+				schedule_and_send(l);
 		}
-	}	
+	}
+	/*	
 	for(int i=0; i<4; i++){
 		if(i != nodeinfo.nodenumber)
 		printf("Dest address : %d | Via address : %d | Cost : %ld | Min mtu : %d\n", table[i].dest, table[i].via_node, table[i].cost, table[i].min_mtu);
 	}
+	*/
 }
 
 
 void start_timer(int link, CnetTime timeout){
 	links[link].timeout_occurred = false;
-	//printf("Timer %d is started!\n", link);
+	//printf("Timer %d is started! Timeout value is %d\n", link, timeout);
 	switch(link){
 		case 1 : CNET_start_timer(EV_TIMER1, timeout, 0); break;
 		case 2 : CNET_start_timer(EV_TIMER2, timeout, 0); break;
@@ -100,6 +102,7 @@ void start_timer(int link, CnetTime timeout){
 		case 5 : CNET_start_timer(EV_TIMER5, timeout, 0); break;
 		case 6 : CNET_start_timer(EV_TIMER6, timeout, 0); break;
 		case 7 : CNET_start_timer(EV_TIMER7, timeout, 0); break;
+		default: break;
 	}
 }
 
@@ -108,7 +111,7 @@ void setup_routing_table(){
 		cleanup_and_start_app();
 		return;
 	}
-	printf("SENDING PACKET #%d!!\n", rt_packets_sent+1);
+	//printf("SENDING PACKET #%d!!\n", rt_packets_sent+1);
 	table_changed = false;
 	FRAME f;
 	f.payload.kind = RT_DATA;

@@ -1,132 +1,21 @@
 Setting up node 3(addr : 170)
 Setting up queue for link 1
 Setting up queue for link 2
-SENDING ONE MORE PACKET!!
+Init done!
+Schedule and send is calling block 1 (1 = sender, 2 = forwarding, 3 = both on priority basis)
+Schedule and send is calling block 1 (1 = sender, 2 = forwarding, 3 = both on priority basis)
 Packet received from 96, via 96
-filling RT
-Node address : 170 | Dest address : -1 | Via address : -1 | Cost : 2147483647
-Node address : 170 | Dest address : 96 | Via address : 96 | Cost : 1321
-Node address : 170 | Dest address : -1 | Via address : -1 | Cost : 2147483647
 Packet received from 182, via 182
-filling RT
-Node address : 170 | Dest address : -1 | Via address : -1 | Cost : 2147483647
-Node address : 170 | Dest address : 96 | Via address : 96 | Cost : 1321
-Node address : 170 | Dest address : 182 | Via address : 182 | Cost : 1321
-Packet received from 170, via 96
-
-Self packets received 1 | Nodes discovered 2
-Packet received from 170, via 182
-
-Self packets received 2 | Nodes discovered 2
+Schedule and send is calling block 1 (1 = sender, 2 = forwarding, 3 = both on priority basis)
+Schedule and send is calling block 1 (1 = sender, 2 = forwarding, 3 = both on priority basis)
 Packet received from 134, via 96
-filling RT
-Node address : 170 | Dest address : 134 | Via address : 96 | Cost : 2872
-Node address : 170 | Dest address : 96 | Via address : 96 | Cost : 1321
-Node address : 170 | Dest address : 182 | Via address : 182 | Cost : 1321
 Packet received from 134, via 182
-updating RT
-Node address : 170 | Dest address : 134 | Via address : 96 | Cost : 2872
-Node address : 170 | Dest address : 96 | Via address : 96 | Cost : 1321
-Node address : 170 | Dest address : 182 | Via address : 182 | Cost : 1321
+Schedule and send is calling block 1 (1 = sender, 2 = forwarding, 3 = both on priority basis)
+Schedule and send is calling block 1 (1 = sender, 2 = forwarding, 3 = both on priority basis)
+Packet received from 170, via 96
+Packet received from 170, via 182
+Schedule and send is calling block 1 (1 = sender, 2 = forwarding, 3 = both on priority basis)
+Schedule and send is calling block 1 (1 = sender, 2 = forwarding, 3 = both on priority basis)
 Packet received from 182, via 96
-updating RT
-Node address : 170 | Dest address : 134 | Via address : 96 | Cost : 2872
-Node address : 170 | Dest address : 96 | Via address : 96 | Cost : 1321
-Node address : 170 | Dest address : 182 | Via address : 182 | Cost : 1321
 Packet received from 96, via 182
-updating RT
-Node address : 170 | Dest address : 134 | Via address : 96 | Cost : 2872
-Node address : 170 | Dest address : 96 | Via address : 96 | Cost : 1321
-Node address : 170 | Dest address : 182 | Via address : 182 | Cost : 1321
-Packet received from 170, via 96
-
-Self packets received 3 | Nodes discovered 3
-Packet received from 170, via 182
-
-Self packets received 4 | Nodes discovered 3
-Packet received from 170, via 96
-
-Self packets received 5 | Nodes discovered 3
-Packet received from 170, via 182
-
-Self packets received 6 | Nodes discovered 3
-Routing successfully completed!!Packet received from 182, via 96
-updating RT
-Node address : 170 | Dest address : 134 | Via address : 96 | Cost : 2872
-Node address : 170 | Dest address : 96 | Via address : 96 | Cost : 1321
-Node address : 170 | Dest address : 182 | Via address : 182 | Cost : 1321
-Packet received from 96, via 182
-updating RT
-Node address : 170 | Dest address : 134 | Via address : 96 | Cost : 2872
-Node address : 170 | Dest address : 96 | Via address : 96 | Cost : 1321
-Node address : 170 | Dest address : 182 | Via address : 182 | Cost : 1321
-Packet received from 170, via 96
-
-Self packets received 7 | Nodes discovered 3
-Packet received from 170, via 182
-
-Self packets received 8 | Nodes discovered 3
-Packet received from 170, via 96
-
-Self packets received 9 | Nodes discovered 3
-Packet received from 170, via 182
-
-Self packets received 10 | Nodes discovered 3
-Packet received from 170, via 96
-
-Self packets received 11 | Nodes discovered 3
-Packet received from 170, via 182
-
-Self packets received 12 | Nodes discovered 3
-Packet received from 170, via 96
-
-Self packets received 13 | Nodes discovered 3
-Packet received from 170, via 182
-
-Self packets received 14 | Nodes discovered 3
-Packet received from 182, via 96
-updating RT
-Node address : 170 | Dest address : 134 | Via address : 96 | Cost : 2872
-Node address : 170 | Dest address : 96 | Via address : 96 | Cost : 1321
-Node address : 170 | Dest address : 182 | Via address : 182 | Cost : 1321
-Packet received from 96, via 182
-updating RT
-Node address : 170 | Dest address : 134 | Via address : 96 | Cost : 2872
-Node address : 170 | Dest address : 96 | Via address : 96 | Cost : 1321
-Node address : 170 | Dest address : 182 | Via address : 182 | Cost : 1321
-Packet received from 170, via 96
-
-Self packets received 15 | Nodes discovered 3
-Packet received from 170, via 182
-
-Self packets received 16 | Nodes discovered 3
-Packet received from 170, via 96
-
-Self packets received 17 | Nodes discovered 3
-Packet received from 170, via 182
-
-Self packets received 18 | Nodes discovered 3
-Packet received from 170, via 96
-
-Self packets received 19 | Nodes discovered 3
-Packet received from 170, via 182
-
-Self packets received 20 | Nodes discovered 3
-Packet received from 170, via 96
-
-Self packets received 21 | Nodes discovered 3
-Packet received from 170, via 182
-
-Self packets received 22 | Nodes discovered 3
-Packet received from 170, via 96
-
-Self packets received 23 | Nodes discovered 3
-Packet received from 170, via 182
-
-Self packets received 24 | Nodes discovered 3
-Packet received from 170, via 96
-
-Self packets received 25 | Nodes discovered 3
-Packet received from 170, via 182
-
-Self packets received 26 | Nodes discovered 3
+Routing successfully completed! Application started!!
