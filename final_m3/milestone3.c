@@ -23,17 +23,6 @@ void send_frames(int link){
 			CHECK(CNET_write_physical(link, (char*)f, &len));
 			queue_add(links[link].sender, f, len);
 		}
-		/*
-		if((queue_nitems(links[link].sender) == 0) && !application_enabled){
-			printf("To call NS here ----------------------------------------\n");
-			network_send();
-		}
-		*/
-		/*
-		else {
-			start_timer(link, timeout);
-		}
-		*/
 		break;
 	case DL_ACK :
 	//printf("ACK packet sending on link : %d\n", link);
@@ -60,7 +49,7 @@ void forward_frames(int link){
 }
 
 void send_acks(int link){
-	size_t len = sizeof(FRAME);
+	size_t len = FRAME_HEADER_SIZE;
 	FRAME *f = queue_remove(links[link].ack_sender, &len);
 	CHECK(CNET_write_physical(link, (char*)f, &len));
         CnetTime timeout = (len*((CnetTime)8000000))/linkinfo[link].bandwidth + linkinfo[link].propagationdelay;
@@ -76,38 +65,28 @@ void push_message(MSG msg, size_t msgLength){
 		queue_add(msg_queue, &msg, msgLength);
 	}
 	if(queue_nitems(msg_queue) == MAX_MSG_QUEUE_SIZE){
-		application_enabled = false;
 		CNET_disable_application(ALLNODES);
+		application_enabled = false;
 	}
 	if(!message_timer_kick){
-	printf("Calling network send for the only time!\n");
+	//printf("Calling network send for the only time!\n");
 		message_timer_kick = true;
 		CNET_start_timer(EV_TIMER0, 100, 0);
 	}
-	//network_send();
 }
 static EVENT_HANDLER(application_ready){
 	MSG msg;
 	size_t msgLength = sizeof(MSG);
 	CHECK(CNET_read_application(&msg.dest, &msg.data, &msgLength));
-	//----
-		//char str[] = "Thequickbrownfoxjumpsoverthelazydog";
-		//memcpy(&msg.data, &str, strlen(str));
-		//msgLength = strlen(str);
-	//----
-	printf("Message read from application layer %s, destined for address %d\n", msg.data, msg.dest);
+	//printf("Message read from application layer %s, destined for address %d\n", msg.data, msg.dest);
 	push_message(msg, msgLength + sizeof(CnetAddr));
 }
 
 
 static EVENT_HANDLER(timeout0){
-	printf("Timer 0 ended! --- Calling network send!\n");
 	network_send();	
-	//links[1].timeout_occurred = true;
-	//pop_and_transmit(1);
 }
 static EVENT_HANDLER(timeout1){
-	//printf("Timer 1 ended! --- Calling sas!\n");
 	links[1].timeout_occurred = true;
 	schedule_and_send(1);
 }

@@ -5,20 +5,10 @@
 #include "definitions.h"
 
 void handle_ack(int link, PACKET p){
-	printf("\t\t\t\t\t\t\thandle ack called\n");
+	//printf("handle ack called for mesg #%d\n", p.mesg_seq_no);
 	links[link].ack_received[p.A] = true;
-	bool start_network = true;	
-	for(int i=0; i<MAX_NUMBER_FRAMES; i++){
-		if(links[link].ack_received[i] == false){
-			start_network = false;
-			break;
-		}	
-	}
-	if(start_network && !application_enabled){
-		//network_send();	
-	}
 }
-// Finds the link connecting to a neibouring node, via whom the message is to be sent 
+// Finds the link connecting to a neighbouring node, via whom the message is to be sent 
 // NO HASH TABLE IMPLEMENTATION CURRENTLY!
 int find_link(CnetAddr dest){
 	for(int i=0; i< MAX_NODES; i++){
@@ -41,6 +31,7 @@ void create_ack(FRAME f){
 	ack.payload.source = nodeinfo.address;
 	ack.payload.A = f.payload.A;
 	ack.payload.len = FRAME_HEADER_SIZE;
+	ack.payload.mesg_seq_no = f.payload.mesg_seq_no;
 	ack.checksum = 0;
 	ack.checksum = CNET_ccitt((unsigned char *)&ack, (int)FRAME_HEADER_SIZE);
 	int link = find_link(f.payload.source);
@@ -82,10 +73,6 @@ void schedule_and_send(int link){
 MSG *next;
 
 void network_send(){
-	if(queue_nitems(msg_queue) == 0){
-		CNET_start_timer(EV_TIMER0, 100000, 0);
-		return; // do nothing
-	}
 	//Fragment each message into a small unit and send along the link designated by the routing table
 	size_t len = 0;
 	next = queue_peek(msg_queue, &len);
@@ -95,6 +82,7 @@ void network_send(){
 	//printf("Link to send is : %d\n", currLink);	
 	if(queue_nitems(links[currLink].sender) > 0){
 		//free(next);
+		printf("Some items in SENDER queue!\n");
 		CNET_start_timer(EV_TIMER0, 100000, 0);
 		return; // do nothing
 	}
@@ -102,16 +90,16 @@ void network_send(){
 	next = queue_remove(msg_queue, &len);
 	//node_buffer[find_nodenumber(dest)].mesg_seq_no_to_send++;	
 	int mesg_seq_no = ++node_buffer[find_nodenumber(dest)].mesg_seq_no_to_send;
-	printf("Message is to be processed! To be sent to %d from %d and size %d and message number is %d\n", dest, nodeinfo.address, len, mesg_seq_no);
+	//printf("Message is to be processed! To be sent to %d from %d and size %d and message number is %d\n", dest, nodeinfo.address, len, mesg_seq_no);
 	//printf("Creating frames for message #%d\n", mesg_seq_no);	
 	int int_len = len - sizeof(CnetAddr);	
 	char *data_ptr;
 	data_ptr = &next->data[0];
 	//printf("Message is to be processed! To be sent to %d from %d and size %d and message is %s.\n", dest, nodeinfo.address, len, data);
 	//Enable application is message queue grows too small
-	if(queue_nitems(msg_queue) == MAX_MSG_QUEUE_SIZE/2){
+	if(queue_nitems(msg_queue) < MAX_MSG_QUEUE_SIZE/2){
 		application_enabled = true;
-		CNET_enable_application(nodeinfo.address);
+		CNET_enable_application(ALLNODES);
 	}
 	
 	size_t frame_len = table[find_nodenumber(dest)].min_mtu - FRAME_HEADER_SIZE;
@@ -139,7 +127,6 @@ void network_send(){
 		int_len = int_len - frame_len;
 		data_ptr = data_ptr + frame_len;
 	}
-	//free(next);	
 	for(int i = 0; i < seqno; i++)
 		links[currLink].ack_received[i] = false;		
 	schedule_and_send(currLink);
@@ -188,7 +175,7 @@ void process_frames(int link){
 			hashtable_free(node_buffer[source_nodenumber].ooo_packets);
 			// Overriding default bucket size of 1023
 			node_buffer[source_nodenumber].ooo_packets = hashtable_new(256);
-			printf("\t\t\t\t\t\t\tBytes in the reconstructed message are %d.\n", node_buffer[source_nodenumber].bytes_added);
+			printf("Bytes in the reconstructed messagei#%d are %d.\n", node_buffer[source_nodenumber].mesg_seq_no_to_receive-1, node_buffer[source_nodenumber].bytes_added);
 			node_buffer[source_nodenumber].bytes_added = 0; 		
 		}
 	} else {
@@ -205,7 +192,7 @@ void process_frames(int link){
 
 void handle_data(int link, FRAME f, size_t len){
 	// If packet is sent to this node, accept it, reconstruct the whole message and send it to the application layer
-		printf("\t\t\t\t\t\t\thandle data called\n");
+		//printf("handle data called for message #%d\n", f.payload.mesg_seq_no);
 	if(f.payload.dest == nodeinfo.address){
 		create_ack(f);
 		queue_add(links[link].receiver, &f, len);

@@ -25,7 +25,7 @@ host SB {
 host HOM {
 	x = 68544, y = 35424
 	address = 96
-	messagerate = 500ms
+	messagerate = 1ms
 	
 	wan to SB {
 		bandwidth = 1Mbps
