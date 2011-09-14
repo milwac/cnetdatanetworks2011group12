@@ -32,8 +32,11 @@ void cleanup_and_start_app(){
 		memset(node_buffer[i].incomplete_data, '\0', MAX_MESSAGE_SIZE);
 		// Overriding default bucket size of 1023
 		node_buffer[i].ooo_packets = hashtable_new(256);
-		node_buffer[i].bytes_added = 0; 		
+		node_buffer[i].bytes_added = 0;
+		node_buffer[i].mesg_seq_no_to_receive = 0;
+		node_buffer[i].mesg_seq_no_to_send = -1;		
 	} 
+	application_enabled = true;
 	CNET_enable_application(ALLNODES);
 	printf("Routing successfully completed! Application started!!\n");
 }

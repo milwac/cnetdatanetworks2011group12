@@ -12,68 +12,97 @@ void getcurrtime(long long *ts){
 	*ts = tim.tv_sec * 1000000 + tim.tv_usec;
 }
 void send_frames(int link){
-	printf("Send frames called for link : %d\n", link);
-	size_t len = sizeof(FRAME);
+	//printf("Send frames called for link : %d\n", link);
+	size_t len = 0;
 	CnetTime timeout;
 	FRAME *f = queue_remove(links[link].sender, &len);
+	timeout = (len*((CnetTime)8000000)/linkinfo[link].bandwidth + linkinfo[link].propagationdelay);
 	switch(f->payload.kind){
 	case DL_DATA :
 		if(!links[link].ack_received[f->payload.A]) {
 			CHECK(CNET_write_physical(link, (char*)f, &len));
-			timeout = (len*((CnetTime)8000000)/linkinfo[link].bandwidth + linkinfo[link].propagationdelay);
-			start_timer(link, timeout);
 			queue_add(links[link].sender, f, len);
 		}
-		else {
-			if(queue_nitems(links[link].sender) > 0)
-				send_frames(link);
+		/*
+		if((queue_nitems(links[link].sender) == 0) && !application_enabled){
+			printf("To call NS here ----------------------------------------\n");
+			network_send();
 		}
+		*/
+		/*
+		else {
+			start_timer(link, timeout);
+		}
+		*/
 		break;
 	case DL_ACK :
+	//printf("ACK packet sending on link : %d\n", link);
 		CHECK(CNET_write_physical(link, (char*)f, &len));
-                timeout = (len*((CnetTime)8000000)/linkinfo[link].bandwidth + linkinfo[link].propagationdelay);
-                start_timer(link, timeout);
 		break;
 	case RT_DATA:
 	//printf("RT packet sending on link : %d\n", link);
 		CHECK(CNET_write_physical(link, (char*)f, &len));
-                timeout = (len*((CnetTime)8000000)/linkinfo[link].bandwidth + linkinfo[link].propagationdelay);
-                start_timer(link, timeout);
+		break;
+	default :
 		break;
 	}
 	free(f);
+        start_timer(link, timeout);
 }
 
 void forward_frames(int link){
 	size_t len = sizeof(FRAME);
 	FRAME *f = queue_remove(links[link].forwarding_queue, &len);
 	CHECK(CNET_write_physical(link, (char*)f, &len));
-        CnetTime timeout = (len*((CnetTime)8000000)/linkinfo[link].bandwidth + linkinfo[link].propagationdelay);
+        CnetTime timeout = (len*((CnetTime)8000000))/linkinfo[link].bandwidth + linkinfo[link].propagationdelay;
         start_timer(link, timeout);	
 	free(f);
 }
 
-static void push_message(MSG msg, size_t msgLength){
+void send_acks(int link){
+	size_t len = sizeof(FRAME);
+	FRAME *f = queue_remove(links[link].ack_sender, &len);
+	CHECK(CNET_write_physical(link, (char*)f, &len));
+        CnetTime timeout = (len*((CnetTime)8000000))/linkinfo[link].bandwidth + linkinfo[link].propagationdelay;
+        start_timer(link, timeout);	
+	free(f);
+}
+
+static bool message_timer_kick = false;
+
+void push_message(MSG msg, size_t msgLength){
 	if(queue_nitems(msg_queue) < MAX_MSG_QUEUE_SIZE){
-		//printf("Pushing a message for %d with length %d\n", msg.dest, msgLength);
+		//printf("Pushing a message for %d with length %d and contents %s.\n", msg.dest, msgLength, msg.data);
 		queue_add(msg_queue, &msg, msgLength);
 	}
 	if(queue_nitems(msg_queue) == MAX_MSG_QUEUE_SIZE){
-		CNET_disable_application(nodeinfo.address);
+		application_enabled = false;
+		CNET_disable_application(ALLNODES);
 	}
-	network_send();
+	if(!message_timer_kick){
+	printf("Calling network send for the only time!\n");
+		message_timer_kick = true;
+		CNET_start_timer(EV_TIMER0, 100, 0);
+	}
+	//network_send();
 }
 static EVENT_HANDLER(application_ready){
 	MSG msg;
-	size_t msgLength = MAX_MESSAGE_SIZE;
+	size_t msgLength = sizeof(MSG);
 	CHECK(CNET_read_application(&msg.dest, &msg.data, &msgLength));
-	//printf("Message read from application layer %s, destined for address %d\n", msg.data, msg.dest);
+	//----
+		//char str[] = "Thequickbrownfoxjumpsoverthelazydog";
+		//memcpy(&msg.data, &str, strlen(str));
+		//msgLength = strlen(str);
+	//----
+	printf("Message read from application layer %s, destined for address %d\n", msg.data, msg.dest);
 	push_message(msg, msgLength + sizeof(CnetAddr));
 }
 
 
 static EVENT_HANDLER(timeout0){
-	
+	printf("Timer 0 ended! --- Calling network send!\n");
+	network_send();	
 	//links[1].timeout_occurred = true;
 	//pop_and_transmit(1);
 }
@@ -112,12 +141,11 @@ static EVENT_HANDLER(timeout9){
 //called when sender's physical layer is ready to receive
 
 static EVENT_HANDLER(physical_ready){
-	//printf("PR called!\n");
 	int link;
 	FRAME f;
 	size_t length = sizeof(FRAME);
 	CHECK(CNET_read_physical(&link, (char*)&f, &length));
-	printf("Packet received from %d, via %d\n", f.payload.source, f.payload.dest);
+	//printf("Packet received from %d, via %d Type is %d\n", f.payload.source, f.payload.dest, f.payload.kind);
 	//DATA LINK LAYER - check if checksum matches
 	int cs = f.checksum;
 	f.checksum = 0;
@@ -140,6 +168,7 @@ static EVENT_HANDLER(physical_ready){
 }
 void initialize(){
 	msg_queue = queue_new();
+	application_enabled = false;
 	for(int i=0; i<MAX_NODES; i++){
                	table[i].cost = LONG_MAX ;
                	table[i].dest = -1;
@@ -154,10 +183,11 @@ void initialize(){
 	for(int i=1; i<=numlinks; i++){
 		printf("Setting up queue for link %d\n", i);
 		links[i].sender = queue_new();
+		links[i].ack_sender = queue_new();
 		links[i].timeout_occurred = true;
 		links[i].forwarding_queue = queue_new();
 		links[i].receiver = queue_new();
-		memset(links[i].ack_received, false, MAX_NUMBER_FRAMES * sizeof(bool));
+		memset(links[i].ack_received, true, MAX_NUMBER_FRAMES * sizeof(bool));
 		links[i].packet_to_send = 0;
 	}
 	printf("Init done!\n");	
