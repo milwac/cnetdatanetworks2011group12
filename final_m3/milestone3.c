@@ -78,7 +78,7 @@ static EVENT_HANDLER(application_ready){
 	CHECK(CNET_read_application(&msg.dest, &msg.data, &msgLength));
 	msg.number = message_number;
 	message_number++;
-	printf("Message read from application layer destined for address %d and message number is %d\n", msg.dest, msg.number);
+	printf("Message read from application layer destined for address %d and message number is %d and size %d\n", msg.dest, msg.number, msgLength);
 	push_message(msg, msgLength + MESSAGE_HEADER_SIZE);
 }
 
@@ -124,7 +124,7 @@ static EVENT_HANDLER(physical_ready){
 	FRAME f;
 	size_t length = sizeof(FRAME);
 	CHECK(CNET_read_physical(&link, (char*)&f, &length));
-	//printf("Packet received from %d on link %d Type is %d\n", f.payload.source, link, f.payload.kind);
+	//printf("\t\t\t\t\t\t\t\tPacket received from %d on link %d Type is %d\n", f.payload.source, link, f.payload.kind);
 	//DATA LINK LAYER - check if checksum matches
 	int cs = f.checksum;
 	f.checksum = 0;
@@ -136,7 +136,9 @@ static EVENT_HANDLER(physical_ready){
 	switch(f.payload.kind){
 		case RT_DATA : 	update_table(link, f, length); 
 			   	break;
-		case DL_DATA :  handle_data(link, f, length); 
+		case DL_DATA :  
+				//printf("\t\t\t\t\t\t\t\tData Packet received from %d on link %d. Frame_Seq# = %d \n", f.payload.source, link,f.payload.A);
+				handle_data(link, f, length); 
 				break;
 		case DL_ACK  :  handle_ack(link, f); 
 				break;

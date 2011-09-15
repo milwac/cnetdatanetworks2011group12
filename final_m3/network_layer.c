@@ -130,7 +130,7 @@ void network_send(){
 		f.payload.dest = dest;
 		f.payload.mesg_seq_no = mesg_seq_no;
 		f.payload.len = (int_len < frame_len) ? int_len : frame_len;
-		f.payload.flag_offset = (int_len < frame_len) ? 1 : 0;
+		f.payload.flag_offset = (int_len <= frame_len) ? 1 : 0;
 		getcurrtime(&f.payload.timestamp);
 		f.payload.A = seqno;
 		memcpy(&f.payload.data[0], data_ptr, f.payload.len);
@@ -142,6 +142,7 @@ void network_send(){
 		int_len = int_len - frame_len;
 		data_ptr = data_ptr + frame_len;
 	}
+	printf("Created %d frames\n", seqno);
 	for(int i = 0; i < seqno; i++)
 		links[currLink].ack_received[i] = false;		
 	schedule_and_send(currLink);
@@ -156,16 +157,16 @@ void process_frames(int link){
 	int source_nodenumber = find_nodenumber(f->payload.source);
 	//printf("Received frames for message #%d Expecting %d\n", f->payload.mesg_seq_no, node_buffer[source_nodenumber].mesg_seq_no_to_receive);	
 	//If ack has not been received at the sender side and an old frame from an old message has been received
-	if(node_buffer[source_nodenumber].mesg_seq_no_to_receive != -1 && f->payload.mesg_seq_no <= node_buffer[source_nodenumber].mesg_seq_no_to_receive){
+	if(f->payload.mesg_seq_no <= node_buffer[source_nodenumber].mesg_seq_no_to_receive){
 		free(f);
 		return;
 	}
-	node_buffer[source_nodenumber].mesg_seq_no_to_receive = f->payload.mesg_seq_no;
 	int seq_no = f->payload.A;
 	char seq_str[5];
 	sprintf(seq_str, "%d", seq_no);
 	if(seq_no == node_buffer[source_nodenumber].next_seq_number_to_add){
 		// add to the incomplete data object
+		//printf("Frame appending %d\n",seq_no);
 		memcpy(&node_buffer[source_nodenumber].incomplete_data[0] + node_buffer[source_nodenumber].bytes_added, &f->payload.data[0], f->payload.len);
 		node_buffer[source_nodenumber].bytes_added += f->payload.len;
 		node_buffer[source_nodenumber].next_seq_number_to_add++;
@@ -177,6 +178,7 @@ void process_frames(int link){
 			PACKET *pkt = hashtable_find(node_buffer[source_nodenumber].ooo_packets, next_seq_str, &plen);
 			if(plen == 0)
 				break;
+			printf("In While loop:Next frame %d found in HT\n",next_seq);
 			pkt = hashtable_remove(node_buffer[source_nodenumber].ooo_packets, next_seq_str, &plen);
 			memcpy(&node_buffer[source_nodenumber].incomplete_data[0] + node_buffer[source_nodenumber].bytes_added, &pkt->data, pkt->len);
 			node_buffer[source_nodenumber].bytes_added += pkt->len;
@@ -190,9 +192,10 @@ void process_frames(int link){
 			hashtable_free(node_buffer[source_nodenumber].ooo_packets);
 			// Overriding default bucket size of 1023
 			node_buffer[source_nodenumber].ooo_packets = hashtable_new(256);
-			printf("Bytes in the reconstructed messagei#%d are %d sent by %d.\n", 
+			printf("\t\t\t\t\t\tBytes in the reconstructed messagei#%d are %d sent by %d.\n", 
 				node_buffer[source_nodenumber].mesg_seq_no_to_receive, node_buffer[source_nodenumber].bytes_added, source_nodenumber);
 			node_buffer[source_nodenumber].bytes_added = 0; 		
+			node_buffer[source_nodenumber].mesg_seq_no_to_receive = f->payload.mesg_seq_no;
 		}
 	} else {
 		if(hashtable_nitems(node_buffer[source_nodenumber].ooo_packets) > 0){

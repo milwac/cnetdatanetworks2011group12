@@ -10,10 +10,9 @@ messagerate = 1ms
 host SB {
 	x = 45388, y = 44424
 	address = 134
-	messagerate = 500ms
 	
 	wan to HOM { 
-		bandwidth = 1Mbps
+		bandwidth = 512Kbps
 		propagationdelay = 3450usecs
 	}
 	wan to SLS { 
@@ -27,7 +26,7 @@ host HOM {
 	address = 96
 
 	wan to SB { 
-		bandwidth = 1Mbps
+		bandwidth = 512Kbps
 		propagationdelay = 3450usecs
 	}
 }
