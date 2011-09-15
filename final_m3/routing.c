@@ -37,6 +37,11 @@ void cleanup_and_start_app(){
 	} 
 	application_enabled = true;
 	CNET_enable_application(ALLNODES);
+	for(int i=0; i<3; i++){
+		if(i != nodeinfo.nodenumber)
+		printf("Dest address : %d | Via address : %d | Link : %d | Cost : %ld | Min mtu : %d\n", 
+			table[i].dest, table[i].via_node, table[i].link, table[i].cost, table[i].min_mtu);
+	}
 	printf("Routing successfully completed! Application started!!\n");
 }
 
@@ -86,13 +91,6 @@ void update_table(int link, FRAME f, size_t length){
 				schedule_and_send(l);
 		}
 	}
-	/*
-	for(int i=0; i<3; i++){
-		if(i != nodeinfo.nodenumber)
-		printf("Dest address : %d | Via address : %d | Link : %d | Cost : %ld | Min mtu : %d\n", 
-			table[i].dest, table[i].via_node, table[i].link, table[i].cost, table[i].min_mtu);
-	}
-	*/
 }
 
 

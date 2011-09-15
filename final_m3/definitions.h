@@ -17,7 +17,7 @@
 #define FRAME_HEADER_SIZE (PACKET_HEADER_SIZE + sizeof(uint32_t))
 #define MAX_NUMBER_FRAMES 256
 #define MAX_NODES 50
-#define PRIORITY 2 // This is the ratio of SENDER packets to FORWARDING packets for the scheduler
+#define PRIORITY 1 // This is the ratio of SENDER packets to FORWARDING packets for the scheduler
 
 typedef enum {DL_DATA, DL_ACK, RT_DATA} FRAMEKIND;
 

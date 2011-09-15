@@ -12,10 +12,10 @@ void getcurrtime(long long *ts){
 	*ts = tim.tv_sec * 1000000 + tim.tv_usec;
 }
 void send_frames(int link){
-	//printf("Send frames called for link : %d\n", link);
 	size_t len = 0;
 	CnetTime timeout;
 	FRAME *f = queue_remove(links[link].sender, &len);
+	//printf("Send frames called for link %d with kind %d\n", link, f->payload.kind);
 	timeout = (len*((CnetTime)8000000)/linkinfo[link].bandwidth + linkinfo[link].propagationdelay);
 	switch(f->payload.kind){
 	case DL_DATA :
@@ -40,7 +40,7 @@ void send_frames(int link){
 }
 
 void forward_frames(int link){
-	size_t len = sizeof(FRAME);
+	size_t len = 0;
 	FRAME *f = queue_remove(links[link].forwarding_queue, &len);
 	CHECK(CNET_write_physical(link, (char*)f, &len));
         CnetTime timeout = (len*((CnetTime)8000000))/linkinfo[link].bandwidth + linkinfo[link].propagationdelay;
@@ -61,10 +61,7 @@ static bool message_timer_kick = false;
 static int message_number = 0;
 
 void push_message(MSG msg, size_t msgLength){
-	if(queue_nitems(msg_queue) < MAX_MSG_QUEUE_SIZE){
-		//printf("Pushing a message for %d with length %d and contents %s.\n", msg.dest, msgLength, msg.data);
-		queue_add(msg_queue, &msg, msgLength);
-	}
+	queue_add(msg_queue, &msg, msgLength);
 	if(queue_nitems(msg_queue) == MAX_MSG_QUEUE_SIZE){
 		CNET_disable_application(ALLNODES);
 		application_enabled = false;
@@ -81,7 +78,7 @@ static EVENT_HANDLER(application_ready){
 	CHECK(CNET_read_application(&msg.dest, &msg.data, &msgLength));
 	msg.number = message_number;
 	message_number++;
-	//printf("Message read from application layer %s, destined for address %d\n", msg.data, msg.dest);
+	printf("Message read from application layer destined for address %d and message number is %d\n", msg.dest, msg.number);
 	push_message(msg, msgLength + MESSAGE_HEADER_SIZE);
 }
 
@@ -127,7 +124,7 @@ static EVENT_HANDLER(physical_ready){
 	FRAME f;
 	size_t length = sizeof(FRAME);
 	CHECK(CNET_read_physical(&link, (char*)&f, &length));
-	//printf("Packet received from %d, via %d Type is %d\n", f.payload.source, f.payload.dest, f.payload.kind);
+	//printf("Packet received from %d on link %d Type is %d\n", f.payload.source, link, f.payload.kind);
 	//DATA LINK LAYER - check if checksum matches
 	int cs = f.checksum;
 	f.checksum = 0;

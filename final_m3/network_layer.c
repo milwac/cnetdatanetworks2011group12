@@ -44,6 +44,7 @@ void schedule_and_send(int link){
 	if(links[link].timeout_occurred == false)
 		return;
 
+	printf("QUEUE SIZES for link %d: %d(a) %d(s) %d(f)\n", link, queue_nitems(links[link].ack_sender), queue_nitems(links[link].sender), queue_nitems(links[link].forwarding_queue));
 	//Send ack if it is there -- TOP PRIORITY
 	if(queue_nitems(links[link].ack_sender) > 0){
 		send_acks(link);
@@ -61,13 +62,15 @@ void schedule_and_send(int link){
 		return;
 	}
 	else {
-		if(links[link].packet_to_send == PRIORITY)
+		links[link].packet_to_send = (links[link].packet_to_send + 1) % (PRIORITY + 1);
+		//printf("packet to send is ----------------------------------------- %d\n", links[link].packet_to_send);
+		//if(links[link].packet_to_send == PRIORITY)
+		if(queue_nitems(links[link].forwarding_queue) > queue_nitems(links[link].sender))
 		//send forwarding
 			forward_frames(link);
 		else
 		//send normal
 			send_frames(link);
-		links[link].packet_to_send = (links[link].packet_to_send + 1) % (PRIORITY + 1);
 	}
 }
 
@@ -83,7 +86,7 @@ void network_send(){
 	//printf("Link to send is : %d\n", currLink);	
 	if(queue_nitems(links[currLink].sender) > 0){
 		//free(next);
-		printf("Some items in SENDER queue!\n");
+		//printf("Some items in SENDER queue!\n");
 		CNET_start_timer(EV_TIMER0, 100000, 0);
 		return; // do nothing
 	}
@@ -171,13 +174,13 @@ void process_frames(int link){
 		// check for the last packet
 		if(f->payload.flag_offset == 1) {
 			CHECK(CNET_write_application((char*)&node_buffer[source_nodenumber].incomplete_data[0], &node_buffer[source_nodenumber].bytes_added));
-			//node_buffer[source_nodenumber].mesg_seq_no_to_receive = -1;
 			node_buffer[source_nodenumber].next_seq_number_to_add = 0;
 			memset(node_buffer[source_nodenumber].incomplete_data, '\0', MAX_MESSAGE_SIZE);
 			hashtable_free(node_buffer[source_nodenumber].ooo_packets);
 			// Overriding default bucket size of 1023
 			node_buffer[source_nodenumber].ooo_packets = hashtable_new(256);
-			printf("Bytes in the reconstructed messagei#%d are %d.\n", node_buffer[source_nodenumber].mesg_seq_no_to_receive-1, node_buffer[source_nodenumber].bytes_added);
+			printf("Bytes in the reconstructed messagei#%d are %d sent by %d.\n", 
+				node_buffer[source_nodenumber].mesg_seq_no_to_receive, node_buffer[source_nodenumber].bytes_added, source_nodenumber);
 			node_buffer[source_nodenumber].bytes_added = 0; 		
 		}
 	} else {
@@ -202,9 +205,15 @@ void handle_data(int link, FRAME f, size_t len){
 	}
 	// Else forward it according to the routing information that we have, this node will act as a router
 	else{
-		queue_add(links[link].forwarding_queue, &f, len);
+		int forwarding_link = find_link(f.payload.dest);
+		f.checksum = 0;
+		f.checksum = CNET_ccitt((unsigned char *)&f, (int)(f.payload.len) + FRAME_HEADER_SIZE);
+		if(f.payload.kind == DL_ACK)
+			queue_add(links[forwarding_link].ack_sender, &f, len);	
+		else
+			queue_add(links[forwarding_link].forwarding_queue, &f, len);
 		//will have to schedule with sender queue
-		schedule_and_send(link);
+		schedule_and_send(forwarding_link);
 	}
 }
 
