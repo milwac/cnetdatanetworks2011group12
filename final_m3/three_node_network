@@ -10,6 +10,7 @@ messagerate = 1ms
 host SB {
 	x = 45388, y = 44424
 	address = 134
+	messagerate = 500ms
 	
 	wan to HOM { 
 		bandwidth = 1Mbps

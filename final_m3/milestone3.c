@@ -138,7 +138,7 @@ static EVENT_HANDLER(physical_ready){
 			   	break;
 		case DL_DATA :  handle_data(link, f, length); 
 				break;
-		case DL_ACK  :  handle_ack(link, f.payload); 
+		case DL_ACK  :  handle_ack(link, f); 
 				break;
 		default      :  printf("The world is not enough!\n"); 
 				break;

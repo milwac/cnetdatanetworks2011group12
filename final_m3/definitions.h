@@ -112,7 +112,7 @@ NODE_BUFFER node_buffer[MAX_NODES];
 extern void update_table(int, FRAME, size_t);
 extern void setup_routing_table(void);
 extern void handle_data(int, FRAME, size_t);
-extern void handle_ack(int, PACKET);
+extern void handle_ack(int, FRAME);
 extern void network_send(void);
 extern void schedule_and_send(int);
 extern void start_timer(int, CnetTime);

@@ -3,12 +3,6 @@
 */
 
 #include "definitions.h"
-
-void handle_ack(int link, PACKET p){
-	//printf("handle ack called for mesg #%d\n", p.mesg_seq_no);
-	if(p.mesg_seq_no == links[link].msg_in_sender_Q)
-		links[link].ack_received[p.A] = true;
-}
 // Finds the link connecting to a neighbouring node, via whom the message is to be sent 
 // NO HASH TABLE IMPLEMENTATION CURRENTLY!
 int find_link(CnetAddr dest){
@@ -25,6 +19,19 @@ int find_nodenumber(CnetAddr dest){
 	}
 	return -1;
 }
+void handle_ack(int link, FRAME f){
+	//printf("handle ack called for mesg #%d\n", p.mesg_seq_no);
+	if(f.payload.dest == nodeinfo.address && f.payload.mesg_seq_no == links[link].msg_in_sender_Q)
+		links[link].ack_received[f.payload.A] = true;
+	if(f.payload.dest != nodeinfo.address){
+		int forwarding_link = find_link(f.payload.dest);
+		f.checksum = 0;
+		f.checksum = CNET_ccitt((unsigned char *)&f, FRAME_HEADER_SIZE);
+		queue_add(links[forwarding_link].ack_sender, &f, FRAME_HEADER_SIZE);
+		schedule_and_send(forwarding_link);
+	}
+}
+
 void create_ack(FRAME f){
 	FRAME ack;
 	ack.payload.kind = DL_ACK;
@@ -44,7 +51,7 @@ void schedule_and_send(int link){
 	if(links[link].timeout_occurred == false)
 		return;
 
-	printf("QUEUE SIZES for link %d: %d(a) %d(s) %d(f)\n", link, queue_nitems(links[link].ack_sender), queue_nitems(links[link].sender), queue_nitems(links[link].forwarding_queue));
+	//printf("QUEUE SIZES for link %d: %d(a) %d(s) %d(f)\n", link, queue_nitems(links[link].ack_sender), queue_nitems(links[link].sender), queue_nitems(links[link].forwarding_queue));
 	//Send ack if it is there -- TOP PRIORITY
 	if(queue_nitems(links[link].ack_sender) > 0){
 		send_acks(link);
@@ -77,6 +84,10 @@ void schedule_and_send(int link){
 MSG *next;
 
 void network_send(){
+	if(queue_nitems(msg_queue) == 0){
+		CNET_start_timer(EV_TIMER0, 100000, 0);
+                return; // do nothing	
+	}
 	//Fragment each message into a small unit and send along the link designated by the routing table
 	size_t len = 0;
 	next = queue_peek(msg_queue, &len);
@@ -205,13 +216,11 @@ void handle_data(int link, FRAME f, size_t len){
 	}
 	// Else forward it according to the routing information that we have, this node will act as a router
 	else{
+		//printf("Processing forward to %d from %d via %d\n", f.payload.dest, f.payload.source, nodeinfo.address);
 		int forwarding_link = find_link(f.payload.dest);
 		f.checksum = 0;
 		f.checksum = CNET_ccitt((unsigned char *)&f, (int)(f.payload.len) + FRAME_HEADER_SIZE);
-		if(f.payload.kind == DL_ACK)
-			queue_add(links[forwarding_link].ack_sender, &f, len);	
-		else
-			queue_add(links[forwarding_link].forwarding_queue, &f, len);
+		queue_add(links[forwarding_link].forwarding_queue, &f, len);
 		//will have to schedule with sender queue
 		schedule_and_send(forwarding_link);
 	}
