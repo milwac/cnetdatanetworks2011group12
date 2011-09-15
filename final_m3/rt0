@@ -1,0 +1,57 @@
+Setting up node 0(addr : 134)
+Setting up queue for link 1
+Setting up queue for link 2
+Setting up queue for link 3
+Setting up queue for link 4
+Setting up queue for link 5
+Setting up queue for link 6
+Setting up queue for link 7
+Init done!
+Dest address : 96 | Via address : 96 | Link : 1 | Cost : 1153 | Min mtu : 96
+Dest address : 182 | Via address : 182 | Link : 2 | Cost : 842 | Min mtu : 16384
+Dest address : 185 | Via address : 185 | Link : 3 | Cost : 494 | Min mtu : 16384
+Dest address : 140 | Via address : 140 | Link : 4 | Cost : 526 | Min mtu : 8192
+Dest address : 135 | Via address : 135 | Link : 5 | Cost : 436 | Min mtu : 8192
+Dest address : 21 | Via address : 21 | Link : 6 | Cost : 421 | Min mtu : 8192
+Dest address : 22 | Via address : 22 | Link : 7 | Cost : 708 | Min mtu : 8192
+Dest address : 170 | Via address : 185 | Link : 3 | Cost : 783 | Min mtu : 16384
+Dest address : 132 | Via address : 185 | Link : 3 | Cost : 1027 | Min mtu : 16384
+Dest address : 12 | Via address : 96 | Link : 1 | Cost : 1884 | Min mtu : 96
+Dest address : 11 | Via address : 96 | Link : 1 | Cost : 2514 | Min mtu : 96
+Dest address : 160 | Via address : 135 | Link : 5 | Cost : 2443 | Min mtu : 8192
+Dest address : 136 | Via address : 135 | Link : 5 | Cost : 587 | Min mtu : 8192
+Dest address : 152 | Via address : 135 | Link : 5 | Cost : 3240 | Min mtu : 8192
+Dest address : 137 | Via address : 135 | Link : 5 | Cost : 1772 | Min mtu : 8192
+Dest address : 159 | Via address : 135 | Link : 5 | Cost : 3492 | Min mtu : 8192
+Dest address : 183 | Via address : 182 | Link : 2 | Cost : 1644 | Min mtu : 16384
+Dest address : 144 | Via address : 140 | Link : 4 | Cost : 790 | Min mtu : 8192
+Dest address : 190 | Via address : 182 | Link : 2 | Cost : 2137 | Min mtu : 16384
+Dest address : 184 | Via address : 182 | Link : 2 | Cost : 5927 | Min mtu : 16384
+Dest address : 147 | Via address : 182 | Link : 2 | Cost : 3563 | Min mtu : 16384
+Dest address : 195 | Via address : 140 | Link : 4 | Cost : 6737 | Min mtu : 8192
+Dest address : 204 | Via address : 140 | Link : 4 | Cost : 8197 | Min mtu : 8192
+Dest address : 167 | Via address : 135 | Link : 5 | Cost : 9175 | Min mtu : 8192
+Dest address : 141 | Via address : 140 | Link : 4 | Cost : 1071 | Min mtu : 8192
+Dest address : 143 | Via address : 140 | Link : 4 | Cost : 2746 | Min mtu : 8192
+Dest address : 142 | Via address : 140 | Link : 4 | Cost : 4349 | Min mtu : 8192
+Dest address : 145 | Via address : 140 | Link : 4 | Cost : 2125 | Min mtu : 8192
+Dest address : 148 | Via address : 135 | Link : 5 | Cost : 2247 | Min mtu : 8192
+Dest address : 151 | Via address : 135 | Link : 5 | Cost : 1513 | Min mtu : 8192
+Dest address : 163 | Via address : 135 | Link : 5 | Cost : 3706 | Min mtu : 8192
+Dest address : 191 | Via address : 140 | Link : 4 | Cost : 7747 | Min mtu : 8192
+Dest address : 193 | Via address : 182 | Link : 2 | Cost : 4078 | Min mtu : 16384
+Dest address : 192 | Via address : 140 | Link : 4 | Cost : 8932 | Min mtu : 8192
+Dest address : 194 | Via address : 182 | Link : 2 | Cost : 5493 | Min mtu : 16384
+Dest address : 161 | Via address : 135 | Link : 5 | Cost : 4316 | Min mtu : 8192
+Dest address : 203 | Via address : 140 | Link : 4 | Cost : 9392 | Min mtu : 8192
+Dest address : 202 | Via address : 140 | Link : 4 | Cost : 10048 | Min mtu : 8192
+Dest address : 15 | Via address : 140 | Link : 4 | Cost : 10357 | Min mtu : 8192
+Dest address : 201 | Via address : 140 | Link : 4 | Cost : 10520 | Min mtu : 8192
+Dest address : 162 | Via address : 135 | Link : 5 | Cost : 7326 | Min mtu : 8192
+Dest address : 165 | Via address : 135 | Link : 5 | Cost : 8491 | Min mtu : 8192
+Dest address : 168 | Via address : 135 | Link : 5 | Cost : 7976 | Min mtu : 8192
+Dest address : 164 | Via address : 135 | Link : 5 | Cost : 6646 | Min mtu : 8192
+Dest address : 169 | Via address : 185 | Link : 3 | Cost : 6632 | Min mtu : 16384
+Dest address : 158 | Via address : 135 | Link : 5 | Cost : 7523 | Min mtu : 8192
+Dest address : 131 | Via address : 22 | Link : 7 | Cost : 988 | Min mtu : 8192
+Routing successfully completed! Application started!!

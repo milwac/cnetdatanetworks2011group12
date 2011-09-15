@@ -1,7 +1,7 @@
 // Your Saarland network is finally hooked up to the
 // rest of the Internet...
 
-compile = "milestone3.c"
+compile = "milestone3.c network_layer.c routing.c"
 
 #include "saarland.map"
 #include "linktypes.txt"

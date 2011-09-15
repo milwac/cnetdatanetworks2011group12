@@ -37,7 +37,7 @@ void cleanup_and_start_app(){
 	} 
 	application_enabled = true;
 	CNET_enable_application(ALLNODES);
-	for(int i=0; i<3; i++){
+	for(int i=0; i<=nodes_discovered(); i++){
 		if(i != nodeinfo.nodenumber)
 		printf("Dest address : %d | Via address : %d | Link : %d | Cost : %ld | Min mtu : %d\n", 
 			table[i].dest, table[i].via_node, table[i].link, table[i].cost, table[i].min_mtu);
@@ -63,7 +63,7 @@ void update_table(int link, FRAME f, size_t length){
 		table[f.payload.A].nodenum_via = f.payload.B;
 		table[f.payload.A].cost = curr_cost;
 		table[f.payload.A].link = link;
-		table[f.payload.A].min_mtu = min(table[f.payload.A].min_mtu, linkinfo[link].mtu);
+		table[f.payload.A].min_mtu = min(table[f.payload.A].min_mtu, f.payload.flag_offset);
 		to_send = true; 	
 	}
 	else {
@@ -76,16 +76,17 @@ void update_table(int link, FRAME f, size_t length){
 			table[f.payload.A].via_node = f.payload.dest;
 			table[f.payload.A].nodenum_via = f.payload.B; 
 			table[f.payload.A].link = link;
-			table[f.payload.A].min_mtu = min(table[f.payload.A].min_mtu, linkinfo[link].mtu);
+			table[f.payload.A].min_mtu = min(table[f.payload.A].min_mtu, f.payload.flag_offset);
 			to_send = true;
 		}
 	}
 	if(to_send){
 		f.payload.B = nodeinfo.nodenumber;
 		f.payload.dest = nodeinfo.address;
-		f.checksum = 0;
-		f.checksum = CNET_ccitt((unsigned char *)&f, (int)length);
 		for(int l = 1; l <= nodeinfo.nlinks; l++){
+			f.payload.flag_offset = min(linkinfo[l].mtu, table[f.payload.A].min_mtu);
+			f.checksum = 0;
+			f.checksum = CNET_ccitt((unsigned char *)&f, (int)length);
 			queue_add(links[l].sender, &f, length);
 			if(links[l].timeout_occurred)
 				schedule_and_send(l);
@@ -122,10 +123,10 @@ void setup_routing_table(){
 	f.payload.A = f.payload.B = nodeinfo.nodenumber;
 	getcurrtime(&f.payload.timestamp);
 	size_t length = FRAME_HEADER_SIZE;
-	f.checksum = 0;
-	f.checksum = CNET_ccitt((unsigned char *)&f, (int)length);
 	for(int link = 1; link <= nodeinfo.nlinks; link++){
-		//CHECK(CNET_write_physical_reliable(link, &f, &length));
+		f.payload.flag_offset = linkinfo[link].mtu;
+		f.checksum = 0;
+		f.checksum = CNET_ccitt((unsigned char *)&f, (int)length);
 		queue_add(links[link].sender, &f, (int)length);
 		if(rt_packets_sent == 0){
 			CnetTime timeout = (length*((CnetTime)8000000))/linkinfo[link].bandwidth + linkinfo[link].propagationdelay;

@@ -67,6 +67,8 @@ int A; // order of frames in original message
 // In case of DL packet, B = offset
 // In case of RT packet, B = via node number
 int B; // offset of frame in original message, useful when the frame needs to broken down further
+// In case of DL packet, flag_offset = offset
+// In case of RT packet, flag_offset = minimum mtu size
 int flag_offset; // true when this is the last frame of the message
 CnetAddr source;
 // dest/via node number

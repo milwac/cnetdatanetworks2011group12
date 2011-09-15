@@ -1,0 +1,51 @@
+Setting up node 40(addr : 201)
+Setting up queue for link 1
+Init done!
+Dest address : 134 | Via address : 202 | Link : 1 | Cost : 9072 | Min mtu : 16384
+Dest address : 96 | Via address : 202 | Link : 1 | Cost : 10950 | Min mtu : 16384
+Dest address : 182 | Via address : 202 | Link : 1 | Cost : 5054 | Min mtu : 16384
+Dest address : 185 | Via address : 202 | Link : 1 | Cost : 10268 | Min mtu : 16384
+Dest address : 140 | Via address : 202 | Link : 1 | Cost : 7952 | Min mtu : 16384
+Dest address : 135 | Via address : 202 | Link : 1 | Cost : 10158 | Min mtu : 16384
+Dest address : 21 | Via address : 202 | Link : 1 | Cost : 9860 | Min mtu : 16384
+Dest address : 22 | Via address : 202 | Link : 1 | Cost : 10566 | Min mtu : 16384
+Dest address : 170 | Via address : 202 | Link : 1 | Cost : 10674 | Min mtu : 16384
+Dest address : 132 | Via address : 202 | Link : 1 | Cost : 10830 | Min mtu : 16384
+Dest address : 12 | Via address : 202 | Link : 1 | Cost : 11145 | Min mtu : 16384
+Dest address : 11 | Via address : 202 | Link : 1 | Cost : 11191 | Min mtu : 16384
+Dest address : 160 | Via address : 202 | Link : 1 | Cost : 10722 | Min mtu : 16384
+Dest address : 136 | Via address : 202 | Link : 1 | Cost : 10416 | Min mtu : 16384
+Dest address : 152 | Via address : 202 | Link : 1 | Cost : 10023 | Min mtu : 16384
+Dest address : 137 | Via address : 202 | Link : 1 | Cost : 11100 | Min mtu : 16384
+Dest address : 159 | Via address : 202 | Link : 1 | Cost : 11150 | Min mtu : 16384
+Dest address : 183 | Via address : 202 | Link : 1 | Cost : 3954 | Min mtu : 16384
+Dest address : 144 | Via address : 202 | Link : 1 | Cost : 6307 | Min mtu : 16384
+Dest address : 190 | Via address : 202 | Link : 1 | Cost : 5315 | Min mtu : 16384
+Dest address : 184 | Via address : 202 | Link : 1 | Cost : 1874 | Min mtu : 16384
+Dest address : 147 | Via address : 202 | Link : 1 | Cost : 5994 | Min mtu : 16384
+Dest address : 195 | Via address : 202 | Link : 1 | Cost : 2514 | Min mtu : 16384
+Dest address : 204 | Via address : 202 | Link : 1 | Cost : 1161 | Min mtu : 16384
+Dest address : 167 | Via address : 202 | Link : 1 | Cost : 2848 | Min mtu : 16384
+Dest address : 141 | Via address : 202 | Link : 1 | Cost : 8141 | Min mtu : 16384
+Dest address : 143 | Via address : 202 | Link : 1 | Cost : 8971 | Min mtu : 16384
+Dest address : 142 | Via address : 202 | Link : 1 | Cost : 9679 | Min mtu : 16384
+Dest address : 145 | Via address : 202 | Link : 1 | Cost : 9474 | Min mtu : 16384
+Dest address : 148 | Via address : 202 | Link : 1 | Cost : 7344 | Min mtu : 16384
+Dest address : 151 | Via address : 202 | Link : 1 | Cost : 9307 | Min mtu : 16384
+Dest address : 163 | Via address : 202 | Link : 1 | Cost : 6698 | Min mtu : 16384
+Dest address : 191 | Via address : 202 | Link : 1 | Cost : 6961 | Min mtu : 16384
+Dest address : 193 | Via address : 202 | Link : 1 | Cost : 4271 | Min mtu : 16384
+Dest address : 192 | Via address : 202 | Link : 1 | Cost : 8451 | Min mtu : 16384
+Dest address : 194 | Via address : 202 | Link : 1 | Cost : 3325 | Min mtu : 16384
+Dest address : 161 | Via address : 202 | Link : 1 | Cost : 8692 | Min mtu : 16384
+Dest address : 203 | Via address : 202 | Link : 1 | Cost : 893 | Min mtu : 16384
+Dest address : 202 | Via address : 202 | Link : 1 | Cost : 552 | Min mtu : 16384
+Dest address : 15 | Via address : 202 | Link : 1 | Cost : 2210 | Min mtu : 16384
+Dest address : 162 | Via address : 202 | Link : 1 | Cost : 5649 | Min mtu : 16384
+Dest address : 165 | Via address : 202 | Link : 1 | Cost : 3606 | Min mtu : 16384
+Dest address : 168 | Via address : 202 | Link : 1 | Cost : 7582 | Min mtu : 16384
+Dest address : 164 | Via address : 202 | Link : 1 | Cost : 4629 | Min mtu : 16384
+Dest address : 169 | Via address : 202 | Link : 1 | Cost : 10306 | Min mtu : 16384
+Dest address : 158 | Via address : 202 | Link : 1 | Cost : 11204 | Min mtu : 16384
+Dest address : 131 | Via address : 202 | Link : 1 | Cost : 10890 | Min mtu : 16384
+Routing successfully completed! Application started!!

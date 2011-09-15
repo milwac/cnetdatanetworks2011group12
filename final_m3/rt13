@@ -1,0 +1,52 @@
+Setting up node 13(addr : 136)
+Setting up queue for link 1
+Setting up queue for link 2
+Init done!
+Dest address : 134 | Via address : 135 | Link : 2 | Cost : 726 | Min mtu : 8192
+Dest address : 96 | Via address : 170 | Link : 1 | Cost : 661 | Min mtu : 8192
+Dest address : 182 | Via address : 170 | Link : 1 | Cost : 3987 | Min mtu : 8192
+Dest address : 185 | Via address : 170 | Link : 1 | Cost : 573 | Min mtu : 8192
+Dest address : 140 | Via address : 135 | Link : 2 | Cost : 2704 | Min mtu : 8192
+Dest address : 135 | Via address : 135 | Link : 2 | Cost : 413 | Min mtu : 8192
+Dest address : 21 | Via address : 135 | Link : 2 | Cost : 1240 | Min mtu : 8192
+Dest address : 22 | Via address : 170 | Link : 1 | Cost : 3606 | Min mtu : 8192
+Dest address : 170 | Via address : 170 | Link : 1 | Cost : 300 | Min mtu : 8192
+Dest address : 132 | Via address : 170 | Link : 1 | Cost : 1371 | Min mtu : 8192
+Dest address : 12 | Via address : 170 | Link : 1 | Cost : 1196 | Min mtu : 8192
+Dest address : 11 | Via address : 170 | Link : 1 | Cost : 1875 | Min mtu : 8192
+Dest address : 160 | Via address : 170 | Link : 1 | Cost : 884 | Min mtu : 8192
+Dest address : 152 | Via address : 170 | Link : 1 | Cost : 2079 | Min mtu : 8192
+Dest address : 137 | Via address : 135 | Link : 2 | Cost : 1658 | Min mtu : 8192
+Dest address : 159 | Via address : 170 | Link : 1 | Cost : 1555 | Min mtu : 8192
+Dest address : 183 | Via address : 170 | Link : 1 | Cost : 5637 | Min mtu : 8192
+Dest address : 144 | Via address : 170 | Link : 1 | Cost : 4110 | Min mtu : 8192
+Dest address : 190 | Via address : 170 | Link : 1 | Cost : 6507 | Min mtu : 8192
+Dest address : 184 | Via address : 135 | Link : 2 | Cost : 8327 | Min mtu : 8192
+Dest address : 147 | Via address : 135 | Link : 2 | Cost : 5811 | Min mtu : 8192
+Dest address : 195 | Via address : 135 | Link : 2 | Cost : 8476 | Min mtu : 8192
+Dest address : 204 | Via address : 135 | Link : 2 | Cost : 9166 | Min mtu : 8192
+Dest address : 167 | Via address : 170 | Link : 1 | Cost : 8711 | Min mtu : 8192
+Dest address : 141 | Via address : 170 | Link : 1 | Cost : 5026 | Min mtu : 8192
+Dest address : 143 | Via address : 135 | Link : 2 | Cost : 7316 | Min mtu : 8192
+Dest address : 142 | Via address : 135 | Link : 2 | Cost : 7912 | Min mtu : 8192
+Dest address : 145 | Via address : 135 | Link : 2 | Cost : 4760 | Min mtu : 8192
+Dest address : 148 | Via address : 135 | Link : 2 | Cost : 2081 | Min mtu : 8192
+Dest address : 151 | Via address : 135 | Link : 2 | Cost : 1423 | Min mtu : 8192
+Dest address : 163 | Via address : 135 | Link : 2 | Cost : 3462 | Min mtu : 8192
+Dest address : 191 | Via address : 135 | Link : 2 | Cost : 9011 | Min mtu : 8192
+Dest address : 193 | Via address : 135 | Link : 2 | Cost : 7650 | Min mtu : 8192
+Dest address : 192 | Via address : 135 | Link : 2 | Cost : 9441 | Min mtu : 8192
+Dest address : 194 | Via address : 135 | Link : 2 | Cost : 8213 | Min mtu : 8192
+Dest address : 161 | Via address : 170 | Link : 1 | Cost : 2661 | Min mtu : 8192
+Dest address : 203 | Via address : 135 | Link : 2 | Cost : 9697 | Min mtu : 8192
+Dest address : 202 | Via address : 135 | Link : 2 | Cost : 10210 | Min mtu : 8192
+Dest address : 15 | Via address : 135 | Link : 2 | Cost : 10474 | Min mtu : 8192
+Dest address : 201 | Via address : 135 | Link : 2 | Cost : 10665 | Min mtu : 8192
+Dest address : 162 | Via address : 170 | Link : 1 | Cost : 5354 | Min mtu : 8192
+Dest address : 165 | Via address : 170 | Link : 1 | Cost : 6643 | Min mtu : 8192
+Dest address : 168 | Via address : 170 | Link : 1 | Cost : 5932 | Min mtu : 8192
+Dest address : 164 | Via address : 135 | Link : 2 | Cost : 6235 | Min mtu : 8192
+Dest address : 169 | Via address : 170 | Link : 1 | Cost : 2994 | Min mtu : 8192
+Dest address : 158 | Via address : 170 | Link : 1 | Cost : 4544 | Min mtu : 8192
+Dest address : 131 | Via address : 170 | Link : 1 | Cost : 2807 | Min mtu : 8192
+Routing successfully completed! Application started!!

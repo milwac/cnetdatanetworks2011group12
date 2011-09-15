@@ -12,13 +12,13 @@ host SB {
 	address = 134
 	messagerate = 1ms
 	
-	wan to HOM { LINK_LOW_MTU(1, 3450) }
+	wan to HOM { LINK_STD(1, 3450) }
 }
 
 host HOM {
 	x = 68544, y = 35424
 	address = 96
-	messagerate = 500ms
+	messagerate = 1ms
 
-	wan to SB { LINK_LOW_MTU(1, 3450) }
+	wan to SB { LINK_STD(1, 3450) }
 }

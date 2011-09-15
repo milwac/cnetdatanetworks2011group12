@@ -30,7 +30,7 @@ void send_frames(int link){
 		break;
 	case RT_DATA:
 	//printf("RT packet sending on link : %d\n", link);
-		CHECK(CNET_write_physical(link, (char*)f, &len));
+		CHECK(CNET_write_physical_reliable(link, (char*)f, &len));
 		break;
 	default :
 		break;
@@ -40,7 +40,7 @@ void send_frames(int link){
 }
 
 void forward_frames(int link){
-	size_t len = 0;
+	size_t len ;
 	FRAME *f = queue_remove(links[link].forwarding_queue, &len);
 	CHECK(CNET_write_physical(link, (char*)f, &len));
         CnetTime timeout = (len*((CnetTime)8000000))/linkinfo[link].bandwidth + linkinfo[link].propagationdelay;
