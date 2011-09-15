@@ -12,6 +12,7 @@
 #include <limits.h>
 #define MAX_LINKS 8
 #define MAX_MSG_QUEUE_SIZE 30
+#define MESSAGE_HEADER_SIZE (sizeof(int) + sizeof(CnetAddr))
 #define PACKET_HEADER_SIZE (sizeof(FRAMEKIND) + sizeof(size_t) + sizeof(long long) + 4*sizeof(int) + 2*sizeof(CnetAddr))
 #define FRAME_HEADER_SIZE (PACKET_HEADER_SIZE + sizeof(uint32_t))
 #define MAX_NUMBER_FRAMES 256
@@ -21,6 +22,7 @@
 typedef enum {DL_DATA, DL_ACK, RT_DATA} FRAMEKIND;
 
 typedef struct {
+	int number;
 	CnetAddr dest;
 	char data[MAX_MESSAGE_SIZE];
 } MSG;
@@ -80,6 +82,7 @@ PACKET payload;
 
 typedef struct {
 int packet_to_send;
+int msg_in_sender_Q;
 QUEUE sender; // Will contain all frames for a SINGLE message destined for a SINGLE destination address
 QUEUE forwarding_queue; //For all other packets meant for other destinations
 QUEUE ack_sender; //Will contain acks ONLY!
@@ -94,7 +97,6 @@ LINK links[MAX_LINKS];
 typedef struct {
 //bool busy;
 //CnetAddr source;
-int mesg_seq_no_to_send;
 int mesg_seq_no_to_receive;
 int next_seq_number_to_add;
 char incomplete_data[MAX_MESSAGE_SIZE];

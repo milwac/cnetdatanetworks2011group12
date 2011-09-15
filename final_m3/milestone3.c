@@ -58,6 +58,7 @@ void send_acks(int link){
 }
 
 static bool message_timer_kick = false;
+static int message_number = 0;
 
 void push_message(MSG msg, size_t msgLength){
 	if(queue_nitems(msg_queue) < MAX_MSG_QUEUE_SIZE){
@@ -78,8 +79,10 @@ static EVENT_HANDLER(application_ready){
 	MSG msg;
 	size_t msgLength = sizeof(MSG);
 	CHECK(CNET_read_application(&msg.dest, &msg.data, &msgLength));
+	msg.number = message_number;
+	message_number++;
 	//printf("Message read from application layer %s, destined for address %d\n", msg.data, msg.dest);
-	push_message(msg, msgLength + sizeof(CnetAddr));
+	push_message(msg, msgLength + MESSAGE_HEADER_SIZE);
 }
 
 

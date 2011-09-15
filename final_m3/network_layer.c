@@ -6,7 +6,8 @@
 
 void handle_ack(int link, PACKET p){
 	//printf("handle ack called for mesg #%d\n", p.mesg_seq_no);
-	links[link].ack_received[p.A] = true;
+	if(p.mesg_seq_no == links[link].msg_in_sender_Q)
+		links[link].ack_received[p.A] = true;
 }
 // Finds the link connecting to a neighbouring node, via whom the message is to be sent 
 // NO HASH TABLE IMPLEMENTATION CURRENTLY!
@@ -88,11 +89,11 @@ void network_send(){
 	}
 	//Remove the topmost message from the queue
 	next = queue_remove(msg_queue, &len);
-	//node_buffer[find_nodenumber(dest)].mesg_seq_no_to_send++;	
-	int mesg_seq_no = ++node_buffer[find_nodenumber(dest)].mesg_seq_no_to_send;
+	int mesg_seq_no = next->number;
+	links[currLink].msg_in_sender_Q = mesg_seq_no;
 	//printf("Message is to be processed! To be sent to %d from %d and size %d and message number is %d\n", dest, nodeinfo.address, len, mesg_seq_no);
 	//printf("Creating frames for message #%d\n", mesg_seq_no);	
-	int int_len = len - sizeof(CnetAddr);	
+	int int_len = len - MESSAGE_HEADER_SIZE;	
 	char *data_ptr;
 	data_ptr = &next->data[0];
 	//printf("Message is to be processed! To be sent to %d from %d and size %d and message is %s.\n", dest, nodeinfo.address, len, data);
@@ -141,10 +142,11 @@ void process_frames(int link){
 	int source_nodenumber = find_nodenumber(f->payload.source);
 	//printf("Received frames for message #%d Expecting %d\n", f->payload.mesg_seq_no, node_buffer[source_nodenumber].mesg_seq_no_to_receive);	
 	//If ack has not been received at the sender side and an old frame from an old message has been received
-	if(f->payload.mesg_seq_no != node_buffer[source_nodenumber].mesg_seq_no_to_receive){
+	if(node_buffer[source_nodenumber].mesg_seq_no_to_receive != -1 && f->payload.mesg_seq_no <= node_buffer[source_nodenumber].mesg_seq_no_to_receive){
 		free(f);
 		return;
 	}
+	node_buffer[source_nodenumber].mesg_seq_no_to_receive = f->payload.mesg_seq_no;
 	int seq_no = f->payload.A;
 	char seq_str[5];
 	sprintf(seq_str, "%d", seq_no);
@@ -169,7 +171,7 @@ void process_frames(int link){
 		// check for the last packet
 		if(f->payload.flag_offset == 1) {
 			CHECK(CNET_write_application((char*)&node_buffer[source_nodenumber].incomplete_data[0], &node_buffer[source_nodenumber].bytes_added));
-			node_buffer[source_nodenumber].mesg_seq_no_to_receive++;
+			//node_buffer[source_nodenumber].mesg_seq_no_to_receive = -1;
 			node_buffer[source_nodenumber].next_seq_number_to_add = 0;
 			memset(node_buffer[source_nodenumber].incomplete_data, '\0', MAX_MESSAGE_SIZE);
 			hashtable_free(node_buffer[source_nodenumber].ooo_packets);
