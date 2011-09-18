@@ -19,6 +19,7 @@ host SB {
 	wan to HOM {
 		bandwidth = 1Mbps
 		propagationdelay = 3450usecs
+		mtu = 2048bytes
 	}
 }
 
@@ -30,5 +31,6 @@ host HOM {
 	wan to SB {
 		bandwidth = 1Mbps
 		propagationdelay = 3450usecs
+		mtu = 2048bytes
 	}
 }

@@ -23,7 +23,8 @@ void cleanup_and_start_app(){
 		queue_free(links[l].sender);
 		links[l].sender = queue_new();
 		links[l].timeout_occurred = true;		
-		CNET_stop_timer(l);
+		//CNET_stop_timer(l);
+		//start_timer(l, 1000);
 	}
 	int other_nodes = nodes_discovered();
 	// Initializing for all nodes including myself, my nodenumber will not be used
@@ -33,7 +34,9 @@ void cleanup_and_start_app(){
 		// Overriding default bucket size of 1023
 		node_buffer[i].ooo_packets = hashtable_new(256);
 		node_buffer[i].bytes_added = 0;
-		node_buffer[i].mesg_seq_no_to_receive = -1;
+		node_buffer[i].mesg_seq_no_to_receive = 0;
+		node_buffer[i].mesg_seq_no_to_generate = 0;
+		node_buffer[i].busy = false;
 	} 
 	application_enabled = true;
 	CNET_enable_application(ALLNODES);
@@ -42,6 +45,7 @@ void cleanup_and_start_app(){
 		printf("Dest address : %d | Via address : %d | Link : %d | Cost : %ld | Min mtu : %d\n", 
 			table[i].dest, table[i].via_node, table[i].link, table[i].cost, table[i].min_mtu);
 	}
+	CNET_start_timer(EV_TIMER8, 1000, 0);
 	printf("Routing successfully completed! Application started!!\n");
 }
 
@@ -86,7 +90,7 @@ void update_table(int link, FRAME f, size_t length){
 		for(int l = 1; l <= nodeinfo.nlinks; l++){
 			f.payload.flag_offset = min(linkinfo[l].mtu, table[f.payload.A].min_mtu);
 			f.checksum = 0;
-			f.checksum = CNET_ccitt((unsigned char *)&f, (int)length);
+			f.checksum = CNET_crc32((unsigned char *)&f, (int)length);
 			queue_add(links[l].sender, &f, length);
 			if(links[l].timeout_occurred)
 				schedule_and_send(l);
@@ -126,7 +130,7 @@ void setup_routing_table(){
 	for(int link = 1; link <= nodeinfo.nlinks; link++){
 		f.payload.flag_offset = linkinfo[link].mtu;
 		f.checksum = 0;
-		f.checksum = CNET_ccitt((unsigned char *)&f, (int)length);
+		f.checksum = CNET_crc32((unsigned char *)&f, (int)length);
 		queue_add(links[link].sender, &f, (int)length);
 		if(rt_packets_sent == 0){
 			CnetTime timeout = (length*((CnetTime)8000000))/linkinfo[link].bandwidth + linkinfo[link].propagationdelay;

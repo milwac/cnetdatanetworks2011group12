@@ -15,10 +15,11 @@ void send_frames(int link){
 	size_t len = 0;
 	CnetTime timeout;
 	FRAME *f = queue_remove(links[link].sender, &len);
-	//printf("Send frames called for link %d with kind %d\n", link, f->payload.kind);
-	timeout = (len*((CnetTime)8000000)/linkinfo[link].bandwidth + linkinfo[link].propagationdelay);
+	printf("Send frames called for link %d | kind %d | len %d\n", link, f->payload.kind, len);
+	timeout = (len*((CnetTime)8000000))/linkinfo[link].bandwidth + linkinfo[link].propagationdelay;
 	switch(f->payload.kind){
 	case DL_DATA :
+	//printf("DATA packet sending on link : %d\n", link);
 		if(!links[link].ack_received[f->payload.A]) {
 			CHECK(CNET_write_physical(link, (char*)f, &len));
 			queue_add(links[link].sender, f, len);
@@ -58,7 +59,6 @@ void send_acks(int link){
 }
 
 static bool message_timer_kick = false;
-static int message_number = 0;
 
 void push_message(MSG msg, size_t msgLength){
 	queue_add(msg_queue, &msg, msgLength);
@@ -76,9 +76,7 @@ static EVENT_HANDLER(application_ready){
 	MSG msg;
 	size_t msgLength = sizeof(MSG);
 	CHECK(CNET_read_application(&msg.dest, &msg.data, &msgLength));
-	msg.number = message_number;
-	message_number++;
-	printf("Message read from application layer destined for address %d and message number is %d and size %d\n", msg.dest, msg.number, msgLength);
+	//printf("Message read from application layer destined for address %d and size %d\n", msg.dest, msgLength);
 	push_message(msg, msgLength + MESSAGE_HEADER_SIZE);
 }
 
@@ -87,6 +85,7 @@ static EVENT_HANDLER(timeout0){
 	network_send();	
 }
 static EVENT_HANDLER(timeout1){
+	//printf("Timeout occured on link 1!!\n");
 	links[1].timeout_occurred = true;
 	schedule_and_send(1);
 }
@@ -114,6 +113,11 @@ static EVENT_HANDLER(timeout7){
 	links[7].timeout_occurred = true;
 	schedule_and_send(7);
 }
+/*
+static EVENT_HANDLER(timeout8){
+	process_frames();
+}
+*/
 static EVENT_HANDLER(timeout9){
 	setup_routing_table();
 }
@@ -124,12 +128,12 @@ static EVENT_HANDLER(physical_ready){
 	FRAME f;
 	size_t length = sizeof(FRAME);
 	CHECK(CNET_read_physical(&link, (char*)&f, &length));
-	//printf("\t\t\t\t\t\t\t\tPacket received from %d on link %d Type is %d\n", f.payload.source, link, f.payload.kind);
+	printf("\t\t\t\t\t\t\t\tPacket received from %d | link %d | Type is %d\n", f.payload.source, link, f.payload.kind);
 	//DATA LINK LAYER - check if checksum matches
 	int cs = f.checksum;
 	f.checksum = 0;
-	if(CNET_ccitt((unsigned char*)&f, (int)length) != cs){
-		printf("Bad Checksum - ignoring frame!\n");
+	if(CNET_crc32((unsigned char*)&f, (int)length) != cs){
+		printf("Bad Checksum - ignoring frame! Type %d\n", f.payload.kind);
 		return;	
 	}
 	
@@ -137,7 +141,8 @@ static EVENT_HANDLER(physical_ready){
 		case RT_DATA : 	update_table(link, f, length); 
 			   	break;
 		case DL_DATA :  
-				//printf("\t\t\t\t\t\t\t\tData Packet received from %d on link %d. Frame_Seq# = %d \n", f.payload.source, link,f.payload.A);
+				printf("\t\t\t\t\t\t\t\tData Packet received from %d | link %d | Frame_Seq #%d | len %d | Msg #%d\n ", 
+					f.payload.source,link,f.payload.A, f.payload.len, f.payload.mesg_seq_no);
 				handle_data(link, f, length); 
 				break;
 		case DL_ACK  :  handle_ack(link, f); 
@@ -149,6 +154,7 @@ static EVENT_HANDLER(physical_ready){
 }
 void initialize(){
 	msg_queue = queue_new();
+	receiver = queue_new();
 	application_enabled = false;
 	for(int i=0; i<MAX_NODES; i++){
                	table[i].cost = LONG_MAX ;
@@ -167,7 +173,6 @@ void initialize(){
 		links[i].ack_sender = queue_new();
 		links[i].timeout_occurred = true;
 		links[i].forwarding_queue = queue_new();
-		links[i].receiver = queue_new();
 		memset(links[i].ack_received, true, MAX_NUMBER_FRAMES * sizeof(bool));
 		links[i].packet_to_send = 0;
 	}
@@ -190,6 +195,7 @@ EVENT_HANDLER(reboot_node){
 	CHECK(CNET_set_handler(EV_TIMER5, timeout5, 0));
 	CHECK(CNET_set_handler(EV_TIMER6, timeout6, 0));
 	CHECK(CNET_set_handler(EV_TIMER7, timeout7, 0));
+	//CHECK(CNET_set_handler(EV_TIMER8, timeout8, 0));
 	CHECK(CNET_set_handler(EV_TIMER9, timeout9, 0));
 	//CNET_enable_application(ALLNODES);
 	CNET_set_time_of_day(currTime.tv_sec, currTime.tv_usec);

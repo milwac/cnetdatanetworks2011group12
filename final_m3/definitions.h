@@ -12,7 +12,7 @@
 #include <limits.h>
 #define MAX_LINKS 8
 #define MAX_MSG_QUEUE_SIZE 30
-#define MESSAGE_HEADER_SIZE (sizeof(int) + sizeof(CnetAddr))
+#define MESSAGE_HEADER_SIZE (sizeof(CnetAddr))
 #define PACKET_HEADER_SIZE (sizeof(FRAMEKIND) + sizeof(size_t) + sizeof(long long) + 4*sizeof(int) + 2*sizeof(CnetAddr))
 #define FRAME_HEADER_SIZE (PACKET_HEADER_SIZE + sizeof(uint32_t))
 #define MAX_NUMBER_FRAMES 256
@@ -22,12 +22,12 @@
 typedef enum {DL_DATA, DL_ACK, RT_DATA} FRAMEKIND;
 
 typedef struct {
-	int number;
 	CnetAddr dest;
 	char data[MAX_MESSAGE_SIZE];
 } MSG;
 
 QUEUE msg_queue;
+QUEUE receiver;
 
 bool application_enabled;
 
@@ -78,7 +78,7 @@ char data[MAX_MESSAGE_SIZE];
 
 //This is the smallest chunk of data which can be transferred, initially a message will be divided into smaller units of this type
 typedef struct {
-uint32_t checksum;
+int checksum;
 PACKET payload;
 } FRAME;
 
@@ -88,7 +88,6 @@ int msg_in_sender_Q;
 QUEUE sender; // Will contain all frames for a SINGLE message destined for a SINGLE destination address
 QUEUE forwarding_queue; //For all other packets meant for other destinations
 QUEUE ack_sender; //Will contain acks ONLY!
-QUEUE receiver; // Frame queue from all sources, store if checksum matches, OR if not an ACK packet
 bool ack_received[MAX_NUMBER_FRAMES]; // If kind = ACK at this layer, set the value immediately, don't add to receiver queue
 bool timeout_occurred;
 //CnetAddr connected_to;
@@ -97,8 +96,9 @@ bool timeout_occurred;
 LINK links[MAX_LINKS];
 
 typedef struct {
-//bool busy;
+bool busy;
 //CnetAddr source;
+int mesg_seq_no_to_generate;
 int mesg_seq_no_to_receive;
 int next_seq_number_to_add;
 char incomplete_data[MAX_MESSAGE_SIZE];
@@ -118,6 +118,7 @@ extern void handle_ack(int, FRAME);
 extern void network_send(void);
 extern void schedule_and_send(int);
 extern void start_timer(int, CnetTime);
+extern void process_frames();
 extern void send_frames(int);
 extern void forward_frames(int);
 extern void send_acks(int);

@@ -1,2 +1,2 @@
 #!/bin/bash
-cnet 2NN-fragmentation-test -T -W -o trace%d
+cnet three_node_network -T -W -o trace%d -s
