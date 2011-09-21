@@ -5,14 +5,11 @@
 * optimum path to a given destination considering the current network
 * congestion
 */
-
 typedef struct {
 CnetAddr dest;
 CnetAddr via;
-int nodenum_dest;
-int nodenum_via;
 long cost;
-int mtu;
+int link;
 } ROUTING_TABLE;
 
 ROUTING_TABLE nl_table[MAX_NODES];
@@ -30,3 +27,7 @@ typedef struct {
 } NODE_BUFFER;
 
 NODE_BUFFER buff[MAX_NODES];
+
+//------------------ Funtion definitions --------------------
+
+extern void reboot_nt(); 
