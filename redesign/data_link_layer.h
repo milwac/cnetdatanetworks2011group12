@@ -4,7 +4,7 @@
 #define MAX_LINKS 8
 #define FRAME_HEADER_SIZE (2*sizeof(int) + sizeof(KIND))
 
-typedef enum {DL_DATA, DL_ACK, RT_DATA, RT_ACK} KIND;
+typedef enum {DL_DATA, DL_ACK, RT_DATA} KIND;
 //This is the smallest chunk of data which can be transferred, initially a message will be divided into smaller units of this type
 typedef struct {
 	KIND kind;

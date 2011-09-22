@@ -9,7 +9,7 @@ void cleanUpAndStartApp(){
 	printf("Routing done!\n");
 	for(int i=0; i<MAX_NODES; i++){
 		if(i != nodeinfo.nodenumber && nl_table[i].cost < LONG_MAX){
-			printf("Dest : %d | Via : %d | Link : %d | Cost : %ld\n", nl_table[i].dest, nl_table[i].via, nl_table[i].link, nl_table[i].cost);
+			printf("#%d | Dest : %d | Via : %d | Link : %d | Cost : %ld\n", i,nl_table[i].dest, nl_table[i].via, nl_table[i].link, nl_table[i].cost);
 		}
 	}
 	stopTimers();
@@ -20,6 +20,8 @@ void startTimer0(CnetTime timeout){
 }
 
 
+bool has_network_queue_polling_started = false;
+
 void setup_routing(){
 	if(!table_changed){
 		cleanUpAndStartApp();
@@ -29,13 +31,19 @@ void setup_routing(){
 	DATAGRAM d;
 	d.data_len = 0;
 	getCurrTime(&d.timestamp);
+	//printf("TS is : %llu\n", d.timestamp);
 	d.fragOffset_nnSrc = nodeinfo.nodenumber;
 	d.flagOffset_nnVia = nodeinfo.nodenumber;
 	d.source = nodeinfo.address;
 	d.dest = nodeinfo.address;
 	queue_add(network_queue, &d, (int)DATAGRAM_HEADER_SIZE);
-	startTimer0(100);
-	CNET_start_timer(EV_TIMER9, 200000,0);
+	queue_add(network_queue, &d, (int)DATAGRAM_HEADER_SIZE);
+	queue_add(network_queue, &d, (int)DATAGRAM_HEADER_SIZE);
+	if(!has_network_queue_polling_started){
+		startTimer0(100);
+		has_network_queue_polling_started = true;
+	}else
+	CNET_start_timer(EV_TIMER9, 2000000,0);
 }
 static EVENT_HANDLER(timeout9){
 	setup_routing();
@@ -84,7 +92,7 @@ void update_routing_table(DATAGRAM dg, int link){
 		return; // if self generated packet, do nothing
 	} else {
 		bool send = false;
-		long long currTime;
+		unsigned long long currTime;
 		getCurrTime(&currTime);
 		long currCost = (long)(currTime - dg.timestamp)/1000;
 		if(nl_table[dg.fragOffset_nnSrc].dest == -1){ // if entry is not in the routing table, update fields
@@ -93,7 +101,7 @@ void update_routing_table(DATAGRAM dg, int link){
 			nl_table[dg.fragOffset_nnSrc].link = link;
 			nl_table[dg.fragOffset_nnSrc].cost = currCost;
 			send = true;
-			//table_changed = true;
+			table_changed = true;
 		} else {
 			if(nl_table[dg.fragOffset_nnSrc].cost > currCost){
 				nl_table[dg.fragOffset_nnSrc].dest = dg.source;
@@ -107,6 +115,8 @@ void update_routing_table(DATAGRAM dg, int link){
 		if(send){
 			dg.flagOffset_nnVia = nodeinfo.nodenumber;
 			dg.dest = nodeinfo.address;
+			queue_add(network_queue, &dg, (int)DATAGRAM_HEADER_SIZE);
+			queue_add(network_queue, &dg, (int)DATAGRAM_HEADER_SIZE);
 			queue_add(network_queue, &dg, (int)DATAGRAM_HEADER_SIZE);
 		}
 	}	

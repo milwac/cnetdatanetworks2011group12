@@ -1,4 +1,4 @@
-compile = "milestone3.c"
+compile = "application.c network_layer.c definitions.c data_link_layer.c"
 
 #include "saarland.map"
 #include "linktypes.txt"

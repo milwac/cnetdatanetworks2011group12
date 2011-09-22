@@ -1,0 +1,58 @@
+POP called for link 1
+No acks.. continuing
+Current frames are zero! Populating..
+Removing next frame..
+Successfully removed something.... | Source 96
+Removed dg : source 96 | dest 96 | len 36
+Adding frame : source 96 | dest 96 | ts 495792487
+Populated 1 frames
+Sending frame : source 96 | dest 96 | ts 495792487
+Out of if
+POP called for link 2
+No acks.. continuing
+Current frames are zero! Populating..
+Removing next frame..
+Successfully removed something.... | Source 96
+Removed dg : source 96 | dest 96 | len 36
+Adding frame : source 96 | dest 96 | ts 495792487
+Populated 1 frames
+Sending frame : source 96 | dest 96 | ts 495792487
+Out of if
+POP called for link 3
+No acks.. continuing
+Current frames are zero! Populating..
+Removing next frame..
+Successfully removed something.... | Source 96
+Removed dg : source 96 | dest 96 | len 36
+Adding frame : source 96 | dest 96 | ts 495792487
+Populated 1 frames
+Sending frame : source 96 | dest 96 | ts 495792487
+Out of if
+POP called for link 3
+No acks.. continuing
+Current frames are zero! Populating..
+Removing next frame..
+Successfully removed something.... | Source 96
+Removed dg : source 96 | dest 96 | len 36
+Adding frame : source 96 | dest 96 | ts 495792487
+Removing next frame..
+Successfully removed something.... | Source 96
+Removed dg : source 96 | dest 96 | len 36
+Adding frame : source 96 | dest 96 | ts 495792487
+Populated 2 frames
+Sending frame : source 96 | dest 96 | ts 495792487
+Out of if
+POP called for link 2
+No acks.. continuing
+Current frames are zero! Populating..
+Removing next frame..
+Successfully removed something.... | Source 96
+Removed dg : source 96 | dest 96 | len 36
+Adding frame : source 96 | dest 96 | ts 495792487
+Removing next frame..
+Successfully removed something.... | Source 96
+Removed dg : source 96 | dest 96 | len 36
+Adding frame : source 96 | dest 96 | ts 495792487
+Populated 2 frames
+Sending frame : source 96 | dest 96 | ts 495792487
+Out of if

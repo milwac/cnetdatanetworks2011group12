@@ -1,0 +1,24 @@
+POP called for link 1
+No acks.. continuing
+Current frames are zero! Populating..
+Removing next frame..
+Successfully removed something.... | Source 192
+Removed dg : source 192 | dest 192 | len 36
+Adding frame : source 192 | dest 192 | ts 495823041
+Populated 1 frames
+Sending frame : source 192 | dest 192 | ts 495823041
+Out of if
+POP called for link 1
+No acks.. continuing
+Current frames are zero! Populating..
+Removing next frame..
+Successfully removed something.... | Source 192
+Removed dg : source 192 | dest 192 | len 36
+Adding frame : source 192 | dest 192 | ts 495823041
+Removing next frame..
+Successfully removed something.... | Source 192
+Removed dg : source 192 | dest 192 | len 36
+Adding frame : source 192 | dest 192 | ts 495823041
+Populated 2 frames
+Sending frame : source 192 | dest 192 | ts 495823041
+Out of if

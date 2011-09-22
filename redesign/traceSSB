@@ -1,0 +1,90 @@
+POP called for link 1
+No acks.. continuing
+Current frames are zero! Populating..
+Removing next frame..
+Successfully removed something.... | Source 193
+Removed dg : source 193 | dest 193 | len 36
+Adding frame : source 193 | dest 193 | ts 495821575
+Populated 1 frames
+Sending frame : source 193 | dest 193 | ts 495821575
+Out of if
+POP called for link 2
+No acks.. continuing
+Current frames are zero! Populating..
+Removing next frame..
+Successfully removed something.... | Source 193
+Removed dg : source 193 | dest 193 | len 36
+Adding frame : source 193 | dest 193 | ts 495821575
+Populated 1 frames
+Sending frame : source 193 | dest 193 | ts 495821575
+Out of if
+POP called for link 2
+No acks.. continuing
+Current frames are zero! Populating..
+Removing next frame..
+Successfully removed something.... | Source 193
+Removed dg : source 193 | dest 193 | len 36
+Adding frame : source 193 | dest 193 | ts 495821575
+Populated 1 frames
+Sending frame : source 193 | dest 193 | ts 495821575
+Out of if
+POP called for link 2
+No acks.. continuing
+Current frames are zero! Populating..
+Populated 0 frames
+Out of if
+POP called for link 1
+No acks.. continuing
+Current frames are zero! Populating..
+Removing next frame..
+Successfully removed something.... | Source 193
+Removed dg : source 193 | dest 193 | len 36
+Adding frame : source 193 | dest 193 | ts 495821575
+Populated 1 frames
+Sending frame : source 193 | dest 193 | ts 495821575
+Out of if
+POP called for link 1
+No acks.. continuing
+Current frames are zero! Populating..
+Removing next frame..
+Successfully removed something.... | Source 193
+Removed dg : source 193 | dest 193 | len 36
+Adding frame : source 193 | dest 193 | ts 495821575
+Populated 1 frames
+Sending frame : source 193 | dest 193 | ts 495821575
+Out of if
+POP called for link 2
+No acks.. continuing
+Current frames are zero! Populating..
+Removing next frame..
+Successfully removed something.... | Source 193
+Removed dg : source 193 | dest 193 | len 36
+Adding frame : source 193 | dest 193 | ts 495821575
+Populated 1 frames
+Sending frame : source 193 | dest 193 | ts 495821575
+Out of if
+POP called for link 2
+No acks.. continuing
+Current frames are zero! Populating..
+Removing next frame..
+Successfully removed something.... | Source 194
+Removed dg : source 194 | dest 193 | len 36
+Adding frame : source 194 | dest 193 | ts 495828048
+Populated 1 frames
+Sending frame : source 194 | dest 193 | ts 495828048
+Out of if
+POP called for link 1
+No acks.. continuing
+Current frames are zero! Populating..
+Removing next frame..
+Successfully removed something.... | Source 194
+Removed dg : source 194 | dest 193 | len 36
+Adding frame : source 194 | dest 193 | ts 495828048
+Populated 1 frames
+Sending frame : source 194 | dest 193 | ts 495828048
+Out of if
+POP called for link 2
+No acks.. continuing
+Current frames are zero! Populating..
+Populated 0 frames
+Out of if

@@ -1,0 +1,77 @@
+POP called for link 1
+No acks.. continuing
+Current frames are zero! Populating..
+Removing next frame..
+Successfully removed something.... | Source 170
+Removed dg : source 170 | dest 170 | len 36
+Adding frame : source 170 | dest 170 | ts 495782248
+Populated 1 frames
+Sending frame : source 170 | dest 170 | ts 495782248
+Out of if
+POP called for link 2
+No acks.. continuing
+Current frames are zero! Populating..
+Removing next frame..
+Successfully removed something.... | Source 170
+Removed dg : source 170 | dest 170 | len 36
+Adding frame : source 170 | dest 170 | ts 495782248
+Populated 1 frames
+Sending frame : source 170 | dest 170 | ts 495782248
+Out of if
+POP called for link 3
+No acks.. continuing
+Current frames are zero! Populating..
+Removing next frame..
+Successfully removed something.... | Source 170
+Removed dg : source 170 | dest 170 | len 36
+Adding frame : source 170 | dest 170 | ts 495782248
+Populated 1 frames
+Sending frame : source 170 | dest 170 | ts 495782248
+Out of if
+POP called for link 1
+No acks.. continuing
+Current frames are zero! Populating..
+Removing next frame..
+Successfully removed something.... | Source 170
+Removed dg : source 170 | dest 170 | len 36
+Adding frame : source 170 | dest 170 | ts 495782248
+Removing next frame..
+Successfully removed something.... | Source 170
+Removed dg : source 170 | dest 170 | len 36
+Adding frame : source 170 | dest 170 | ts 495782248
+Populated 2 frames
+Sending frame : source 170 | dest 170 | ts 495782248
+Out of if
+POP called for link 2
+No acks.. continuing
+Current frames are zero! Populating..
+Removing next frame..
+Successfully removed something.... | Source 170
+Removed dg : source 170 | dest 170 | len 36
+Adding frame : source 170 | dest 170 | ts 495782248
+Removing next frame..
+Successfully removed something.... | Source 170
+Removed dg : source 170 | dest 170 | len 36
+Adding frame : source 170 | dest 170 | ts 495782248
+Populated 2 frames
+Sending frame : source 170 | dest 170 | ts 495782248
+Out of if
+POP called for link 3
+No acks.. continuing
+Current frames are zero! Populating..
+Removing next frame..
+Successfully removed something.... | Source 170
+Removed dg : source 170 | dest 170 | len 36
+Adding frame : source 170 | dest 170 | ts 495782248
+Removing next frame..
+Successfully removed something.... | Source 170
+Removed dg : source 170 | dest 170 | len 36
+Adding frame : source 170 | dest 170 | ts 495782248
+Populated 2 frames
+Sending frame : source 170 | dest 170 | ts 495782248
+Out of if
+POP called for link 1
+No acks.. continuing
+Populated 0 frames
+Sending frame : source 170 | dest 170 | ts 495782248
+Out of if

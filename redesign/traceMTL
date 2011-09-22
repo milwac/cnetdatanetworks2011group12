@@ -1,0 +1,58 @@
+POP called for link 1
+No acks.. continuing
+Current frames are zero! Populating..
+Removing next frame..
+Successfully removed something.... | Source 204
+Removed dg : source 204 | dest 204 | len 36
+Adding frame : source 204 | dest 204 | ts 495820071
+Populated 1 frames
+Sending frame : source 204 | dest 204 | ts 495820071
+Out of if
+POP called for link 2
+No acks.. continuing
+Current frames are zero! Populating..
+Removing next frame..
+Successfully removed something.... | Source 204
+Removed dg : source 204 | dest 204 | len 36
+Adding frame : source 204 | dest 204 | ts 495820071
+Populated 1 frames
+Sending frame : source 204 | dest 204 | ts 495820071
+Out of if
+POP called for link 1
+No acks.. continuing
+Current frames are zero! Populating..
+Removing next frame..
+Successfully removed something.... | Source 204
+Removed dg : source 204 | dest 204 | len 36
+Adding frame : source 204 | dest 204 | ts 495820071
+Removing next frame..
+Successfully removed something.... | Source 204
+Removed dg : source 204 | dest 204 | len 36
+Adding frame : source 204 | dest 204 | ts 495820071
+Populated 2 frames
+Sending frame : source 204 | dest 204 | ts 495820071
+Out of if
+POP called for link 2
+No acks.. continuing
+Current frames are zero! Populating..
+Removing next frame..
+Successfully removed something.... | Source 204
+Removed dg : source 204 | dest 204 | len 36
+Adding frame : source 204 | dest 204 | ts 495820071
+Removing next frame..
+Successfully removed something.... | Source 204
+Removed dg : source 204 | dest 204 | len 36
+Adding frame : source 204 | dest 204 | ts 495820071
+Populated 2 frames
+Sending frame : source 204 | dest 204 | ts 495820071
+Out of if
+POP called for link 1
+No acks.. continuing
+Populated 0 frames
+Sending frame : source 204 | dest 204 | ts 495820071
+Out of if
+POP called for link 2
+No acks.. continuing
+Populated 0 frames
+Sending frame : source 204 | dest 204 | ts 495820071
+Out of if

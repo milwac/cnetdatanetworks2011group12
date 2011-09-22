@@ -1,2 +1,2 @@
 #!/bin/bash
-cnet two_node_network -T -W -o trace%d -s
+cnet saarnet-6.txt -T -W -o trace%n -s

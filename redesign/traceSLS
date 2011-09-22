@@ -1,0 +1,158 @@
+POP called for link 1
+No acks.. continuing
+Current frames are zero! Populating..
+Removing next frame..
+Successfully removed something.... | Source 182
+Removed dg : source 182 | dest 182 | len 36
+Adding frame : source 182 | dest 182 | ts 495777496
+Populated 1 frames
+Sending frame : source 182 | dest 182 | ts 495777496
+Out of if
+POP called for link 2
+No acks.. continuing
+Current frames are zero! Populating..
+Removing next frame..
+Successfully removed something.... | Source 182
+Removed dg : source 182 | dest 182 | len 36
+Adding frame : source 182 | dest 182 | ts 495777496
+Populated 1 frames
+Sending frame : source 182 | dest 182 | ts 495777496
+Out of if
+POP called for link 3
+No acks.. continuing
+Current frames are zero! Populating..
+Removing next frame..
+Successfully removed something.... | Source 182
+Removed dg : source 182 | dest 182 | len 36
+Adding frame : source 182 | dest 182 | ts 495777496
+Populated 1 frames
+Sending frame : source 182 | dest 182 | ts 495777496
+Out of if
+POP called for link 4
+No acks.. continuing
+Current frames are zero! Populating..
+Removing next frame..
+Successfully removed something.... | Source 182
+Removed dg : source 182 | dest 182 | len 36
+Adding frame : source 182 | dest 182 | ts 495777496
+Populated 1 frames
+Sending frame : source 182 | dest 182 | ts 495777496
+Out of if
+POP called for link 3
+No acks.. continuing
+Current frames are zero! Populating..
+Removing next frame..
+Successfully removed something.... | Source 182
+Removed dg : source 182 | dest 182 | len 36
+Adding frame : source 182 | dest 182 | ts 495777496
+Populated 1 frames
+Sending frame : source 182 | dest 182 | ts 495777496
+Out of if
+POP called for link 2
+No acks.. continuing
+Current frames are zero! Populating..
+Removing next frame..
+Successfully removed something.... | Source 182
+Removed dg : source 182 | dest 182 | len 36
+Adding frame : source 182 | dest 182 | ts 495777496
+Populated 1 frames
+Sending frame : source 182 | dest 182 | ts 495777496
+Out of if
+POP called for link 4
+No acks.. continuing
+Current frames are zero! Populating..
+Removing next frame..
+Successfully removed something.... | Source 182
+Removed dg : source 182 | dest 182 | len 36
+Adding frame : source 182 | dest 182 | ts 495777496
+Populated 1 frames
+Sending frame : source 182 | dest 182 | ts 495777496
+Out of if
+POP called for link 3
+No acks.. continuing
+Current frames are zero! Populating..
+Removing next frame..
+Successfully removed something.... | Source 182
+Removed dg : source 182 | dest 182 | len 36
+Adding frame : source 182 | dest 182 | ts 495777496
+Populated 1 frames
+Sending frame : source 182 | dest 182 | ts 495777496
+Out of if
+POP called for link 2
+No acks.. continuing
+Current frames are zero! Populating..
+Removing next frame..
+Successfully removed something.... | Source 182
+Removed dg : source 182 | dest 182 | len 36
+Adding frame : source 182 | dest 182 | ts 495777496
+Populated 1 frames
+Sending frame : source 182 | dest 182 | ts 495777496
+Out of if
+POP called for link 4
+No acks.. continuing
+Current frames are zero! Populating..
+Removing next frame..
+Successfully removed something.... | Source 182
+Removed dg : source 182 | dest 182 | len 36
+Adding frame : source 182 | dest 182 | ts 495777496
+Populated 1 frames
+Sending frame : source 182 | dest 182 | ts 495777496
+Out of if
+POP called for link 3
+No acks.. continuing
+Current frames are zero! Populating..
+Populated 0 frames
+Out of if
+POP called for link 2
+No acks.. continuing
+Current frames are zero! Populating..
+Removing next frame..
+Successfully removed something.... | Source 144
+Removed dg : source 144 | dest 182 | len 36
+Adding frame : source 144 | dest 182 | ts 495862825
+Populated 1 frames
+Sending frame : source 144 | dest 182 | ts 495862825
+Out of if
+POP called for link 1
+No acks.. continuing
+Current frames are zero! Populating..
+Removing next frame..
+Successfully removed something.... | Source 182
+Removed dg : source 182 | dest 182 | len 36
+Adding frame : source 182 | dest 182 | ts 495777496
+Removing next frame..
+Successfully removed something.... | Source 182
+Removed dg : source 182 | dest 182 | len 36
+Adding frame : source 182 | dest 182 | ts 495777496
+Removing next frame..
+Successfully removed something.... | Source 144
+Removed dg : source 144 | dest 182 | len 36
+Adding frame : source 144 | dest 182 | ts 495862825
+Populated 3 frames
+Sending frame : source 182 | dest 182 | ts 495777496
+Out of if
+POP called for link 2
+No acks.. continuing
+Current frames are zero! Populating..
+Populated 0 frames
+Out of if
+POP called for link 4
+No acks.. continuing
+Current frames are zero! Populating..
+Removing next frame..
+Successfully removed something.... | Source 144
+Removed dg : source 144 | dest 182 | len 36
+Adding frame : source 144 | dest 182 | ts 495862825
+Populated 1 frames
+Sending frame : source 144 | dest 182 | ts 495862825
+Out of if
+POP called for link 3
+No acks.. continuing
+Current frames are zero! Populating..
+Removing next frame..
+Successfully removed something.... | Source 144
+Removed dg : source 144 | dest 182 | len 36
+Adding frame : source 144 | dest 182 | ts 495862825
+Populated 1 frames
+Sending frame : source 144 | dest 182 | ts 495862825
+Out of if

@@ -23,7 +23,7 @@ int flagOffset_nnVia; // true when this is the last frame of the message if DATA
 size_t data_len;
 CnetAddr dest; // Via address in case of RT_PACKET
 CnetAddr source;
-long long timestamp; // using node_info.time_of_day.usecs
+unsigned long long timestamp; // using node_info.time_of_day.usecs
 char data[MAX_MESSAGE_SIZE];
 int pad1;
 } DATAGRAM;
@@ -41,7 +41,7 @@ int pad1;
 //extern void send_frames(int);
 //extern void forward_frames(int);
 //extern void send_acks(int);
-extern void getCurrTime(long long*);
+extern void getCurrTime(unsigned long long*);
 extern void reboot_dll();
 extern void reboot_nl();
 extern bool push_datagram(int, DATAGRAM);
