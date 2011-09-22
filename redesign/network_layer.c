@@ -2,19 +2,21 @@
 
 DATAGRAM *dg_ptr;
 bool table_changed;
+CnetTimerID timer0;
 
 void cleanUpAndStartApp(){
-	CNET_stop_timer(0);
+	CNET_stop_timer(timer0);
 	printf("Routing done!\n");
 	for(int i=0; i<MAX_NODES; i++){
 		if(i != nodeinfo.nodenumber && nl_table[i].cost < LONG_MAX){
 			printf("Dest : %d | Via : %d | Link : %d | Cost : %ld\n", nl_table[i].dest, nl_table[i].via, nl_table[i].link, nl_table[i].cost);
 		}
 	}
+	stopTimers();
 }
 
 void startTimer0(CnetTime timeout){
-	CNET_start_timer(EV_TIMER0, timeout, 0); 
+	timer0 = CNET_start_timer(EV_TIMER0, timeout, 0); 
 }
 
 
@@ -23,7 +25,6 @@ void setup_routing(){
 		cleanUpAndStartApp();
 		return;
 	}
-	printf("SETUP R called\n");
 	table_changed = false;
 	DATAGRAM d;
 	d.data_len = 0;
@@ -79,7 +80,6 @@ void reboot_nl(){
 }
 
 void update_routing_table(DATAGRAM dg, int link){
-	printf("update called\n");
 	if(dg.source == nodeinfo.address){
 		return; // if self generated packet, do nothing
 	} else {

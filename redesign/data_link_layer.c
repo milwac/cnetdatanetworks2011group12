@@ -1,11 +1,13 @@
 #include "data_link_layer.h"
 
-bool push_datagram(int link, DATAGRAM d){
+CnetTimerID timer[MAX_LINKS];
+
+bool push_datagram(int link, DATAGRAM dg){
 	bool ret = false;
-	printf("PushDG called\n");
+	//printf("PushDG called | source %d | dest %d\n", dg.source, dg.dest);
 	if(link == -1){ // it is a routing packet
 		for(int i=1; i<= nodeinfo.nlinks; i++){
-			queue_add(links[i].buffer, &d, DATAGRAM_HEADER_SIZE);	
+			queue_add(links[i].buffer, &dg, DATAGRAM_HEADER_SIZE);	
 		}
 		ret = true;
 	} else { // it is a normal data packet
@@ -13,15 +15,22 @@ bool push_datagram(int link, DATAGRAM d){
 	}
 	return ret;
 }
+
+void stopTimers(){
+	for(int i = 1; i < MAX_LINKS; i++){
+		CNET_stop_timer(timer[i]);
+	} 
+}
+
 void startTimer(int link, CnetTime timeout){
 	switch(link){
-		case 1 : CNET_start_timer(EV_TIMER1, timeout, 0); break;
-		case 2 : CNET_start_timer(EV_TIMER2, timeout, 0); break;
-		case 3 : CNET_start_timer(EV_TIMER3, timeout, 0); break;
-		case 4 : CNET_start_timer(EV_TIMER4, timeout, 0); break;
-		case 5 : CNET_start_timer(EV_TIMER5, timeout, 0); break;
-		case 6 : CNET_start_timer(EV_TIMER6, timeout, 0); break;
-		case 7 : CNET_start_timer(EV_TIMER7, timeout, 0); break;
+		case 1 : timer[1] = CNET_start_timer(EV_TIMER1, timeout, 0); break;
+		case 2 : timer[2] = CNET_start_timer(EV_TIMER2, timeout, 0); break;
+		case 3 : timer[3] = CNET_start_timer(EV_TIMER3, timeout, 0); break;
+		case 4 : timer[4] = CNET_start_timer(EV_TIMER4, timeout, 0); break;
+		case 5 : timer[5] = CNET_start_timer(EV_TIMER5, timeout, 0); break;
+		case 6 : timer[6] = CNET_start_timer(EV_TIMER6, timeout, 0); break;
+		case 7 : timer[7] = CNET_start_timer(EV_TIMER7, timeout, 0); break;
 		default : break;
 	}
 }
@@ -38,19 +47,19 @@ void send_acks(int link){
 }
 
 void populate_sender_and_send(int link){
-	printf("POP called\n");
-	CnetTime timeout = 1000;
 	if(queue_nitems(links[link].ack_sender) > 0){
 		send_acks(link);
 		return;
 	}
+	CnetTime timeout = 1000;
 	int frame_number = 0;
 	//if the current frame sender queue is empty, add MAX_NUM_FRAMES more frames
 	if(queue_nitems(links[link].current_frames) == 0){
-		while(queue_nitems(links[link].buffer) > 0 || queue_nitems(links[link].current_frames) < MAX_NUM_FRAMES){
+		while(queue_nitems(links[link].buffer) > 0 && queue_nitems(links[link].current_frames) < MAX_NUM_FRAMES){
 			FRAME f;
-			size_t len = 0;
+			size_t len = sizeof(DATAGRAM);
 			dg_ptr = queue_remove(links[link].buffer, &len);	
+			//printf("Removing dg : source %d | dest %d | len %d\n", dg_ptr->source, dg_ptr->dest, len);
 			f.payload = *dg_ptr;
 			f.frame_seq_number = frame_number;
 			if(len == DATAGRAM_HEADER_SIZE){ // Routing packet
@@ -58,26 +67,26 @@ void populate_sender_and_send(int link){
 			} else { // Data packet
 				f.kind = DL_DATA;
 			}
-			printf("Added frames into the current frames\n");
-			queue_add(links[link].current_frames, &f, (len + FRAME_HEADER_SIZE));
+			//printf("Adding frame : source %d | dest %d | ts %lld\n", f.payload.source, f.payload.dest, f.payload.timestamp);
+			int l = len + FRAME_HEADER_SIZE;
+			queue_add(links[link].current_frames, &f, l);
 			links[link].ack_received[frame_number] = false;
 			frame_number++;
 		}
 	}
-	
 	//keep sending until empty
 	if(queue_nitems(links[link].current_frames) > 0){
-		size_t len = 0;
+		size_t len = sizeof(FRAME);
 		FRAME *f_ptr = queue_remove(links[link].current_frames, &len);
 		FRAME f = *f_ptr;
 		if(!links[link].ack_received[f.frame_seq_number]){
+			//printf("Sending frame : source %d | dest %d | ts %lld\n", f.payload.source, f.payload.dest, f.payload.timestamp);
 			f.last_frame_number = frame_number - 1;
 			f.checksum = 0;
 			f.checksum = CNET_crc32((unsigned char*)&f, (int)len);
 			timeout = (len*((CnetTime)8000000))/linkinfo[link].bandwidth + linkinfo[link].propagationdelay;
 			CHECK(CNET_write_physical(link, (char*)&f, &len));
 			queue_add(links[link].current_frames, &f, len);
-			printf("Frames are sent\n");
 		}
 		free(f_ptr);
 	}	
@@ -121,11 +130,11 @@ void createAck(int link, DATAGRAM dg){
 }
 
 static EVENT_HANDLER(physical_ready){
-	printf("PR called!\n");
 	int link;
 	FRAME f;
 	size_t len = sizeof(FRAME);
 	CHECK(CNET_read_physical(&link, (char*)&f, &len));
+	//printf("PR called!\n");
 	int cs = f.checksum;
 	f.checksum = 0;
 	if(CNET_crc32((unsigned char*)&f, (int)len) != cs){
@@ -136,7 +145,10 @@ static EVENT_HANDLER(physical_ready){
 		case RT_DATA : 
 			//send ack, send to network layer to update routing table
 			createAck(link, f.payload);
-			push_to_network_queue(f.payload, link); 
+			if(links[link].next_frame_seq_to_receive == f.frame_seq_number){
+				//links[link].next_frame_seq_to_receive++;
+				push_to_network_queue(f.payload, link); 
+			}
 			break;
 		case RT_ACK :
 		case DL_ACK :
