@@ -1,30 +1,22 @@
 //
 #include "definitions.h"
+#define MAX_BUFFER_LIMIT 80
 #define MAX_NUM_FRAMES 30
 #define MAX_LINKS 8
-#define FRAME_HEADER_SIZE (2*sizeof(int) + sizeof(KIND))
-
-typedef enum {DL_DATA, DL_ACK, RT_DATA} KIND;
-//This is the smallest chunk of data which can be transferred, initially a message will be divided into smaller units of this type
-typedef struct {
-	KIND kind;
-	int checksum;
-	int frame_seq_number;
-	int last_frame_number;
-	DATAGRAM payload;
-} FRAME;
-
-CnetAddr neighbours[MAX_LINKS];
 
 //The link storage structure
 typedef struct {
 	//sender
+	bool data_to_send;
 	QUEUE ack_sender;
 	QUEUE buffer; //consists of datagrams
-	QUEUE current_frames;
-	bool ack_received[MAX_NUM_FRAMES];
+	FRAME current_frames[MAX_NUM_FRAMES];
+	int where_to_add_next;
+	int earliest_ack_not_received;
+	int which_to_send_next;
+	bool resetting_now;
 	//receiver
-	int next_frame_seq_to_receive;
+	int next_frame_to_receive;
 	HASHTABLE current_ooo;
 } LINK;
 

@@ -1,4 +1,5 @@
 #include "definitions.h"
+#define MAX_NETWORK_QUEUE_SIZE 200
 
 /*
 * Code which setups the routing table for every node and shows the
@@ -22,8 +23,11 @@ QUEUE receiver_queue;
 
 typedef struct {
 	char incomplete_data[MAX_MESSAGE_SIZE];
+	int current_message;
+	int current_offset_needed;
 	HASHTABLE ooo_data;		
-	
+	int next_msg_to_generate;
+		
 } NODE_BUFFER;
 
 NODE_BUFFER buff[MAX_NODES];

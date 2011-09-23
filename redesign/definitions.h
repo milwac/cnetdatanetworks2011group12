@@ -11,9 +11,15 @@
 #include <stdlib.h>
 #include <limits.h>
 #define DATAGRAM_HEADER_SIZE (sizeof(size_t) + sizeof(long long) + 4*sizeof(int) + 2*sizeof(CnetAddr))
+#define FRAME_HEADER_SIZE (2*sizeof(int) + sizeof(KIND))
 #define MAX_NUMBER_FRAMES 256
 #define MAX_NODES 50
 
+
+typedef struct {
+	CnetAddr dest;
+	char data[MAX_MESSAGE_SIZE];
+} MSG;
 
 //VERY IMPORTANT! structure should be a multiple of four!  otherwise data corruption might occur!
 typedef struct {
@@ -28,6 +34,14 @@ char data[MAX_MESSAGE_SIZE];
 int pad1;
 } DATAGRAM;
 
+typedef enum {DL_DATA, DL_ACK, RT_DATA} KIND;
+//This is the smallest chunk of data which can be transferred, initially a message will be divided into smaller units of this type
+typedef struct {
+	KIND kind;
+	int checksum;
+	int frame_seq_number;
+	DATAGRAM payload;
+} FRAME;
 
 //------------------------ function declarations ----------------------------
 
@@ -45,5 +59,6 @@ extern void getCurrTime(unsigned long long*);
 extern void reboot_dll();
 extern void reboot_nl();
 extern bool push_datagram(int, DATAGRAM);
-extern void push_to_network_queue(DATAGRAM, int);
+extern void push_to_network(DATAGRAM);
 extern void stopTimers();
+extern bool extract_message(MSG*, int*);

@@ -1,5 +1,7 @@
 #include "application.h"
 
+bool app_enabled = true;
+
 static EVENT_HANDLER(application_ready){
 	MSG msg;
 	size_t len = sizeof(MSG);
@@ -7,11 +9,28 @@ static EVENT_HANDLER(application_ready){
 	queue_add(msg_queue, &msg, len + MESSAGE_HEADER_SIZE);
 	if(queue_nitems(msg_queue) == MAX_MSG_QUEUE_SIZE){
 		CNET_disable_application(ALLNODES);
+		app_enabled = false;
 	}
 }
 
 void initialize(){
 	msg_queue = queue_new();
+	printf("Initializing node %d\n", nodeinfo.address);
+	printf("DATAGRAM HEADER size is %d | FRAME HEADER size is %d\n", DATAGRAM_HEADER_SIZE, FRAME_HEADER_SIZE);
+}
+
+bool extract_message(MSG *msg, int *length){
+	size_t len;
+	if(queue_nitems(msg_queue) == 0)
+		return false;
+	*msg = *(MSG*)(queue_remove(msg_queue, &len));
+	printf("AL : Message to be sent to %d | size %d\n", msg->dest, len);
+	if(!app_enabled && queue_nitems(msg_queue) < MAX_MSG_QUEUE_SIZE/2){
+		CNET_enable_application(ALLNODES);
+		app_enabled = true;
+	}
+	*length = len;
+	return true;
 }
 
 EVENT_HANDLER(reboot_node){
@@ -22,4 +41,5 @@ EVENT_HANDLER(reboot_node){
 	CHECK(CNET_set_handler(EV_APPLICATIONREADY, application_ready, 0));
 	reboot_dll();
 	reboot_nl();
+	CNET_enable_application(ALLNODES);
 }
