@@ -4,17 +4,9 @@ CnetTimerID timer[MAX_LINKS];
 
 bool push_datagram(int link, DATAGRAM dg){
 	bool ret = false;
-	//printf("PushDG called | source %d | dest %d\n", dg.source, dg.dest);
-	if(link == -1){ // it is a routing packet
-		for(int i=1; i<= nodeinfo.nlinks; i++){
-			queue_add(links[i].buffer, &dg, DATAGRAM_HEADER_SIZE);	
-		}
-		ret = true;
-	} else { // it is a normal data packet
-		if(queue_nitems(links[link].buffer) < MAX_BUFFER_LIMIT){
-			queue_add(links[link].buffer, &dg, dg.data_len + DATAGRAM_HEADER_SIZE);
-			ret = true;	
-		}
+	if(queue_nitems(links[link].buffer) < MAX_BUFFER_LIMIT){
+		queue_add(links[link].buffer, &dg, dg.data_len + DATAGRAM_HEADER_SIZE);
+		ret = true;	
 	}
 	return ret;
 }

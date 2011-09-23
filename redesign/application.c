@@ -19,17 +19,20 @@ void initialize(){
 	printf("DATAGRAM HEADER size is %d | FRAME HEADER size is %d\n", DATAGRAM_HEADER_SIZE, FRAME_HEADER_SIZE);
 }
 
+MSG* msg_ptr;
+
 bool extract_message(MSG *msg, int *length){
 	size_t len;
 	if(queue_nitems(msg_queue) == 0)
 		return false;
-	*msg = *(MSG*)(queue_remove(msg_queue, &len));
+	msg_ptr = (MSG*)(queue_remove(msg_queue, &len));
+	*msg = *msg_ptr;
 	printf("AL : Message to be sent to %d | size %d\n", msg->dest, len);
 	if(!app_enabled && queue_nitems(msg_queue) < MAX_MSG_QUEUE_SIZE/2){
 		CNET_enable_application(ALLNODES);
 		app_enabled = true;
 	}
-	*length = len;
+	*length = len - MESSAGE_HEADER_SIZE;
 	return true;
 }
 

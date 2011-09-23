@@ -1,9 +1,14 @@
 #include "network_layer.h"
 
-DATAGRAM *dg_ptr;
 CnetTimerID timer0;
 CnetTimerID timer8;
 CnetTimerID timer9;
+
+void _free(DATAGRAM *ptr){
+	if(ptr == NULL)
+		return;
+	free(ptr);
+}
 
 int find_link(CnetAddr dest){
 	for(int i=0; i<MAX_NODES; i++){
@@ -54,7 +59,9 @@ void forward_datagram(DATAGRAM dg){
 }
 
 static EVENT_HANDLER(make_datagrams){
+	printf("MD called..\n");
 	if(queue_nitems(network_queue) < MAX_NETWORK_QUEUE_SIZE){
+		printf("Entering..\n");
 		int len;
 		MSG msg;
 		bool success = extract_message(&msg, &len);
@@ -87,18 +94,14 @@ static EVENT_HANDLER(make_datagrams){
 	startNTimer(9, 1000);
 }
 //used for polling the network queue and pushing packets to the DLL
+DATAGRAM *dg_ptr;
 static EVENT_HANDLER(poll_network_queue){
 	if(queue_nitems(network_queue) > 0){
 		size_t len = 0;
 		bool res = false;
 		dg_ptr = queue_peek(network_queue, &len);
-		DATAGRAM dg = *dg_ptr;
-		if(len == DATAGRAM_HEADER_SIZE){ //routing packet
-			res = push_datagram(-1, dg);
-		} else { // data packet
-			int link = find_link(dg_ptr->dest);
-			res = push_datagram(link, dg);
-		}
+		int link = find_link(dg_ptr->dest);
+		res = push_datagram(link, *dg_ptr);
 		if(res){
 			dg_ptr = queue_remove(network_queue, &len);
 		}
@@ -107,18 +110,21 @@ static EVENT_HANDLER(poll_network_queue){
 }
 
 static EVENT_HANDLER(process_datagram){
+	printf("PD called..\n");
 	CnetTime timeout = 1000;
 	if(queue_nitems(receiver_queue) > 0) {
+		printf("RQ has %d items..\n", queue_nitems(receiver_queue));
 		size_t len;
-		DATAGRAM dg = *(DATAGRAM*)(queue_remove(receiver_queue, &len));
-		printf("NL : Datagram to be processed is from %d and size %d\n", dg.source, dg.data_len);
-		int src_nn = find_nn(dg.source);
-		if(dg.mesg_seq_no == buff[src_nn].current_message && dg.fragOffset_nnSrc == buff[src_nn].current_offset_needed){
+		DATAGRAM *dg = NULL;
+		dg = (DATAGRAM*)(queue_remove(receiver_queue, &len));
+		printf("NL : Datagram to be processed is from %d and size %d\n", dg->source, dg->data_len);
+		int src_nn = find_nn(dg->source);
+		if(dg->mesg_seq_no == buff[src_nn].current_message && dg->fragOffset_nnSrc == buff[src_nn].current_offset_needed){
 			printf("NL : DG is expected, writing...\n");
-			memcpy(&buff[src_nn].incomplete_data[0] + dg.fragOffset_nnSrc, &dg.data[0], dg.data_len);
-			buff[src_nn].current_offset_needed = dg.fragOffset_nnSrc + dg.data_len;
-			if(dg.flagOffset_nnVia == 1){
-				printf("NL : Message to be written to AL, Source is %d | Size is %d\n", dg.source, (size_t)buff[src_nn].current_offset_needed);
+			memcpy(&buff[src_nn].incomplete_data[0] + dg->fragOffset_nnSrc, &dg->data[0], dg->data_len);
+			buff[src_nn].current_offset_needed = dg->fragOffset_nnSrc + dg->data_len;
+			if(dg->flagOffset_nnVia == 1){
+				printf("NL : Message to be written to AL, Source is %d | Size is %d\n", dg->source, (size_t)buff[src_nn].current_offset_needed);
 				CHECK(CNET_write_application((char*)&buff[src_nn].incomplete_data[0], (size_t*)&buff[src_nn].current_offset_needed));
 				buff[src_nn].current_message++;
 				buff[src_nn].current_offset_needed = 0;
@@ -126,41 +132,47 @@ static EVENT_HANDLER(process_datagram){
 		} else {
 			printf("NL : DG is unexpected, storing...\n");
 			char key[20];
-			sprintf(key, "%d#%d", dg.mesg_seq_no, dg.fragOffset_nnSrc);
+			sprintf(key, "%d#%d", dg->mesg_seq_no, dg->fragOffset_nnSrc);
 			size_t plen;
 			hashtable_find(buff[src_nn].ooo_data, key, &plen);
 			if(plen == 0){
-				hashtable_add(buff[src_nn].ooo_data, key, &dg, dg.data_len + DATAGRAM_HEADER_SIZE);
+				hashtable_add(buff[src_nn].ooo_data, key, &dg, dg->data_len + DATAGRAM_HEADER_SIZE);
 			}
 		}
+		_free(dg);
 		while(true){
+			DATAGRAM *_dg = NULL;
 			printf("Looking for the expected DG amongst the stored values...\n");
 			char key[20];
 			sprintf(key, "%d#%d", buff[src_nn].current_message, buff[src_nn].current_offset_needed);
 			size_t plen;
-			DATAGRAM _dg = *(DATAGRAM*)(hashtable_find(buff[src_nn].ooo_data, key, &plen));
+			_dg = (DATAGRAM*)(hashtable_find(buff[src_nn].ooo_data, key, &plen));
 			if(plen == 0){
+				printf("Not found, exiting..\n");
+				_free(_dg);
 				break;
 			} else {
 				printf("Found one more! Writing..\n");
-				memcpy(&buff[src_nn].incomplete_data[0] + _dg.fragOffset_nnSrc, &_dg.data[0], _dg.data_len);
-				buff[src_nn].current_offset_needed = _dg.fragOffset_nnSrc + _dg.data_len;
-				if(_dg.flagOffset_nnVia == 1){
-				printf("NL : Message to be written to AL, Source is %d | Size is %d\n", _dg.source, (size_t)buff[src_nn].current_offset_needed);
+				memcpy(&buff[src_nn].incomplete_data[0] + _dg->fragOffset_nnSrc, &_dg->data[0], _dg->data_len);
+				buff[src_nn].current_offset_needed = _dg->fragOffset_nnSrc + _dg->data_len;
+				if(_dg->flagOffset_nnVia == 1){
+				printf("NL : Message to be written to AL, Source is %d | Size is %d\n", _dg->source, (size_t)buff[src_nn].current_offset_needed);
 					CHECK(CNET_write_application((char*)&buff[src_nn].incomplete_data[0], (size_t*)&buff[src_nn].current_offset_needed));
 					buff[src_nn].current_message++;
 					buff[src_nn].current_offset_needed = 0;
 				}
 			}
+			_free(_dg);
 		}
 	}
 	startNTimer(8, timeout);	
 }
  
 void push_to_network(DATAGRAM dg){
+	printf("NL : Entering NL!\n");
 	if(dg.dest == nodeinfo.address){
 		//mine!!
-		queue_add(receiver_queue, &dg, dg.data_len + DATAGRAM_HEADER_SIZE);
+		queue_add(receiver_queue, &dg, (int)dg.data_len + DATAGRAM_HEADER_SIZE);
 			
 	} else {
 		//forward

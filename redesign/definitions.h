@@ -10,7 +10,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <limits.h>
-#define DATAGRAM_HEADER_SIZE (sizeof(size_t) + sizeof(long long) + 4*sizeof(int) + 2*sizeof(CnetAddr))
+#define DATAGRAM_HEADER_SIZE (sizeof(size_t) + sizeof(long long) + 3*sizeof(int) + 2*sizeof(CnetAddr))
 #define FRAME_HEADER_SIZE (2*sizeof(int) + sizeof(KIND))
 #define MAX_NUMBER_FRAMES 256
 #define MAX_NODES 50
@@ -23,15 +23,14 @@ typedef struct {
 
 //VERY IMPORTANT! structure should be a multiple of four!  otherwise data corruption might occur!
 typedef struct {
+size_t data_len;
 int mesg_seq_no;
 int fragOffset_nnSrc; // offset of frames in DATAGRAM, source node number of RT_PACKET
 int flagOffset_nnVia; // true when this is the last frame of the message if DATAGRAM, via node number in case of RT_PACKET
-size_t data_len;
+unsigned long long timestamp; // using node_info.time_of_day.usecs
 CnetAddr dest; // Via address in case of RT_PACKET
 CnetAddr source;
-unsigned long long timestamp; // using node_info.time_of_day.usecs
 char data[MAX_MESSAGE_SIZE];
-int pad1;
 } DATAGRAM;
 
 typedef enum {DL_DATA, DL_ACK, RT_DATA} KIND;
