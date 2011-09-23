@@ -1,0 +1,18 @@
+Initializing node 96
+DATAGRAM HEADER size is 36 | FRAME HEADER size is 12
+2 Nodes  Discovered for Address 96(nodenum=1) 
+#0 : Dest address : 134 | Via address : 134 | MTU : 96 | Cost : 35 
+#2 : Dest address : 182 | Via address : 134 | MTU : 96 | Cost : 209 
+Routing successfully completed! Application started.
+PD called..
+MD called..
+Entering..
+PD called..
+MD called..
+Entering..
+PD called..
+MD called..
+Entering..
+PD called..
+MD called..
+Entering..
