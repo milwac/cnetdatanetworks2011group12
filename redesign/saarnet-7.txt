@@ -1,5 +1,5 @@
 
-compile = "application.c network_layer.c definitions.c data_link_layer.c"
+compile = "application.c routing.c network_layer.c definitions.c data_link_layer.c"
 
 #include "saarland.map"
 #include "linktypes.txt"

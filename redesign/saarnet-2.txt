@@ -2,7 +2,7 @@
 // higher bandwidth, but unfortunately has a very low MTU. Still,
 // it is very reliable: No message loss, no corruption, no reordering.
 
-compile = "milestone2.c"
+compile = "application.c routing.c network_layer.c definitions.c data_link_layer.c"
 
 #include "saarland.map"
 #include "linktypes.txt"

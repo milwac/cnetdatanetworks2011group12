@@ -14,6 +14,7 @@ static EVENT_HANDLER(application_ready){
 }
 
 void initialize(){
+	RoutingStage = true;
 	msg_queue = queue_new();
 	printf("Initializing node %d\n", nodeinfo.address);
 	printf("DATAGRAM HEADER size is %d | FRAME HEADER size is %d\n", DATAGRAM_HEADER_SIZE, FRAME_HEADER_SIZE);
@@ -26,8 +27,9 @@ bool extract_message(MSG *msg, int *length){
 	if(queue_nitems(msg_queue) == 0)
 		return false;
 	msg_ptr = (MSG*)(queue_remove(msg_queue, &len));
-	*msg = *msg_ptr;
-	printf("AL : Message to be sent to %d | size %d\n", msg->dest, len);
+	msg->dest = msg_ptr->dest;
+	memcpy(&msg->data[0], &msg_ptr->data[0], len - MESSAGE_HEADER_SIZE);	
+	printf("AL : Message to be sent to %d | size %d\n", msg->dest, len - MESSAGE_HEADER_SIZE);
 	if(!app_enabled && queue_nitems(msg_queue) < MAX_MSG_QUEUE_SIZE/2){
 		CNET_enable_application(ALLNODES);
 		app_enabled = true;
@@ -44,5 +46,4 @@ EVENT_HANDLER(reboot_node){
 	CHECK(CNET_set_handler(EV_APPLICATIONREADY, application_ready, 0));
 	reboot_dll();
 	reboot_nl();
-	CNET_enable_application(ALLNODES);
 }

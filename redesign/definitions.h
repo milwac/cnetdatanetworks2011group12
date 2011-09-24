@@ -10,11 +10,12 @@
 #include <string.h>
 #include <stdlib.h>
 #include <limits.h>
-#define DATAGRAM_HEADER_SIZE (sizeof(size_t) + sizeof(long long) + 3*sizeof(int) + 2*sizeof(CnetAddr))
+#define DATAGRAM_HEADER_SIZE (sizeof(size_t) + sizeof(long long) + 4*sizeof(int) + 2*sizeof(CnetAddr))
 #define FRAME_HEADER_SIZE (2*sizeof(int) + sizeof(KIND))
 #define MAX_NUMBER_FRAMES 256
 #define MAX_NODES 50
 
+bool RoutingStage;
 
 typedef struct {
 	CnetAddr dest;
@@ -31,6 +32,7 @@ unsigned long long timestamp; // using node_info.time_of_day.usecs
 CnetAddr dest; // Via address in case of RT_PACKET
 CnetAddr source;
 char data[MAX_MESSAGE_SIZE];
+int pad;
 } DATAGRAM;
 
 typedef enum {DL_DATA, DL_ACK, RT_DATA} KIND;
@@ -61,3 +63,9 @@ extern bool push_datagram(int, DATAGRAM);
 extern void push_to_network(DATAGRAM);
 extern void stopTimers();
 extern bool extract_message(MSG*, int*);
+extern void setup_routing_table();
+extern void setup_dll();
+extern void setup_nl();
+extern void push_dg_for_routing(DATAGRAM, int);
+extern void initialize_rt();
+extern void update_table(int, DATAGRAM);
