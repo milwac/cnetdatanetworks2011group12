@@ -42,15 +42,15 @@ void forward_datagram(DATAGRAM dg){
 	int mtu = linkinfo[find_link(dest)].mtu;
 	if(dg.data_len + DATAGRAM_HEADER_SIZE + FRAME_HEADER_SIZE <= mtu){
 		queue_add(network_queue, &dg, (int)dg.data_len + DATAGRAM_HEADER_SIZE);
-		printf("Forwarding directly! [DG size %d | MTU size %d]\n", dg.data_len + DATAGRAM_HEADER_SIZE + FRAME_HEADER_SIZE, mtu);
+		//printf("Forwarding directly! [DG size %d | MTU size %d]\n", dg.data_len + DATAGRAM_HEADER_SIZE + FRAME_HEADER_SIZE, mtu);
 	}
 	else {
 		int max_payload_size = mtu - DATAGRAM_HEADER_SIZE - FRAME_HEADER_SIZE;
 		int seqno;
 		int len = dg.data_len;
-		printf("Have to split further! [Total data size %d | Max data size %d]\n", dg.data_len, mtu - DATAGRAM_HEADER_SIZE - FRAME_HEADER_SIZE);
+		//printf("Have to split further! [Total data size %d | Max data size %d]\n", dg.data_len, mtu - DATAGRAM_HEADER_SIZE - FRAME_HEADER_SIZE);
 		for(seqno = 0; len > 0; seqno++){
-			printf("Split #%d\n", seqno);
+			//printf("Split #%d\n", seqno);
 			DATAGRAM _dg;
 			_dg.mesg_seq_no = dg.mesg_seq_no;
 			_dg.data_len = (len < max_payload_size) ? len : max_payload_size; 
@@ -59,15 +59,11 @@ void forward_datagram(DATAGRAM dg){
 			_dg.dest = dest;
 			_dg.source = dg.source;
 			_dg.timestamp = dg.timestamp;
-			printf("header done\n");
 			memcpy(&_dg.data[0], &dg.data[seqno * max_payload_size], _dg.data_len);
-			printf("data copy done\n");
-			
 			queue_add(network_queue, &_dg, (int)_dg.data_len + DATAGRAM_HEADER_SIZE);
-			printf("added to queue\n");
 			len -= max_payload_size;
 		}
-		printf("DG split into %d smaller chunks\n", seqno);
+		//printf("DG split into %d smaller chunks\n", seqno);
 	}
 }
 
@@ -87,7 +83,7 @@ void make_datagrams(){
 		int max_payload_size = mtu - DATAGRAM_HEADER_SIZE - FRAME_HEADER_SIZE;
 		int seqno;
 		int src_nn = find_nn(dest);
-		printf("NL : Message extracted! To be sent to %d | size %d | mtu %d | source_nn %d\n", dest, len, mtu, src_nn);
+		//printf("NL : Message extracted! To be sent to %d | size %d | mtu %d | source_nn %d\n", dest, len, mtu, src_nn);
 		for(seqno = 0; len > 0; seqno++){
 			DATAGRAM dg;
 			dg.mesg_seq_no = buff[src_nn].next_msg_to_generate;
@@ -102,7 +98,7 @@ void make_datagrams(){
 			len -= max_payload_size;
 		}
 		buff[src_nn].next_msg_to_generate++;
-		printf("NL : Datagrams generated %d\n", seqno);	
+		//printf("NL : Datagrams generated %d\n", seqno);	
 	}
 	startNTimer(9, 1000);
 }
@@ -115,16 +111,26 @@ static EVENT_HANDLER(common_timer){
 }
 
 //used for polling the network queue and pushing packets to the DLL
-DATAGRAM *dg_ptr;
 static EVENT_HANDLER(poll_network_queue){
 	if(queue_nitems(network_queue) > 0){
 		size_t len = 0;
 		bool res = false;
+		DATAGRAM *dg_ptr = NULL;
 		dg_ptr = queue_peek(network_queue, &len);
 		int link = find_link(dg_ptr->dest);
-		res = push_datagram(link, *dg_ptr);
+		DATAGRAM dg;
+		dg.data_len = dg_ptr->data_len;
+		dg.source = dg_ptr->source;
+		dg.dest = dg_ptr->dest;
+		dg.mesg_seq_no = dg_ptr->mesg_seq_no;
+		dg.fragOffset_nnSrc = dg_ptr->fragOffset_nnSrc;
+		dg.flagOffset_nnVia = dg_ptr->flagOffset_nnVia;
+		dg.timestamp = dg_ptr->timestamp;
+		memcpy(&dg.data[0], &dg_ptr->data[0], dg_ptr->data_len);
+		res = push_datagram(link, dg);
 		if(res){
 			dg_ptr = queue_remove(network_queue, &len);
+			_free(dg_ptr);
 		}
 	}
 	startNTimer(0, 1000);

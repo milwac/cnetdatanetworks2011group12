@@ -1,2 +1,7 @@
 #!/bin/bash
-cnet two_node_network -T -W -o trace%n -s
+#cnet three_node_network -T -W -o trace%n -s
+cnet -W -T -s -e 15min saarnet-3a.txt -o trace%n
+
+#cnet -W -T -s -e 30min saarnet-4a.txt  -o trace%n
+
+#cnet -W -T -s -e 15min saarnet-8a.txt -o trace%n

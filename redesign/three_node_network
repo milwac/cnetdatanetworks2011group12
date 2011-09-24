@@ -1,6 +1,6 @@
 // A (cheaper, lossy) connection to SLS is added.
 
-compile = "application.c network_layer.c definitions.c data_link_layer.c"
+compile = "application.c routing.c network_layer.c definitions.c data_link_layer.c"
 
 #include "saarland.map"
 #include "linktypes.txt"
@@ -12,20 +12,36 @@ host SB {
 	address = 134
 	messagerate = 1ms
 	
-	wan to HOM { LINK_LOW_MTU(1, 3450) }
-	wan to SLS { LINK_GOOD(10, 2622) }
+	wan to SLS {
+		bandwidth = 1Mbps
+		propagationdelay = 3450usecs
+		mtu = 2048bytes
+	}
+	wan to HOM {
+		bandwidth = 1Mbps
+		propagationdelay = 3450usecs
+		mtu = 2048bytes
+	}
 }
 
 host HOM {
 	x = 68544, y = 35424
 	address = 96
 
-	wan to SB { LINK_LOW_MTU(1, 3450) }
+	wan to SB { 
+		bandwidth = 1Mbps
+		propagationdelay = 3450usecs
+		mtu = 2048bytes
+	}
 }
 
 host SLS {
 	x = 29088, y = 34848
 	address = 182
 
-	wan to SB { LINK_GOOD(10, 2622) }
+	wan to SB {
+		bandwidth = 1Mbps
+		propagationdelay = 3450usecs
+		mtu = 2048bytes
+	}
 }

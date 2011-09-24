@@ -1,7 +1,7 @@
 //
 #include "definitions.h"
 #define MAX_BUFFER_LIMIT 800
-#define MAX_NUM_FRAMES 60
+#define MAX_NUM_FRAMES 5
 #define MAX_LINKS 8
 
 //The link storage structure
