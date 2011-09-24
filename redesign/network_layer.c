@@ -42,7 +42,7 @@ void forward_datagram(DATAGRAM dg){
 	int mtu = linkinfo[find_link(dest)].mtu;
 	if(dg.data_len + DATAGRAM_HEADER_SIZE + FRAME_HEADER_SIZE <= mtu){
 		queue_add(network_queue, &dg, (int)dg.data_len + DATAGRAM_HEADER_SIZE);
-		//printf("Forwarding directly! [DG size %d | MTU size %d]\n", dg.data_len + DATAGRAM_HEADER_SIZE + FRAME_HEADER_SIZE, mtu);
+		printf("Forwarding directly! [DG size %d | MTU size %d]\n", dg.data_len + DATAGRAM_HEADER_SIZE + FRAME_HEADER_SIZE, mtu);
 	}
 	else {
 		int max_payload_size = mtu - DATAGRAM_HEADER_SIZE - FRAME_HEADER_SIZE;
@@ -63,7 +63,7 @@ void forward_datagram(DATAGRAM dg){
 			queue_add(network_queue, &_dg, (int)_dg.data_len + DATAGRAM_HEADER_SIZE);
 			len -= max_payload_size;
 		}
-		//printf("DG split into %d smaller chunks\n", seqno);
+		printf("DG split into %d smaller chunks\n", seqno);
 	}
 }
 
@@ -136,18 +136,22 @@ static EVENT_HANDLER(poll_network_queue){
 	startNTimer(0, 1000);
 }
 
-static EVENT_HANDLER(process_datagram){
+void process_datagram(){
 	//printf("PD called..\n");
 	CnetTime timeout = 1000;
 	if(queue_nitems(receiver_queue) > 0) {
-		//printf("RQ has %d items..\n", queue_nitems(receiver_queue));
+		printf("RQ has %d items..\n", queue_nitems(receiver_queue));
 		size_t len;
 		DATAGRAM *dg = NULL;
-		dg = (DATAGRAM*)(queue_remove(receiver_queue, &len));
-		//printf("NL : Datagram to be processed is from %d and size %d\n", dg->source, dg->data_len);
+		dg = queue_remove(receiver_queue, &len);
+		if(dg == NULL){
+			printf("OMG.. Its a NULL POINTER\n");
+			return;
+		}
+		printf("NL : Datagram to be processed is from %d and size %d\n", dg->source, dg->data_len);
 		int src_nn = find_nn(dg->source);
 		if(dg->mesg_seq_no == buff[src_nn].current_message && dg->fragOffset_nnSrc == buff[src_nn].current_offset_needed){
-			//printf("NL : DG is expected, writing...\n");
+			printf("NL : DG is expected, writing...\n");
 			memcpy(&buff[src_nn].incomplete_data[0] + dg->fragOffset_nnSrc, &dg->data[0], dg->data_len);
 			buff[src_nn].current_offset_needed = dg->fragOffset_nnSrc + dg->data_len;
 			if(dg->flagOffset_nnVia == 1){
@@ -157,29 +161,29 @@ static EVENT_HANDLER(process_datagram){
 				buff[src_nn].current_offset_needed = 0;
 			}
 		} else {
-			//printf("NL : DG is unexpected, storing...\n");
+			printf("NL : DG is unexpected, storing...\n");
 			char key[20];
 			sprintf(key, "%d#%d", dg->mesg_seq_no, dg->fragOffset_nnSrc);
 			size_t plen;
 			hashtable_find(buff[src_nn].ooo_data, key, &plen);
 			if(plen == 0){
-				hashtable_add(buff[src_nn].ooo_data, key, &dg, dg->data_len + DATAGRAM_HEADER_SIZE);
+				hashtable_add(buff[src_nn].ooo_data, key, dg, dg->data_len + DATAGRAM_HEADER_SIZE);
 			}
 		}
 		_free(dg);
 		while(true){
 			DATAGRAM *_dg = NULL;
-			//printf("Looking for the expected DG amongst the stored values...\n");
+			printf("Looking for the expected DG amongst the stored values...\n");
 			char key[20];
 			sprintf(key, "%d#%d", buff[src_nn].current_message, buff[src_nn].current_offset_needed);
 			size_t plen;
 			_dg = (DATAGRAM*)(hashtable_find(buff[src_nn].ooo_data, key, &plen));
 			if(plen == 0){
 				//printf("Not found, exiting..\n");
-				_free(_dg);
+				//_free(_dg);
 				break;
 			} else {
-				//printf("Found one more! Writing..\n");
+				printf("Found one more in HT..! Appending the data for source %d..\n",_dg->source);
 				memcpy(&buff[src_nn].incomplete_data[0] + _dg->fragOffset_nnSrc, &_dg->data[0], _dg->data_len);
 				buff[src_nn].current_offset_needed = _dg->fragOffset_nnSrc + _dg->data_len;
 				if(_dg->flagOffset_nnVia == 1){
@@ -191,14 +195,21 @@ static EVENT_HANDLER(process_datagram){
 			}
 			_free(_dg);
 		}
+		process_datagram();
 	}
-	startNTimer(8, timeout);	
+	else {
+		startNTimer(8, timeout);	
+	}
+}
+
+static EVENT_HANDLER(process_timer){
+	process_datagram();
 }
  
 void push_to_network(DATAGRAM dg){
 	//printf("NL : Entering NL!\n");
 	if(dg.dest == nodeinfo.address){
-		//mine!!
+		printf("Packet received is destined for me\n");
 		queue_add(receiver_queue, &dg, (int)dg.data_len + DATAGRAM_HEADER_SIZE);
 			
 	} else {
@@ -210,7 +221,7 @@ void push_to_network(DATAGRAM dg){
 void reboot_nl(){
 	initialize_rt();
 	CHECK(CNET_set_handler(EV_TIMER0, poll_network_queue, 0));
-	CHECK(CNET_set_handler(EV_TIMER8, process_datagram, 0));
+	CHECK(CNET_set_handler(EV_TIMER8, process_timer, 0));
 	CHECK(CNET_set_handler(EV_TIMER9, common_timer, 0));
 	for(int i=0; i<MAX_NODES; i++){
 		buff[i].next_msg_to_generate = 0;

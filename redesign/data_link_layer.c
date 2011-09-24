@@ -135,7 +135,7 @@ void populate_sender_and_send(int link){
 		//printf("There is data to send..\n");
 		if(links[link].which_to_send_next < MAX_NUM_FRAMES){
 			FRAME f = links[link].current_frames[links[link].which_to_send_next];
-			//printf("Sending frame : source %d | dest %d | size %d\n", f.payload.source, f.payload.dest, f.payload.data_len);
+			printf("Sending frame : source %d | dest %d | size %d\n", f.payload.source, f.payload.dest, f.payload.data_len);
 			f.frame_seq_number = links[link].which_to_send_next;
 			f.checksum = 0;
 			size_t len = f.payload.data_len + DATAGRAM_HEADER_SIZE + FRAME_HEADER_SIZE;
@@ -147,7 +147,7 @@ void populate_sender_and_send(int link){
 				links[link].which_to_send_next = links[link].earliest_ack_not_received;
 			//printbuffinfo(link);
 		} else {
-			//printf("MAX_NUM_FRAMES reached, resetting..\n");
+			printf("Done with all the frames.. Resetting to DRAW next set of frames\n");
 			reset_link(link);
 		}
 	}

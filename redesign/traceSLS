@@ -1,158 +1,1543 @@
-POP called for link 1
-No acks.. continuing
-Current frames are zero! Populating..
-Removing next frame..
-Successfully removed something.... | Source 182
-Removed dg : source 182 | dest 182 | len 36
-Adding frame : source 182 | dest 182 | ts 495777496
-Populated 1 frames
-Sending frame : source 182 | dest 182 | ts 495777496
-Out of if
-POP called for link 2
-No acks.. continuing
-Current frames are zero! Populating..
-Removing next frame..
-Successfully removed something.... | Source 182
-Removed dg : source 182 | dest 182 | len 36
-Adding frame : source 182 | dest 182 | ts 495777496
-Populated 1 frames
-Sending frame : source 182 | dest 182 | ts 495777496
-Out of if
-POP called for link 3
-No acks.. continuing
-Current frames are zero! Populating..
-Removing next frame..
-Successfully removed something.... | Source 182
-Removed dg : source 182 | dest 182 | len 36
-Adding frame : source 182 | dest 182 | ts 495777496
-Populated 1 frames
-Sending frame : source 182 | dest 182 | ts 495777496
-Out of if
-POP called for link 4
-No acks.. continuing
-Current frames are zero! Populating..
-Removing next frame..
-Successfully removed something.... | Source 182
-Removed dg : source 182 | dest 182 | len 36
-Adding frame : source 182 | dest 182 | ts 495777496
-Populated 1 frames
-Sending frame : source 182 | dest 182 | ts 495777496
-Out of if
-POP called for link 3
-No acks.. continuing
-Current frames are zero! Populating..
-Removing next frame..
-Successfully removed something.... | Source 182
-Removed dg : source 182 | dest 182 | len 36
-Adding frame : source 182 | dest 182 | ts 495777496
-Populated 1 frames
-Sending frame : source 182 | dest 182 | ts 495777496
-Out of if
-POP called for link 2
-No acks.. continuing
-Current frames are zero! Populating..
-Removing next frame..
-Successfully removed something.... | Source 182
-Removed dg : source 182 | dest 182 | len 36
-Adding frame : source 182 | dest 182 | ts 495777496
-Populated 1 frames
-Sending frame : source 182 | dest 182 | ts 495777496
-Out of if
-POP called for link 4
-No acks.. continuing
-Current frames are zero! Populating..
-Removing next frame..
-Successfully removed something.... | Source 182
-Removed dg : source 182 | dest 182 | len 36
-Adding frame : source 182 | dest 182 | ts 495777496
-Populated 1 frames
-Sending frame : source 182 | dest 182 | ts 495777496
-Out of if
-POP called for link 3
-No acks.. continuing
-Current frames are zero! Populating..
-Removing next frame..
-Successfully removed something.... | Source 182
-Removed dg : source 182 | dest 182 | len 36
-Adding frame : source 182 | dest 182 | ts 495777496
-Populated 1 frames
-Sending frame : source 182 | dest 182 | ts 495777496
-Out of if
-POP called for link 2
-No acks.. continuing
-Current frames are zero! Populating..
-Removing next frame..
-Successfully removed something.... | Source 182
-Removed dg : source 182 | dest 182 | len 36
-Adding frame : source 182 | dest 182 | ts 495777496
-Populated 1 frames
-Sending frame : source 182 | dest 182 | ts 495777496
-Out of if
-POP called for link 4
-No acks.. continuing
-Current frames are zero! Populating..
-Removing next frame..
-Successfully removed something.... | Source 182
-Removed dg : source 182 | dest 182 | len 36
-Adding frame : source 182 | dest 182 | ts 495777496
-Populated 1 frames
-Sending frame : source 182 | dest 182 | ts 495777496
-Out of if
-POP called for link 3
-No acks.. continuing
-Current frames are zero! Populating..
-Populated 0 frames
-Out of if
-POP called for link 2
-No acks.. continuing
-Current frames are zero! Populating..
-Removing next frame..
-Successfully removed something.... | Source 144
-Removed dg : source 144 | dest 182 | len 36
-Adding frame : source 144 | dest 182 | ts 495862825
-Populated 1 frames
-Sending frame : source 144 | dest 182 | ts 495862825
-Out of if
-POP called for link 1
-No acks.. continuing
-Current frames are zero! Populating..
-Removing next frame..
-Successfully removed something.... | Source 182
-Removed dg : source 182 | dest 182 | len 36
-Adding frame : source 182 | dest 182 | ts 495777496
-Removing next frame..
-Successfully removed something.... | Source 182
-Removed dg : source 182 | dest 182 | len 36
-Adding frame : source 182 | dest 182 | ts 495777496
-Removing next frame..
-Successfully removed something.... | Source 144
-Removed dg : source 144 | dest 182 | len 36
-Adding frame : source 144 | dest 182 | ts 495862825
-Populated 3 frames
-Sending frame : source 182 | dest 182 | ts 495777496
-Out of if
-POP called for link 2
-No acks.. continuing
-Current frames are zero! Populating..
-Populated 0 frames
-Out of if
-POP called for link 4
-No acks.. continuing
-Current frames are zero! Populating..
-Removing next frame..
-Successfully removed something.... | Source 144
-Removed dg : source 144 | dest 182 | len 36
-Adding frame : source 144 | dest 182 | ts 495862825
-Populated 1 frames
-Sending frame : source 144 | dest 182 | ts 495862825
-Out of if
-POP called for link 3
-No acks.. continuing
-Current frames are zero! Populating..
-Removing next frame..
-Successfully removed something.... | Source 144
-Removed dg : source 144 | dest 182 | len 36
-Adding frame : source 144 | dest 182 | ts 495862825
-Populated 1 frames
-Sending frame : source 144 | dest 182 | ts 495862825
-Out of if
+Initializing node 182
+DATAGRAM HEADER size is 36 | FRAME HEADER size is 12
+Packet received is destined for me
+Packet received is destined for me
+Packet received is destined for me
+Packet received is destined for me
+2 Nodes  Discovered for Address 182(nodenum=2) 
+#0 : Dest address : 134 | Via address : 134 | MTU : 16384 | Cost : 8 
+#1 : Dest address : 96 | Via address : 134 | MTU : 16384 | Cost : 92 
+Routing successfully completed! Application started.
+NL : Timers started
+DLL : Timers started!
+RQ has 4 items..
+NL : Datagram to be processed is from 134 and size 103
+NL : DG is expected, writing...
+NL : Message to be written to AL, Source is 134 | Size is 103
+Looking for the expected DG amongst the stored values...
+RQ has 3 items..
+NL : Datagram to be processed is from 134 and size 6222
+NL : DG is expected, writing...
+NL : Message to be written to AL, Source is 134 | Size is 6222
+Looking for the expected DG amongst the stored values...
+RQ has 2 items..
+NL : Datagram to be processed is from 134 and size 1223
+NL : DG is expected, writing...
+NL : Message to be written to AL, Source is 134 | Size is 1223
+Looking for the expected DG amongst the stored values...
+RQ has 1 items..
+NL : Datagram to be processed is from 134 and size 4974
+NL : DG is expected, writing...
+NL : Message to be written to AL, Source is 134 | Size is 4974
+Looking for the expected DG amongst the stored values...
+Send acks first
+Send acks first
+Send acks first
+Send acks first
+Packet received is destined for me
+Send acks first
+RQ has 1 items..
+NL : Datagram to be processed is from 134 and size 4991
+NL : DG is expected, writing...
+NL : Message to be written to AL, Source is 134 | Size is 4991
+Looking for the expected DG amongst the stored values...
+AL : Message to be sent to 96 | size 2162
+Sending frame : source 182 | dest 96 | size 2162
+AL : Message to be sent to 96 | size 6757
+Sending frame : source 182 | dest 96 | size 6757
+Packet received is destined for me
+Send acks first
+RQ has 1 items..
+NL : Datagram to be processed is from 134 and size 5628
+NL : DG is expected, writing...
+NL : Message to be written to AL, Source is 134 | Size is 5628
+Looking for the expected DG amongst the stored values...
+AL : Message to be sent to 134 | size 7069
+Sending frame : source 182 | dest 134 | size 7069
+AL : Message to be sent to 134 | size 464
+Sending frame : source 182 | dest 134 | size 464
+AL : Message to be sent to 134 | size 7783
+Sending frame : source 182 | dest 134 | size 7783
+Sending frame : source 182 | dest 134 | size 7783
+Sending frame : source 182 | dest 134 | size 7783
+Done with all the frames.. Resetting to DRAW next set of frames
+AL : Message to be sent to 134 | size 8725
+Sending frame : source 182 | dest 134 | size 8725
+AL : Message to be sent to 96 | size 1647
+Sending frame : source 182 | dest 96 | size 1647
+AL : Message to be sent to 134 | size 7787
+Sending frame : source 182 | dest 134 | size 7787
+AL : Message to be sent to 96 | size 9850
+Sending frame : source 182 | dest 96 | size 9850
+AL : Message to be sent to 96 | size 8121
+Sending frame : source 182 | dest 96 | size 8121
+Sending frame : source 182 | dest 96 | size 8121
+AL : Message to be sent to 134 | size 538
+Sending frame : source 182 | dest 96 | size 8121
+Done with all the frames.. Resetting to DRAW next set of frames
+Sending frame : source 182 | dest 134 | size 538
+Packet received is destined for me
+RQ has 1 items..
+NL : Datagram to be processed is from 134 and size 7299
+NL : DG is expected, writing...
+NL : Message to be written to AL, Source is 134 | Size is 7299
+Looking for the expected DG amongst the stored values...
+Send acks first
+AL : Message to be sent to 134 | size 8839
+Sending frame : source 182 | dest 134 | size 8839
+AL : Message to be sent to 134 | size 635
+Sending frame : source 182 | dest 134 | size 635
+AL : Message to be sent to 96 | size 9938
+Sending frame : source 182 | dest 96 | size 9938
+AL : Message to be sent to 134 | size 1012
+Sending frame : source 182 | dest 134 | size 1012
+Sending frame : source 182 | dest 134 | size 1012
+Sending frame : source 182 | dest 134 | size 1012
+Sending frame : source 182 | dest 134 | size 1012
+Done with all the frames.. Resetting to DRAW next set of frames
+AL : Message to be sent to 134 | size 3693
+Sending frame : source 182 | dest 134 | size 3693
+AL : Message to be sent to 134 | size 2268
+Sending frame : source 182 | dest 134 | size 2268
+AL : Message to be sent to 96 | size 5479
+Sending frame : source 182 | dest 96 | size 5479
+BAD Checksum! Frame ignored!
+AL : Message to be sent to 134 | size 6622
+Sending frame : source 182 | dest 134 | size 6622
+AL : Message to be sent to 96 | size 3703
+Sending frame : source 182 | dest 96 | size 3703
+Sending frame : source 182 | dest 96 | size 3703
+Sending frame : source 182 | dest 96 | size 3703
+Done with all the frames.. Resetting to DRAW next set of frames
+AL : Message to be sent to 96 | size 3019
+Sending frame : source 182 | dest 96 | size 3019
+AL : Message to be sent to 134 | size 2099
+Sending frame : source 182 | dest 134 | size 2099
+AL : Message to be sent to 134 | size 5445
+Sending frame : source 182 | dest 134 | size 5445
+AL : Message to be sent to 134 | size 6480
+Sending frame : source 182 | dest 134 | size 6480
+AL : Message to be sent to 134 | size 4372
+Sending frame : source 182 | dest 134 | size 4372
+Sending frame : source 182 | dest 134 | size 4372
+Sending frame : source 182 | dest 134 | size 4372
+Done with all the frames.. Resetting to DRAW next set of frames
+AL : Message to be sent to 96 | size 6800
+Sending frame : source 182 | dest 96 | size 6800
+Packet received is destined for me
+Send acks first
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is expected, writing...
+Looking for the expected DG amongst the stored values...
+Packet received is destined for me
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is expected, writing...
+Looking for the expected DG amongst the stored values...
+Send acks first
+Packet received is destined for me
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is expected, writing...
+Looking for the expected DG amongst the stored values...
+Send acks first
+Packet received is destined for me
+Send acks first
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is expected, writing...
+Looking for the expected DG amongst the stored values...
+Packet received is destined for me
+Send acks first
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is expected, writing...
+Looking for the expected DG amongst the stored values...
+Packet received is destined for me
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is expected, writing...
+Looking for the expected DG amongst the stored values...
+Send acks first
+Packet received is destined for me
+Send acks first
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is expected, writing...
+Looking for the expected DG amongst the stored values...
+Packet received is destined for me
+Send acks first
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is expected, writing...
+Looking for the expected DG amongst the stored values...
+Packet received is destined for me
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is expected, writing...
+Looking for the expected DG amongst the stored values...
+Send acks first
+Packet received is destined for me
+Send acks first
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is expected, writing...
+Looking for the expected DG amongst the stored values...
+Packet received is destined for me
+Send acks first
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is expected, writing...
+Looking for the expected DG amongst the stored values...
+Packet received is destined for me
+Send acks first
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is expected, writing...
+Looking for the expected DG amongst the stored values...
+Packet received is destined for me
+Send acks first
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is expected, writing...
+Looking for the expected DG amongst the stored values...
+Packet received is destined for me
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is expected, writing...
+Looking for the expected DG amongst the stored values...
+Send acks first
+Packet received is destined for me
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is expected, writing...
+Looking for the expected DG amongst the stored values...
+Send acks first
+Packet received is destined for me
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is expected, writing...
+Looking for the expected DG amongst the stored values...
+Send acks first
+Packet received is destined for me
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is expected, writing...
+Looking for the expected DG amongst the stored values...
+Send acks first
+Packet received is destined for me
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is expected, writing...
+Looking for the expected DG amongst the stored values...
+Send acks first
+Packet received is destined for me
+Send acks first
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is expected, writing...
+Looking for the expected DG amongst the stored values...
+Packet received is destined for me
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is expected, writing...
+Looking for the expected DG amongst the stored values...
+Send acks first
+Packet received is destined for me
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is expected, writing...
+Looking for the expected DG amongst the stored values...
+Send acks first
+Packet received is destined for me
+Send acks first
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is expected, writing...
+Looking for the expected DG amongst the stored values...
+Packet received is destined for me
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is expected, writing...
+Looking for the expected DG amongst the stored values...
+Send acks first
+Packet received is destined for me
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is expected, writing...
+Looking for the expected DG amongst the stored values...
+Send acks first
+Packet received is destined for me
+Send acks first
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is expected, writing...
+Looking for the expected DG amongst the stored values...
+Packet received is destined for me
+Send acks first
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is expected, writing...
+Looking for the expected DG amongst the stored values...
+Packet received is destined for me
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is expected, writing...
+Looking for the expected DG amongst the stored values...
+Send acks first
+Packet received is destined for me
+Send acks first
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is expected, writing...
+Looking for the expected DG amongst the stored values...
+Packet received is destined for me
+Send acks first
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is expected, writing...
+Looking for the expected DG amongst the stored values...
+Packet received is destined for me
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is expected, writing...
+Looking for the expected DG amongst the stored values...
+Send acks first
+Packet received is destined for me
+Send acks first
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is expected, writing...
+Looking for the expected DG amongst the stored values...
+Packet received is destined for me
+Send acks first
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is expected, writing...
+Looking for the expected DG amongst the stored values...
+Packet received is destined for me
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is expected, writing...
+Looking for the expected DG amongst the stored values...
+Send acks first
+Packet received is destined for me
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is expected, writing...
+Looking for the expected DG amongst the stored values...
+Send acks first
+Packet received is destined for me
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is expected, writing...
+Looking for the expected DG amongst the stored values...
+Send acks first
+Packet received is destined for me
+Send acks first
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is expected, writing...
+Looking for the expected DG amongst the stored values...
+Packet received is destined for me
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is expected, writing...
+Looking for the expected DG amongst the stored values...
+Send acks first
+Packet received is destined for me
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is expected, writing...
+Looking for the expected DG amongst the stored values...
+Send acks first
+Packet received is destined for me
+Send acks first
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is expected, writing...
+Looking for the expected DG amongst the stored values...
+Packet received is destined for me
+Send acks first
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is expected, writing...
+Looking for the expected DG amongst the stored values...
+Packet received is destined for me
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is expected, writing...
+Looking for the expected DG amongst the stored values...
+Send acks first
+Packet received is destined for me
+Send acks first
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is expected, writing...
+Looking for the expected DG amongst the stored values...
+Packet received is destined for me
+Send acks first
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is expected, writing...
+Looking for the expected DG amongst the stored values...
+Packet received is destined for me
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is expected, writing...
+Looking for the expected DG amongst the stored values...
+Send acks first
+Packet received is destined for me
+Send acks first
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is expected, writing...
+Looking for the expected DG amongst the stored values...
+Packet received is destined for me
+Send acks first
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is expected, writing...
+Looking for the expected DG amongst the stored values...
+Packet received is destined for me
+Send acks first
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is expected, writing...
+Looking for the expected DG amongst the stored values...
+Packet received is destined for me
+Send acks first
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is expected, writing...
+Looking for the expected DG amongst the stored values...
+Packet received is destined for me
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is expected, writing...
+Looking for the expected DG amongst the stored values...
+Send acks first
+Packet received is destined for me
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is expected, writing...
+Looking for the expected DG amongst the stored values...
+Send acks first
+Packet received is destined for me
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is expected, writing...
+Looking for the expected DG amongst the stored values...
+Send acks first
+Send acks first
+Packet received is destined for me
+Packet received is destined for me
+RQ has 2 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is expected, writing...
+Looking for the expected DG amongst the stored values...
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is expected, writing...
+Looking for the expected DG amongst the stored values...
+Send acks first
+Packet received is destined for me
+Send acks first
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is expected, writing...
+Looking for the expected DG amongst the stored values...
+Packet received is destined for me
+Send acks first
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is expected, writing...
+Looking for the expected DG amongst the stored values...
+Packet received is destined for me
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is expected, writing...
+Looking for the expected DG amongst the stored values...
+Send acks first
+Packet received is destined for me
+Packet received is destined for me
+Send acks first
+RQ has 2 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is expected, writing...
+Looking for the expected DG amongst the stored values...
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Packet received is destined for me
+Send acks first
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Packet received is destined for me
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Send acks first
+Packet received is destined for me
+Send acks first
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Packet received is destined for me
+Packet received is destined for me
+Send acks first
+RQ has 2 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Packet received is destined for me
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Send acks first
+Packet received is destined for me
+Send acks first
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Packet received is destined for me
+Send acks first
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Packet received is destined for me
+Packet received is destined for me
+RQ has 2 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Send acks first
+AL : Message to be sent to 134 | size 2989
+Sending frame : source 182 | dest 134 | size 2989
+Packet received is destined for me
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Send acks first
+Packet received is destined for me
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Send acks first
+Packet received is destined for me
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Send acks first
+Packet received is destined for me
+Packet received is destined for me
+Send acks first
+RQ has 2 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Packet received is destined for me
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Send acks first
+Packet received is destined for me
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Send acks first
+Packet received is destined for me
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Send acks first
+Packet received is destined for me
+Packet received is destined for me
+RQ has 2 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Send acks first
+Packet received is destined for me
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Send acks first
+Packet received is destined for me
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Send acks first
+Packet received is destined for me
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Send acks first
+Packet received is destined for me
+Packet received is destined for me
+RQ has 2 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Send acks first
+Packet received is destined for me
+Send acks first
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Packet received is destined for me
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Send acks first
+Packet received is destined for me
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Send acks first
+Packet received is destined for me
+Packet received is destined for me
+RQ has 2 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Send acks first
+Packet received is destined for me
+Send acks first
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Packet received is destined for me
+Send acks first
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Packet received is destined for me
+Send acks first
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Packet received is destined for me
+Packet received is destined for me
+RQ has 2 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Send acks first
+Packet received is destined for me
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Send acks first
+Packet received is destined for me
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Send acks first
+Packet received is destined for me
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Send acks first
+Packet received is destined for me
+Packet received is destined for me
+RQ has 2 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Send acks first
+Packet received is destined for me
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Send acks first
+Packet received is destined for me
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Send acks first
+Packet received is destined for me
+Send acks first
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Packet received is destined for me
+Packet received is destined for me
+RQ has 2 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Send acks first
+Packet received is destined for me
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Send acks first
+Packet received is destined for me
+Send acks first
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Packet received is destined for me
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Send acks first
+Packet received is destined for me
+Packet received is destined for me
+RQ has 2 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Send acks first
+Packet received is destined for me
+Send acks first
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Packet received is destined for me
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Send acks first
+Packet received is destined for me
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Send acks first
+Packet received is destined for me
+Packet received is destined for me
+Send acks first
+RQ has 2 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+BAD Checksum! Frame ignored!
+Packet received is destined for me
+Send acks first
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Packet received is destined for me
+Send acks first
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Packet received is destined for me
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Send acks first
+Packet received is destined for me
+Packet received is destined for me
+RQ has 2 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Send acks first
+Packet received is destined for me
+Send acks first
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Packet received is destined for me
+Send acks first
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Packet received is destined for me
+Send acks first
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Packet received is destined for me
+Packet received is destined for me
+Send acks first
+RQ has 2 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Packet received is destined for me
+Send acks first
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Packet received is destined for me
+Send acks first
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Packet received is destined for me
+Send acks first
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Packet received is destined for me
+Packet received is destined for me
+Send acks first
+RQ has 2 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Packet received is destined for me
+Send acks first
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Packet received is destined for me
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Send acks first
+Packet received is destined for me
+Send acks first
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Packet received is destined for me
+Packet received is destined for me
+Send acks first
+RQ has 2 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Packet received is destined for me
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Send acks first
+Packet received is destined for me
+Send acks first
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Packet received is destined for me
+Send acks first
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Packet received is destined for me
+Packet received is destined for me
+RQ has 2 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Send acks first
+Packet received is destined for me
+Send acks first
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Packet received is destined for me
+Send acks first
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Packet received is destined for me
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Send acks first
+Packet received is destined for me
+Packet received is destined for me
+Send acks first
+RQ has 2 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Packet received is destined for me
+Send acks first
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Packet received is destined for me
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Send acks first
+Packet received is destined for me
+Send acks first
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+BAD Checksum! Frame ignored!
+Send acks first
+Packet received is destined for me
+Packet received is destined for me
+RQ has 2 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Send acks first
+Packet received is destined for me
+Send acks first
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Packet received is destined for me
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Send acks first
+Packet received is destined for me
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Send acks first
+Packet received is destined for me
+Packet received is destined for me
+Send acks first
+RQ has 2 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Packet received is destined for me
+Send acks first
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Packet received is destined for me
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Send acks first
+Packet received is destined for me
+Send acks first
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Packet received is destined for me
+Packet received is destined for me
+RQ has 2 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Send acks first
+Packet received is destined for me
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Send acks first
+Packet received is destined for me
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Send acks first
+Packet received is destined for me
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Send acks first
+Packet received is destined for me
+Packet received is destined for me
+Send acks first
+RQ has 2 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Packet received is destined for me
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Send acks first
+Packet received is destined for me
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Send acks first
+Packet received is destined for me
+Send acks first
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Packet received is destined for me
+Packet received is destined for me
+RQ has 2 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Send acks first
+Packet received is destined for me
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Send acks first
+Packet received is destined for me
+Send acks first
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Packet received is destined for me
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Send acks first
+Packet received is destined for me
+Packet received is destined for me
+RQ has 2 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Send acks first
+Packet received is destined for me
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Send acks first
+Packet received is destined for me
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Send acks first
+Packet received is destined for me
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Send acks first
+Packet received is destined for me
+Packet received is destined for me
+Send acks first
+RQ has 2 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Packet received is destined for me
+Send acks first
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Packet received is destined for me
+Send acks first
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Packet received is destined for me
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Send acks first
+Packet received is destined for me
+Packet received is destined for me
+RQ has 2 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Send acks first
+Packet received is destined for me
+Send acks first
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Packet received is destined for me
+Send acks first
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 4
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+AL : Message to be sent to 134 | size 1785
+Sending frame : source 182 | dest 134 | size 1785
+Packet received is destined for me
+Send acks first
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Packet received is destined for me
+Packet received is destined for me
+RQ has 2 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Send acks first
+Packet received is destined for me
+Send acks first
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Packet received is destined for me
+Send acks first
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Packet received is destined for me
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Send acks first
+Packet received is destined for me
+Packet received is destined for me
+Send acks first
+RQ has 2 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Packet received is destined for me
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Send acks first
+Packet received is destined for me
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Send acks first
+Packet received is destined for me
+Send acks first
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Packet received is destined for me
+Packet received is destined for me
+RQ has 2 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Send acks first
+Packet received is destined for me
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Send acks first
+Packet received is destined for me
+Send acks first
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Packet received is destined for me
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Send acks first
+Packet received is destined for me
+Packet received is destined for me
+RQ has 2 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Send acks first
+Packet received is destined for me
+Send acks first
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Packet received is destined for me
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Send acks first
+Packet received is destined for me
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Send acks first
+Packet received is destined for me
+Packet received is destined for me
+Send acks first
+RQ has 2 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Packet received is destined for me
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Send acks first
+Packet received is destined for me
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Send acks first
+Packet received is destined for me
+Send acks first
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Packet received is destined for me
+Packet received is destined for me
+RQ has 2 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Send acks first
+Packet received is destined for me
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Send acks first
+Packet received is destined for me
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Send acks first
+Packet received is destined for me
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Send acks first
+Packet received is destined for me
+Packet received is destined for me
+RQ has 2 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Send acks first
+Packet received is destined for me
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Send acks first
+Packet received is destined for me
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Send acks first
+Packet received is destined for me
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Send acks first
+Packet received is destined for me
+Packet received is destined for me
+RQ has 2 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Send acks first
+Packet received is destined for me
+Send acks first
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Packet received is destined for me
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Send acks first
+Packet received is destined for me
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Send acks first
+Packet received is destined for me
+Packet received is destined for me
+RQ has 2 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Send acks first
+Packet received is destined for me
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Send acks first
+Packet received is destined for me
+Send acks first
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Packet received is destined for me
+Send acks first
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Packet received is destined for me
+Packet received is destined for me
+RQ has 2 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Send acks first
+Packet received is destined for me
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Send acks first
+Packet received is destined for me
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Send acks first
+Packet received is destined for me
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Send acks first
+Packet received is destined for me
+Packet received is destined for me
+RQ has 2 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Send acks first
+Packet received is destined for me
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+Send acks first
+Packet received is destined for me
+Send acks first
+RQ has 1 items..
+NL : Datagram to be processed is from 96 and size 48
+NL : DG is unexpected, storing...
+Looking for the expected DG amongst the stored values...
+AL : Message to be sent to 96 | size 8914
+Sending frame : source 182 | dest 96 | size 8914
+AL : Message to be sent to 96 | size 6365
+Sending frame : source 182 | dest 96 | size 6365
+Sending frame : source 182 | dest 96 | size 6365
+Sending frame : source 182 | dest 96 | size 6365
+Done with all the frames.. Resetting to DRAW next set of frames
