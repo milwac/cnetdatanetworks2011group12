@@ -1,0 +1,88 @@
+Simulation time                     : 27232900
+Events raised                       : 695868
+Messages generated                  : 803
+Messages delivered                  : 393
+Message bandwidth                   : 19739
+Average delivery time               : 2106790
+Frames transmitted                  : 8163
+Frames received                     : 8152
+Frames corrupted                    : 22
+Frames lost                         : 8
+Efficiency (bytes AL) / (bytes PL)  : 15.60
+Transmission cost                   : 35330
+EV_REBOOT                           : 8
+EV_PHYSICALREADY                    : 8152
+EV_APPLICATIONREADY                 : 803
+EV_TIMER0                           : 169856
+EV_TIMER1                           : 46010
+EV_TIMER2                           : 74914
+EV_TIMER3                           : 56381
+EV_TIMER8                           : 169856
+EV_TIMER9                           : 169888
+
+END-TO-END PERFORMANCE
+To node SB
+- from HOM :       10 msgs,      175 ms latency,      1.9 kB/s throughput
+- from SLS :       10 msgs,       84 ms latency,      1.6 kB/s throughput
+- from IGB :        4 msgs,      106 ms latency,      0.6 kB/s throughput
+- from NK  :        6 msgs,     1022 ms latency,      1.3 kB/s throughput
+- from WND :        1 msgs,     1576 ms latency,      0.3 kB/s throughput
+- from DIL :       10 msgs,      777 ms latency,      1.6 kB/s throughput
+- from MZG :       27 msgs,      883 ms latency,      4.4 kB/s throughput
+To node HOM
+- from SB  :        7 msgs,    10152 ms latency,      1.6 kB/s throughput
+- from SLS :        3 msgs,     9162 ms latency,      0.6 kB/s throughput
+- from IGB :       11 msgs,       50 ms latency,      2.2 kB/s throughput
+- from NK  :        3 msgs,       95 ms latency,      0.6 kB/s throughput
+- from WND :        2 msgs,      431 ms latency,      0.1 kB/s throughput
+- from DIL :        0 msgs,        0 ms latency,      0.0 kB/s throughput
+- from MZG :        0 msgs,        0 ms latency,      0.0 kB/s throughput
+To node SLS
+- from SB  :        4 msgs,       82 ms latency,      0.6 kB/s throughput
+- from HOM :        9 msgs,     4241 ms latency,      2.1 kB/s throughput
+- from IGB :        4 msgs,     7307 ms latency,      0.6 kB/s throughput
+- from NK  :        1 msgs,      449 ms latency,      0.3 kB/s throughput
+- from WND :        0 msgs,        0 ms latency,      0.0 kB/s throughput
+- from DIL :       14 msgs,      565 ms latency,      3.6 kB/s throughput
+- from MZG :       15 msgs,      944 ms latency,      3.0 kB/s throughput
+To node IGB
+- from SB  :        9 msgs,     7611 ms latency,      2.0 kB/s throughput
+- from HOM :        8 msgs,       54 ms latency,      0.9 kB/s throughput
+- from SLS :        7 msgs,     5275 ms latency,      1.3 kB/s throughput
+- from NK  :        2 msgs,     1300 ms latency,      0.3 kB/s throughput
+- from WND :        2 msgs,      623 ms latency,      0.6 kB/s throughput
+- from DIL :        3 msgs,    11831 ms latency,      1.0 kB/s throughput
+- from MZG :        4 msgs,     5502 ms latency,      0.8 kB/s throughput
+To node NK
+- from SB  :        7 msgs,     6127 ms latency,      1.0 kB/s throughput
+- from HOM :       14 msgs,      107 ms latency,      2.3 kB/s throughput
+- from SLS :        3 msgs,     4741 ms latency,      0.8 kB/s throughput
+- from IGB :       22 msgs,      227 ms latency,      4.0 kB/s throughput
+- from WND :       12 msgs,      379 ms latency,      1.8 kB/s throughput
+- from DIL :        2 msgs,     7254 ms latency,      0.5 kB/s throughput
+- from MZG :        2 msgs,     9062 ms latency,      0.4 kB/s throughput
+To node WND
+- from SB  :        9 msgs,     3198 ms latency,      1.7 kB/s throughput
+- from HOM :        7 msgs,      528 ms latency,      1.9 kB/s throughput
+- from SLS :        2 msgs,    10073 ms latency,      0.3 kB/s throughput
+- from IGB :       15 msgs,      480 ms latency,      3.2 kB/s throughput
+- from NK  :       30 msgs,      244 ms latency,      5.0 kB/s throughput
+- from DIL :        2 msgs,     7304 ms latency,      0.3 kB/s throughput
+- from MZG :        3 msgs,     5679 ms latency,      0.4 kB/s throughput
+To node DIL
+- from SB  :        8 msgs,     7499 ms latency,      1.6 kB/s throughput
+- from HOM :        4 msgs,    10737 ms latency,      1.2 kB/s throughput
+- from SLS :       11 msgs,       96 ms latency,      2.0 kB/s throughput
+- from IGB :        6 msgs,     4682 ms latency,      1.1 kB/s throughput
+- from NK  :        1 msgs,     3057 ms latency,      0.1 kB/s throughput
+- from WND :        4 msgs,     9240 ms latency,      0.9 kB/s throughput
+- from MZG :        9 msgs,      205 ms latency,      1.8 kB/s throughput
+To node MZG
+- from SB  :        6 msgs,      588 ms latency,      0.7 kB/s throughput
+- from HOM :        2 msgs,      944 ms latency,      0.4 kB/s throughput
+- from SLS :       12 msgs,      613 ms latency,      2.2 kB/s throughput
+- from IGB :        1 msgs,      250 ms latency,      0.1 kB/s throughput
+- from NK  :        5 msgs,     5383 ms latency,      0.4 kB/s throughput
+- from WND :        2 msgs,     4936 ms latency,      0.5 kB/s throughput
+- from DIL :       16 msgs,      276 ms latency,      2.5 kB/s throughput
+
