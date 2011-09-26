@@ -51,7 +51,7 @@ typedef struct {
 static void reboot_dll();
 static void reboot_nl();
 static bool push_datagram(int, DATAGRAM);
-static void push_to_network(DATAGRAM);
+static bool push_to_network(DATAGRAM);
 static bool extract_message(MSG*, int*);
 static void setup_routing_table();
 static void setup_dll();

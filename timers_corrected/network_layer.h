@@ -1,7 +1,7 @@
 #define MAX_NETWORK_QUEUE_SIZE 500
 #define NETWORK_POLL_TIMER 500000 // timer0
-#define MESSAGE_TIMER 500000      // timer9
-#define PROCESS_TIMER 100000      // timer8
+#define MESSAGE_TIMER 10000000      // timer9
+#define PROCESS_TIMER 10000000      // timer8
 
 /*
 * Code which setups the routing table for every node and shows the
@@ -51,6 +51,7 @@ static int find_nn(CnetAddr dest){
 }
 
 static void startNTimer(int id, CnetTime timeout){
+	printf("NL : Network Queue %d | Receiver Queue %d\n", queue_nitems(network_queue), queue_nitems(receiver_queue));
 	CNET_start_timer(EV_TIMER0, timeout, id);
 }
 
@@ -114,7 +115,7 @@ static void make_datagrams(){
 			len -= max_payload_size;
 		}
 		buff[src_nn].next_msg_to_generate++;
-		startNTimer(9, MESSAGE_TIMER);
+		startNTimer(9, seqno * 10000);
 		//printf("NL : Datagrams generated %d\n", seqno);	
 	} else {
 		startNTimer(9, MESSAGE_TIMER);
@@ -141,7 +142,7 @@ static void poll_network_queue(){
 		if(res){
 			dg_ptr = queue_remove(network_queue, &len);
 			_free(dg_ptr);
-			startNTimer(0, 100);
+			startNTimer(0, 1000);
 			return;
 		}
 	} 
@@ -191,6 +192,7 @@ static void process_datagram(){
 				//_free(_dg);
 				break;
 			} else {
+				printf("NL : Node %d has %d DGs in it's hashtable!\n", src_nn, queue_nitems(buff[src_nn].ooo_data));
 				_dg = (DATAGRAM*)(hashtable_remove(buff[src_nn].ooo_data, key, &plen));
 				//printf("Found one more in HT..! Appending the data for source %d..\n",_dg->source);
 				memcpy(&buff[src_nn].incomplete_data[0] + _dg->fragOffset_nnSrc, &_dg->data[0], _dg->data_len);
@@ -205,14 +207,14 @@ static void process_datagram(){
 			_free(_dg);
 		}
 		//process_datagram();
-		startNTimer(8, 10);
+		startNTimer(8, 1000);
 	}
 	else {
 		startNTimer(8, timeout);	
 	}
 }
  
-static void push_to_network(DATAGRAM dg){
+static bool push_to_network(DATAGRAM dg){
 	//printf("NL : Entering NL!\n");
 	if(dg.dest == nodeinfo.address){
 		//printf("Packet received is destined for me\n");
@@ -222,6 +224,10 @@ static void push_to_network(DATAGRAM dg){
 		//forward
 		forward_datagram(dg);
 	}
+	if(queue_nitems(receiver_queue) > MAX_NETWORK_QUEUE_SIZE + 100)
+		return true;
+	else
+		return false;
 }
 
 static void common_timer(CnetEvent ev, CnetTimerID t, CnetData data){

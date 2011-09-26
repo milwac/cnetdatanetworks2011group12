@@ -10,6 +10,7 @@ typedef struct {
 	QUEUE ack_sender;
 	QUEUE buffer; //consists of datagrams
 	FRAME current_frames[MAX_NUM_FRAMES];
+	CnetTime min_timeout;
 	int where_to_add_next;
 	int earliest_ack_not_received;
 	int which_to_send_next;
@@ -25,6 +26,10 @@ static LINK links[MAX_LINKS];
 static QUEUE routing_sender[MAX_LINKS];
 
 CnetTimerID timer[MAX_LINKS];
+
+CnetTime max(CnetTime a, CnetTime b){
+	return a > b ? a : b;
+}
 
 //-------------------- Routing purposes only! START -------------------------------------
 
@@ -158,23 +163,33 @@ static void populate_sender_and_send(int link){
 			reset_link(link);
 		}
 	}
-	timer[link] = CNET_start_timer(EV_TIMER1, timeout, link);
+	timer[link] = CNET_start_timer(EV_TIMER1, max(timeout, links[link].min_timeout), link);
 }
 
 static void handle_ack(int link, FRAME f){
-	links[link].earliest_ack_not_received = f.frame_seq_number;	
+	bool is_congested = (f.frame_seq_number >= 16) ? true : false;
+	f.frame_seq_number = (f.frame_seq_number >= 16) ? f.frame_seq_number - 16 : f.frame_seq_number;
+	links[link].earliest_ack_not_received = f.frame_seq_number;
+
+	if(is_congested)	
+		links[link].min_timeout = 10000000;
+	else
+		links[link].min_timeout = 0;	
 }
 
-static void createAck(int link){
+static void createAck(bool is_congested, int link){
 	FRAME f;
 	f.kind = DL_ACK;
 	f.frame_seq_number = links[link].next_frame_to_receive;
+	if(is_congested)
+		f.frame_seq_number += 16;
 	f.checksum = 0;
 	f.checksum = CNET_crc32((unsigned char*)&f, (int)(FRAME_HEADER_SIZE + DATAGRAM_HEADER_SIZE));
 	queue_add(links[link].ack_sender, &f, FRAME_HEADER_SIZE + DATAGRAM_HEADER_SIZE);	
 }
 
-static void send_outstanding(int link){
+static bool send_outstanding(int link){
+	bool ret = false;
 	while(true){
 		char key[5];
 		FRAME *fr=NULL;
@@ -185,10 +200,11 @@ static void send_outstanding(int link){
 			break;
 		}
 		fr = hashtable_remove(links[link].current_ooo, key, &len);
-		push_to_network(fr->payload);
+		ret = push_to_network(fr->payload);
 		links[link].next_frame_to_receive++;
 		free(fr);
 	}
+	return ret;
 }
 
 static void push_frame_ooo(int link, FRAME f){
@@ -206,14 +222,15 @@ static void handle_frame(int link, FRAME f){
 		links[link].next_frame_to_receive = 0;
 	}
 	if(f.frame_seq_number >= links[link].next_frame_to_receive){
+		bool is_congested = false;
 		if(f.frame_seq_number == links[link].next_frame_to_receive){
-			push_to_network(f.payload);
+			is_congested = push_to_network(f.payload);
 			links[link].next_frame_to_receive++;
 		} else if(f.frame_seq_number > links[link].next_frame_to_receive){
 			push_frame_ooo(link, f); // Push new frame into OOO HT
 		}
-		send_outstanding(link);  // Send all out-of-order packets which have become in-order now
-		createAck(link);
+		is_congested = send_outstanding(link);  // Send all out-of-order packets which have become in-order now
+		createAck(is_congested, link);
 	}
 }
 
@@ -247,6 +264,8 @@ static EVENT_HANDLER(physical_ready){
 }
 static void link_timeout(CnetEvent ev, CnetTimerID t, CnetData data){
 	int i = (int)data;
+	printf("Link %d : ACK sender queue %d | Link Buffer %d | Hashtable %d\n", i, 
+		queue_nitems(links[i].ack_sender), queue_nitems(links[i].buffer), hashtable_nitems(links[i].current_ooo));
 	if(RoutingStage){
 		links[i].timeout_occurred = true;
 		send_frames(i);
@@ -266,6 +285,7 @@ static void reboot_dll(){
 		links[i].ack_sender = queue_new();
 		links[i].next_frame_to_receive = 0;
 		links[i].current_ooo = hashtable_new(0);
+		links[i].min_timeout = 0;
 		reset_link(i);
 	}
 	for(int i=1; i<=7; i++){
